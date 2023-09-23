@@ -7,6 +7,7 @@ namespace Pizza_Calories
     {
         private const int minWeight = 1;
         private const int maxWeight = 50;
+        private const double calloriesPerGram = 2;
 
         private const string exMessageNameTopping = "Cannot place {0} on top of your pizza.";
         private const string exMessWeightTooping = "{0} weight should be in the range[{1}..{2}].";
@@ -28,9 +29,8 @@ namespace Pizza_Calories
             WeightToping = weightToping;
         }
 
-        public string NameToping 
+        private string NameToping 
         { 
-            get => type;
             set 
             {
                 if (!toppings.ContainsKey(value.ToLower()))
@@ -42,27 +42,24 @@ namespace Pizza_Calories
             }
             
         }
-        public double WeightToping 
+        private double WeightToping 
         {
-            get => weightTopping;
             set
             {
                 if (value > maxWeight || value < 1)
                 {
-                     throw new ArgumentException(string.Format(exMessWeightTooping,NameToping ,minWeight, maxWeight));
+                     throw new ArgumentException(string.Format(exMessWeightTooping, type,minWeight, maxWeight));
                 }
                 weightTopping = value;
             }
         }
 
+        public double CaCaloriesPerGram=> toppings[type.ToLower()] * calloriesPerGram;
+
         public double ToppingCal()
-        {
-            //(1 * 1.2) * 30 * 2
-            double toppingCalories = toppings[NameToping.ToLower()];
-
-            double calories = (1 * toppingCalories) * weightTopping * 2;
-
-            return calories;
+        {         
+           
+            return CaCaloriesPerGram * weightTopping;
         }
     }
 }

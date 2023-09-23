@@ -2,12 +2,11 @@
 using System;
 using System.Linq;
 
-
-
+string pizzaName = Console.ReadLine().Split()[1];
 
 try
 {
-    string pizzaName = Console.ReadLine().Split()[1];
+  
 
     string[] doughInput = Console.ReadLine().Split();
     string flour = doughInput[1];
@@ -26,10 +25,9 @@ try
     }
     Console.WriteLine(pizza);
 }
-catch (Exception ex)
-{ 
+catch (ArgumentException ex)
+{
 
-    Console.WriteLine(ex.Message); 
+    Console.WriteLine(ex.Message);
 
 }
-    

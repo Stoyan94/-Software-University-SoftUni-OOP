@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pizza_Calories
 {
@@ -50,7 +51,7 @@ namespace Pizza_Calories
         {
             get 
             {
-                double sumCallories = dough.DoughCalories();
+                double sumCallories = dough.CaloriesPerGram;
 
                 foreach (var topping in toppings)
                 {
@@ -74,7 +75,7 @@ namespace Pizza_Calories
 
         public override string ToString()
         {
-            return $"{namePizza} - {this.TotalCalories:f2} Calories.".Trim();
+            return $"{namePizza} - {this.TotalCalories:f2} Calories.";
         }
     }
 }

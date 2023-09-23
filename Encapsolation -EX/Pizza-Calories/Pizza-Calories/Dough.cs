@@ -9,9 +9,10 @@ namespace Pizza_Calories
     {
         private const int minDoughGrams = 1;
         private const int maxDoughGrams = 200;
-        private const string exMessInvalidDough = "Invalid type of dough.";
+        private const double caloriesPerGram = 2;
 
-        private string exMessageDoughWeight = "Dough weight should be in the range [{0}..{1}]";
+        private const string exMessInvalidDough = "Invalid type of dough.";
+        private const string exMessageDoughWeight = "Dough weight should be in the range [{0}..{1}]";
 
         private Dictionary<string, double> flourAndTehchnique = new Dictionary<string, double>()
         {
@@ -36,9 +37,8 @@ namespace Pizza_Calories
             this.Weight = weight;
         }
 
-        public string FlourType
-        {
-            get => this.flourType;
+        private string FlourType
+        {            
             set
             {
                 if (!flourAndTehchnique.ContainsKey(value.ToLower()))
@@ -50,9 +50,8 @@ namespace Pizza_Calories
             }
         }
 
-        public string BakingTechnique
+        private string BakingTechnique
         {
-            get => bakingTechnique;
             set
             {
                 if (!flourAndTehchnique.ContainsKey(value.ToLower()))
@@ -65,9 +64,8 @@ namespace Pizza_Calories
             
         }
 
-        public double Weight
+        private double Weight
         {
-            get => weightDough;
             set
             {
                 if (value > maxWeight)
@@ -78,14 +76,17 @@ namespace Pizza_Calories
             }            
         }
 
-        public double DoughCalories()
+        public double CaloriesPerGram 
         {
-            double flourCalories = flourAndTehchnique[FlourType.ToLower()];
-            double bakingTechCalories = flourAndTehchnique[BakingTechnique.ToLower()];
-            double callories = (2 * weightDough) * flourCalories * bakingTechCalories;
+            get
+            {
+                double flourCalories = flourAndTehchnique[flourType.ToLower()];
+                double bakingTechCalories = flourAndTehchnique[bakingTechnique.ToLower()];
+                double callories = (caloriesPerGram * weightDough) * flourCalories * bakingTechCalories;
 
-
-            return callories;
+                return callories;
+            }
         }
+       
     }
 }
