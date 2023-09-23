@@ -7,11 +7,11 @@ namespace Pizza_Calories
 {
     public class Dough
     {
-        //•	White - 1.5
-        //•	Wholegrain - 1.0
-        //•	Crispy - 0.9
-        //•	Chewy - 1.1
-        //•	Homemade - 1.0
+        private const int minDoughGrams = 1;
+        private const int maxDoughGrams = 200;
+        private const string exMessInvalidDough = "Invalid type of dough.";
+
+        private string exMessageDoughWeight = "Dough weight should be in the range [{0}..{1}]";
 
         private Dictionary<string, double> flourAndTehchnique = new Dictionary<string, double>()
         {
@@ -43,7 +43,7 @@ namespace Pizza_Calories
             {
                 if (!flourAndTehchnique.ContainsKey(value.ToLower()))
                 {
-                    throw new ArgumentException("Invalid type of dough.");
+                    throw new ArgumentException(exMessInvalidDough);
                 }
 
                 this.flourType = value;
@@ -57,7 +57,7 @@ namespace Pizza_Calories
             {
                 if (!flourAndTehchnique.ContainsKey(value.ToLower()))
                 {
-                    throw new ArgumentException("Invalid type of dough");
+                    throw new ArgumentException(exMessInvalidDough);
                 }
 
                 this.bakingTechnique = value;
@@ -72,7 +72,7 @@ namespace Pizza_Calories
             {
                 if (value > maxWeight)
                 {
-                    throw new ArgumentException($"Dough weight should be in the range [1..200].");
+                    throw new ArgumentException(string.Format(exMessageDoughWeight, minDoughGrams, maxDoughGrams));
                 }
                 this.weightDough = value;
             }            

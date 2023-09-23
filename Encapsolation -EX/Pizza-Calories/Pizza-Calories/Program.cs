@@ -9,7 +9,7 @@ string doughTech = "Chewy";
 int doughGrams = 100;
 
 string toppingName = "Veggies";
-int toppingGrams = 10;
+int toppingGrams = -1;
 
 Dough dough = new Dough(doughType, doughTech, doughGrams);
 

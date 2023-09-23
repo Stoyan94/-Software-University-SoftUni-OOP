@@ -4,16 +4,20 @@ using System.Collections.Generic;
 namespace Pizza_Calories
 {
     public class Topping
-    { 
+    {
+        private const int minWeight = 1;
+        private const int maxWeight = 50;
+
+        private const string exMessageNameTopping = "Cannot place {0} on top of your pizza.";
+        private const string exMessWeightTooping = "{0} weight should be in the range[{1}..{2}].";
+
         private Dictionary<string, double> toppings = new Dictionary<string, double>()
         {
             ["meat"] = 1.2,
             ["veggies"] = 0.8,
             ["cheese"] = 1.1,
             ["sauce"] = 0.9,          
-        };
-
-        private const int maxWeight = 50;
+        };    
 
         private string type;
         private int weightTopping;
@@ -31,7 +35,7 @@ namespace Pizza_Calories
             {
                 if (!toppings.ContainsKey(value.ToLower()))
                 {
-                    throw new ArgumentException($"Cannot place {value} on top of your pizza.");
+                    throw new ArgumentException(string.Format(exMessageNameTopping,value));
                 }
 
                 type = value;
@@ -43,9 +47,9 @@ namespace Pizza_Calories
             get => weightTopping;
             set
             {
-                if (value > maxWeight)
+                if (value > maxWeight || value < 1)
                 {
-                    throw new ArgumentException($"{NameToping} weight should be in the range [1..50].");
+                    throw new ArgumentException(string.Format(exMessWeightTooping,NameToping ,minWeight, maxWeight));
                 }
                 weightTopping = value;
             }
