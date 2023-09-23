@@ -82,7 +82,7 @@ namespace Pizza_Calories
         {
             double flourCalories = flourAndTehchnique[FlourType.ToLower()];
             double bakingTechCalories = flourAndTehchnique[BakingTechnique.ToLower()];
-            double callories = (2 * 100) * flourCalories * bakingTechCalories;
+            double callories = (2 * weightDough) * flourCalories * bakingTechCalories;
 
 
             return callories;

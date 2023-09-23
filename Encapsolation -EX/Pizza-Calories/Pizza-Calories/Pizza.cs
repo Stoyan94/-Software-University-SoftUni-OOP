@@ -7,7 +7,7 @@ namespace Pizza_Calories
     {
         private const int maxSymbolsName = 15;
         private const int minSymbolsName = 1;
-        private const int minToppings = 1;
+        private const int minToppings = 0;
         private const int maxToppings = 10;
 
         private const string exMessageToppingsCount = "Number of toppings should be in range [{0}..{1}].";
@@ -36,6 +36,7 @@ namespace Pizza_Calories
                 {
                     throw new ArgumentException(string.Format(exMessageNamePizza, minSymbolsName,maxSymbolsName));
                 }
+                namePizza = value;
             }
         }
 
@@ -73,7 +74,7 @@ namespace Pizza_Calories
 
         public override string ToString()
         {
-            return $"{namePizza} {this.TotalCalories:f2} Calories.".Trim();
+            return $"{namePizza} - {this.TotalCalories:f2} Calories.".Trim();
         }
     }
 }
