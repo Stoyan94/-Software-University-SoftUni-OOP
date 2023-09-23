@@ -10,9 +10,23 @@ while ((input = Console.ReadLine()) !="END")
 
 	try
 	{
-		Dough dough = new Dough(splitInput[1], splitInput[2], int.Parse(splitInput[3]));
+        if (splitInput[0] == "Dough")
+        {		
+            Dough dough = new Dough(splitInput[1], splitInput[2], int.Parse(splitInput[3]));
+            Console.WriteLine(dough);
+        }              
+        else if (splitInput[0] == "Topping")
+        {
+            Topping topping = new Topping(splitInput[1], int.Parse(splitInput[2]));
+            Console.WriteLine(topping);
+        }
+        else if (true)
+        {
 
-        Console.WriteLine(dough);
+        }
+        
+
+		
     }
 	catch (ArgumentException ex)
 	{

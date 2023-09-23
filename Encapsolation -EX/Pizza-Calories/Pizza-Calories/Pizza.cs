@@ -2,8 +2,8 @@
 {
     public class Pizza
     {
-        private string name;
-        private string dough;
+        private string namePizza;
+        private Dough dough;
         private string toppings;
         
     }
