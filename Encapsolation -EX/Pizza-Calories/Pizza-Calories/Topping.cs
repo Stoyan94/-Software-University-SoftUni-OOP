@@ -20,9 +20,9 @@ namespace Pizza_Calories
         };    
 
         private string type;
-        private int weightTopping;
+        private double weightTopping;
      
-        public Topping(string nameToping, int weightToping)
+        public Topping(string nameToping, double weightToping)
         {
             NameToping = nameToping;
             WeightToping = weightToping;
@@ -42,14 +42,14 @@ namespace Pizza_Calories
             }
             
         }
-        public int WeightToping 
+        public double WeightToping 
         {
             get => weightTopping;
             set
             {
                 if (value > maxWeight || value < 1)
                 {
-                    throw new ArgumentException(string.Format(exMessWeightTooping,NameToping ,minWeight, maxWeight));
+                     throw new ArgumentException(string.Format(exMessWeightTooping,NameToping ,minWeight, maxWeight));
                 }
                 weightTopping = value;
             }
@@ -58,7 +58,7 @@ namespace Pizza_Calories
         public double ToppingCal()
         {
             //(1 * 1.2) * 30 * 2
-            double toppingCalories = toppings[NameToping];
+            double toppingCalories = toppings[NameToping.ToLower()];
 
             double calories = (1 * toppingCalories) * weightTopping * 2;
 

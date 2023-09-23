@@ -18,8 +18,8 @@ namespace Pizza_Calories
             ["white"] = 1.5,
             ["wholegrain"] = 1.0, 
             ["chewy"] = 1.1,
-            ["wrispy"] = 0.9,
-            ["womemade"] = 1.0,
+            ["crispy"] = 0.9,
+            ["homemade"] = 1.0,
 
         };
 
@@ -27,9 +27,9 @@ namespace Pizza_Calories
 
         private string flourType;
         private string bakingTechnique;
-        private int weightDough;
+        private double weightDough;
      
-        public Dough(string flourType, string bakingTechnique, int weight)            
+        public Dough(string flourType, string bakingTechnique, double weight)            
         {
             this.FlourType = flourType;
             this.BakingTechnique = bakingTechnique;
@@ -65,7 +65,7 @@ namespace Pizza_Calories
             
         }
 
-        public int Weight
+        public double Weight
         {
             get => weightDough;
             set
@@ -78,14 +78,14 @@ namespace Pizza_Calories
             }            
         }
 
-        public override string ToString()
+        public double DoughCalories()
         {
             double flourCalories = flourAndTehchnique[FlourType.ToLower()];
             double bakingTechCalories = flourAndTehchnique[BakingTechnique.ToLower()];
             double callories = (2 * 100) * flourCalories * bakingTechCalories;
 
 
-            return $"{callories:F2}";
+            return callories;
         }
     }
 }

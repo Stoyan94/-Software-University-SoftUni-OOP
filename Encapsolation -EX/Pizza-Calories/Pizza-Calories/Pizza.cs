@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Pizza_Calories
 {
@@ -6,17 +7,21 @@ namespace Pizza_Calories
     {
         private const int maxSymbolsName = 15;
         private const int minSymbolsName = 1;
+        private const int minToppings = 1;
+        private const int maxToppings = 10;
+
+        private const string exMessageToppingsCount = "Number of toppings should be in range [{0}..{1}].";
         private const string exMessageNamePizza = "Pizza name should be between {0} and {1} symbols";
 
         private string namePizza;
         private Dough dough;
-        private Topping toppings;
+        private List<Topping> toppings;
 
-        public Pizza(string namePizza, Dough dough, Topping topping)
+        public Pizza(string namePizza, Dough dough)
         {
             NamePizza = namePizza;
             Dough = dough;
-            Topping = topping;
+            toppings = new List<Topping>();
         }
 
         public string NamePizza
@@ -38,8 +43,37 @@ namespace Pizza_Calories
         { 
             get=> dough; 
             set=> dough =value; 
+        }        
+
+        public double TotalCalories 
+        {
+            get 
+            {
+                double sumCallories = dough.DoughCalories();
+
+                foreach (var topping in toppings)
+                {
+                    sumCallories += topping.ToppingCal();
+                }
+                
+                return sumCallories;
+            }
+        }
+        public void AddTopping(Topping topping)
+        {
+            if (this.Count == 10)
+            {
+                throw new ArgumentException(string.Format(exMessageToppingsCount, minToppings, maxToppings));
+            }
+                
+            toppings.Add(topping);
         }
 
-        public Topping Topping { get; set; }
+        public int Count => toppings.Count;
+
+        public override string ToString()
+        {
+            return $"{namePizza} {this.TotalCalories:f2} Calories.".Trim();
+        }
     }
 }
