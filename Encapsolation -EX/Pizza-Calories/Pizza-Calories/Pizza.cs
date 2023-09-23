@@ -55,7 +55,7 @@ namespace Pizza_Calories
 
                 foreach (var topping in toppings)
                 {
-                    sumCallories += topping.ToppingCal();
+                    sumCallories += topping.ToppingCal;
                 }
                 
                 return sumCallories;

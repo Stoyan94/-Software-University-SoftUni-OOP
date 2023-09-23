@@ -68,7 +68,7 @@ namespace Pizza_Calories
         {
             set
             {
-                if (value > maxWeight)
+                if (value< minDoughGrams || value > maxDoughGrams)
                 {
                     throw new ArgumentException(string.Format(exMessageDoughWeight, minDoughGrams, maxDoughGrams));
                 }
@@ -76,17 +76,11 @@ namespace Pizza_Calories
             }            
         }
 
-        public double CaloriesPerGram 
-        {
-            get
-            {
-                double flourCalories = flourAndTehchnique[flourType.ToLower()];
-                double bakingTechCalories = flourAndTehchnique[bakingTechnique.ToLower()];
-                double callories = (caloriesPerGram * weightDough) * flourCalories * bakingTechCalories;
+        public double CaloriesPerGram
+             => caloriesPerGram
+             * weightDough
+             * flourAndTehchnique[flourType.ToLower()]
+             * flourAndTehchnique[bakingTechnique.ToLower()];
 
-                return callories;
-            }
-        }
-       
     }
 }

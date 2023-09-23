@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Pizza_Calories
 {
@@ -46,7 +47,7 @@ namespace Pizza_Calories
         {
             set
             {
-                if (value > maxWeight || value < 1)
+                if (value < 1 || value > maxWeight)
                 {
                      throw new ArgumentException(string.Format(exMessWeightTooping, type,minWeight, maxWeight));
                 }
@@ -54,12 +55,9 @@ namespace Pizza_Calories
             }
         }
 
-        public double CaCaloriesPerGram=> toppings[type.ToLower()] * calloriesPerGram;
-
-        public double ToppingCal()
-        {         
-           
-            return CaCaloriesPerGram * weightTopping;
-        }
+        public double ToppingCal
+             => calloriesPerGram
+             * weightTopping
+             * toppings[type.ToLower()];
     }
 }
