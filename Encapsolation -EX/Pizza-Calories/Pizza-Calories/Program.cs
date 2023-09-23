@@ -1,36 +1,18 @@
 ﻿using Pizza_Calories;
 using System;
+using System.Linq;
 
 
-string input;
 
-while ((input = Console.ReadLine()) !="END")
-{
-    string[] splitInput = input.Split(" ",StringSplitOptions.RemoveEmptyEntries);
+string doughType = "White";
+string doughTech = "Chewy";
+int doughGrams = 100;
 
-	try
-	{
-        if (splitInput[0] == "Dough")
-        {		
-            Dough dough = new Dough(splitInput[1], splitInput[2], int.Parse(splitInput[3]));
-            Console.WriteLine(dough);
-        }              
-        else if (splitInput[0] == "Topping")
-        {
-            Topping topping = new Topping(splitInput[1], int.Parse(splitInput[2]));
-            Console.WriteLine(topping);
-        }
-        else if (true)
-        {
+string toppingName = "Veggies";
+int toppingGrams = 10;
 
-        }
-        
+Dough dough = new Dough(doughType, doughTech, doughGrams);
 
-		
-    }
-	catch (ArgumentException ex)
-	{
+Topping topping = new Topping(toppingName, toppingGrams);
 
-        Console.WriteLine(ex);
-    }
-}
+Pizza pizza = new Pizza("  ",dough, topping);

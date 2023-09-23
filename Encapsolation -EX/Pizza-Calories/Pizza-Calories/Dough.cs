@@ -16,7 +16,7 @@ namespace Pizza_Calories
         private Dictionary<string, double> flourAndTehchnique = new Dictionary<string, double>()
         {
             ["white"] = 1.5,
-            ["wholegrain"] = 1.0,
+            ["wholegrain"] = 1.0, 
             ["chewy"] = 1.1,
             ["wrispy"] = 0.9,
             ["womemade"] = 1.0,
@@ -27,9 +27,9 @@ namespace Pizza_Calories
 
         private string flourType;
         private string bakingTechnique;
-        private int weight;
-
-        public Dough(string flourType, string bakingTechnique, int weight)
+        private int weightDough;
+     
+        public Dough(string flourType, string bakingTechnique, int weight)            
         {
             this.FlourType = flourType;
             this.BakingTechnique = bakingTechnique;
@@ -67,14 +67,14 @@ namespace Pizza_Calories
 
         public int Weight
         {
-            get => weight;
+            get => weightDough;
             set
             {
                 if (value > maxWeight)
                 {
                     throw new ArgumentException($"Dough weight should be in the range [1..200].");
                 }
-                this.weight = value;
+                this.weightDough = value;
             }            
         }
 

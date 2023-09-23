@@ -15,9 +15,9 @@ namespace Pizza_Calories
 
         private const int maxWeight = 50;
 
-        private string name;
-        private int weight;
-
+        private string type;
+        private int weightTopping;
+     
         public Topping(string nameToping, int weightToping)
         {
             NameToping = nameToping;
@@ -26,7 +26,7 @@ namespace Pizza_Calories
 
         public string NameToping 
         { 
-            get => name;
+            get => type;
             set 
             {
                 if (!toppings.ContainsKey(value.ToLower()))
@@ -34,31 +34,31 @@ namespace Pizza_Calories
                     throw new ArgumentException($"Cannot place {value} on top of your pizza.");
                 }
 
-                name = value;
+                type = value;
             }
             
         }
         public int WeightToping 
         {
-            get => weight;
+            get => weightTopping;
             set
             {
                 if (value > maxWeight)
                 {
                     throw new ArgumentException($"{NameToping} weight should be in the range [1..50].");
                 }
-                weight = value;
+                weightTopping = value;
             }
         }
 
-        public override string ToString()
+        public double ToppingCal()
         {
             //(1 * 1.2) * 30 * 2
             double toppingCalories = toppings[NameToping];
 
-            double calories = (1 * toppingCalories) * weight * 2;
+            double calories = (1 * toppingCalories) * weightTopping * 2;
 
-            return $"{calories:f2}";
+            return calories;
         }
     }
 }
