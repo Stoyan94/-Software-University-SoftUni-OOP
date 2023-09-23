@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Linq.Expressions;
 
 namespace Pizza_Calories
 {
@@ -28,22 +29,22 @@ namespace Pizza_Calories
 
         public Dough(string flourType, string bakingTechnique, int weight)
         {
-            FlourType = flourType;
-            BakingTechnique = bakingTechnique;
-            Weight = weight;
+            this.FlourType = flourType;
+            this.BakingTechnique = bakingTechnique;
+            this.Weight = weight;
         }
 
         public string FlourType
         {
-            get => flourType;
+            get => this.flourType;
             set
             {
-                if (!flourAndTehchnique.ContainsKey(flourType))
+                if (!flourAndTehchnique.ContainsKey(value))
                 {
                     throw new ArgumentException("Invalid type of dough.");
                 }
 
-                flourType = value;
+                this.flourType = value;
             }
         }
 
@@ -52,9 +53,14 @@ namespace Pizza_Calories
             get => bakingTechnique;
             set
             {
+                if (!flourAndTehchnique.ContainsKey(value))
+                {
+                    throw new ArgumentException("Invalid type of dough");
+                }
 
-                bakingTechnique = value;
+                this.bakingTechnique = value;
             }
+            
         }
 
         public int Weight
@@ -62,8 +68,16 @@ namespace Pizza_Calories
             get => weight;
             set
             {
-                weight = value;
+                this.weight = value;
             }
+        }
+
+        public override string ToString()
+        {
+            int callories = (int)flourAndTehchnique[FlourType] + (int)flourAndTehchnique[BakingTechnique];
+
+
+            return $"{callories}";
         }
     }
 }
