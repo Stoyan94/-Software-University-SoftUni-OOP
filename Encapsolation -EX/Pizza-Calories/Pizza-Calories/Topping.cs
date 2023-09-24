@@ -8,12 +8,12 @@ namespace Pizza_Calories
     {
         private const int minWeight = 1;
         private const int maxWeight = 50;
-        private const double calloriesPerGram = 2;
+        private const int calloriesPerGram = 2;
 
         private const string exMessageNameTopping = "Cannot place {0} on top of your pizza.";
         private const string exMessWeightTooping = "{0} weight should be in the range[{1}..{2}].";
 
-        private Dictionary<string, double> toppings = new Dictionary<string, double>()
+        private readonly Dictionary<string, double> toppings = new Dictionary<string, double>()
         {
             ["meat"] = 1.2,
             ["veggies"] = 0.8,
@@ -26,32 +26,34 @@ namespace Pizza_Calories
      
         public Topping(string nameToping, double weightToping)
         {
-            NameToping = nameToping;
-            WeightToping = weightToping;
+            this.NameToping = nameToping;
+            this.WeightToping = weightToping;
         }
 
-        private string NameToping 
-        { 
-            set 
+        public string NameToping 
+        {
+            get => type;
+            private set 
             {
                 if (!toppings.ContainsKey(value.ToLower()))
                 {
                     throw new ArgumentException(string.Format(exMessageNameTopping,value));
                 }
 
-                type = value;
+                this.type = value;
             }
             
         }
-        private double WeightToping 
+        public double WeightToping 
         {
-            set
+            get => weightTopping;
+           private set
             {
-                if (value < 1 || value > maxWeight)
+                if (value < minWeight || value > maxWeight)
                 {
-                     throw new ArgumentException(string.Format(exMessWeightTooping, type,minWeight, maxWeight));
+                     throw new ArgumentException(string.Format(exMessWeightTooping, NameToping,minWeight, maxWeight));
                 }
-                weightTopping = value;
+                this.weightTopping = value;
             }
         }
 

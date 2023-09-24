@@ -7,24 +7,22 @@ namespace Pizza_Calories
 {
     public class Dough
     {
-        private const int minDoughGrams = 1;
-        private const int maxDoughGrams = 200;
+        private const double minDoughGrams = 1;
+        private const double maxDoughGrams = 200;
         private const double caloriesPerGram = 2;
 
         private const string exMessInvalidDough = "Invalid type of dough.";
         private const string exMessageDoughWeight = "Dough weight should be in the range [{0}..{1}]";
 
-        private Dictionary<string, double> flourAndTehchnique = new Dictionary<string, double>()
+        private readonly Dictionary<string, double> flourAndTehchnique = new Dictionary<string, double>()
         {
             ["white"] = 1.5,
             ["wholegrain"] = 1.0, 
-            ["chewy"] = 1.1,
             ["crispy"] = 0.9,
+            ["chewy"] = 1.1,
             ["homemade"] = 1.0,
-
         };
-
-        private const int maxWeight = 200;
+      
 
         private string flourType;
         private string bakingTechnique;
@@ -37,9 +35,10 @@ namespace Pizza_Calories
             this.Weight = weight;
         }
 
-        private string FlourType
-        {            
-            set
+        public string FlourType
+        {
+            get => flourType;
+            private set
             {
                 if (!flourAndTehchnique.ContainsKey(value.ToLower()))
                 {
@@ -50,9 +49,10 @@ namespace Pizza_Calories
             }
         }
 
-        private string BakingTechnique
+        public string BakingTechnique
         {
-            set
+            get => bakingTechnique;
+           private set
             {
                 if (!flourAndTehchnique.ContainsKey(value.ToLower()))
                 {
@@ -64,9 +64,10 @@ namespace Pizza_Calories
             
         }
 
-        private double Weight
+        public double Weight
         {
-            set
+            get => weightDough;
+           private set
             {
                 if (value< minDoughGrams || value > maxDoughGrams)
                 {
@@ -79,8 +80,8 @@ namespace Pizza_Calories
         public double CaloriesPerGram
              => caloriesPerGram
              * weightDough
-             * flourAndTehchnique[flourType.ToLower()]
-             * flourAndTehchnique[bakingTechnique.ToLower()];
+             * flourAndTehchnique[FlourType.ToLower()]
+             * flourAndTehchnique[BakingTechnique.ToLower()];
 
     }
 }
