@@ -12,7 +12,7 @@ namespace Pizza_Calories
         private const double caloriesPerGram = 2;
 
         private const string exMessInvalidDough = "Invalid type of dough.";
-        private const string exMessageDoughWeight = "Dough weight should be in the range [{0}..{1}]";
+        private const string exMessageDoughWeight = "Dough weight should be in the range [{0}..{1}].";
 
         private readonly Dictionary<string, double> flourAndTehchnique = new Dictionary<string, double>()
         {

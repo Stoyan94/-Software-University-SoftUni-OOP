@@ -12,7 +12,7 @@ namespace Pizza_Calories
         private const double maxToppings = 10;
 
         private const string exMessageToppingsCount = "Number of toppings should be in range [{0}..{1}].";
-        private const string exMessageNamePizza = "Pizza name should be between {0} and {1} symbols";
+        private const string exMessageNamePizza = "Pizza name should be between {0} and {1} symbols.";
 
         private string namePizza;       
         private List<Topping> toppings;

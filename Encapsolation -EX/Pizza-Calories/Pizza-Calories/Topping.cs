@@ -11,7 +11,7 @@ namespace Pizza_Calories
         private const int calloriesPerGram = 2;
 
         private const string exMessageNameTopping = "Cannot place {0} on top of your pizza.";
-        private const string exMessWeightTooping = "{0} weight should be in the range[{1}..{2}].";
+        private const string exMessWeightTooping = "{0} weight should be in the range [{1}..{2}].";
 
         private readonly Dictionary<string, double> toppings = new Dictionary<string, double>()
         {
