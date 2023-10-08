@@ -12,7 +12,7 @@ namespace Telephony.Models
             {
                 throw new ArgumentException("Invalid number!");
             }
-            return $" Dialing... {phoneNumber}";
+            return $"Dialing... {phoneNumber}";
         }
 
         private bool ValidatePhoneNumber(string phoneNumber)
