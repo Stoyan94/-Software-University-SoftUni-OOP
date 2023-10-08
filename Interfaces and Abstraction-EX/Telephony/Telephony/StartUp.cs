@@ -1,51 +1,10 @@
 ﻿using System;
+using Telephony.Core;
+using Telephony.Core.Interfaces;
+using Telephony.IO;
 using Telephony.Models;
 using Telephony.Models.Interfaces;
 
-string[] phoneNumbers = Console.ReadLine()
-    .Split(" ",StringSplitOptions.RemoveEmptyEntries);
+IEngine engine = new Engine(new ConsoleReader(), new ConsoleWriter ());
 
-string[] urls = Console.ReadLine()
-    .Split(" ",StringSplitOptions.RemoveEmptyEntries);
-
-
-ICallable phone;
-
-foreach (string phoneNumber in phoneNumbers)
-{
-    if (phoneNumber.Length == 10)
-    {
-         phone = new SmartPhone();
-    }
-    else
-    {
-         phone = new StationaryPhone();
-    }
-
-    try
-    {    
-        Console.WriteLine(phone.Call(phoneNumber));
-    }
-    catch (Exception ex)
-    {
-
-        Console.WriteLine(ex.Message);
-    }
-
-}
-
-IBrowsable browsable = new SmartPhone();
-
-foreach (string url in urls)
-{
-    try
-    {
-        Console.WriteLine(browsable.Browse(url));
-    }
-    catch (Exception ex)
-    {
-
-        Console.WriteLine(ex.Message);
-    }
-    
-}
+engine.Run();
