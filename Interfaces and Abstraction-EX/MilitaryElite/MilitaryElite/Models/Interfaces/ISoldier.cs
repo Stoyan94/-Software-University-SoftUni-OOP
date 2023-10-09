@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace MilitaryElite.Models.Interfaces
+﻿namespace MilitaryElite.Models.Interfaces
 {
     public interface ISoldier
     {

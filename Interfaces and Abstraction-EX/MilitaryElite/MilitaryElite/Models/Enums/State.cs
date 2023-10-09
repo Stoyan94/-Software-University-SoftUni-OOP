@@ -2,7 +2,7 @@
 {
     public enum State
     {
-        InProgress = 0,
+        inProgress = 0,
         Finished = 1,
     }
 }

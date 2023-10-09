@@ -4,6 +4,6 @@
     {
         string PartName { get; }
 
-        int HouesWorked { get; }
+        int HoursWorked { get; }
     }
 }

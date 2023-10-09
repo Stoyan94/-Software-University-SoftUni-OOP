@@ -1,6 +1,7 @@
 ﻿namespace MilitaryElite.Models
-{ 
-    using MilitaryElite.Models.Interfaces;
+{
+    using Interfaces;
+
     public class Private : Soldier, IPrivate
     {
         public Private(int id, string firstName, string lastName, decimal salary)
@@ -10,5 +11,10 @@
         }
 
         public decimal Salary { get; private set; }
+
+        public override string ToString()
+        {
+            return base.ToString() + $" Salary: {this.Salary:f2}";
+        }
     }
 }
