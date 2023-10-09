@@ -5,6 +5,6 @@ using Telephony.IO;
 using Telephony.Models;
 using Telephony.Models.Interfaces;
 
-IEngine engine = new Engine(new ConsoleReader(), new FileWriter ());
+IEngine engine = new Engine(new ConsoleReader(), new FileWriter());
 
 engine.Run();

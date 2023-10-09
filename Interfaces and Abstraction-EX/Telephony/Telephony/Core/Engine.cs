@@ -41,6 +41,7 @@ namespace Telephony.Core
                 try
                 {
                     writer.WriteLine(phone.Call(phoneNumber));
+                
                 }
                 catch (Exception ex)
                 {
