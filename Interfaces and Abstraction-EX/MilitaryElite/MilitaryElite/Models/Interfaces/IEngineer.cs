@@ -1,7 +1,9 @@
-﻿namespace MilitaryElite.Models.Interfaces
+﻿using System.Collections.Generic;
+
+namespace MilitaryElite.Models.Interfaces
 {
     public interface IEngineer : ISpecialisedSoldier
     {
-        IReadOnlyCollection<IRepair> Repair { get; }
+        IReadOnlyCollection<IRepair> Repairs { get; }
     }
 }

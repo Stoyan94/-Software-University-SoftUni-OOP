@@ -1,10 +1,10 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace MilitaryElite.Models.Interfaces
 {
-    public interface ILieutenantGeneral : IPivate
+    public interface ILieutenantGeneral : IPrivate
     {
-        IReadOnlyCollection<IPivate> Privates { get; }
+        IReadOnlyCollection<IPrivate> Privates { get; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace MilitaryElite.Models.Interfaces
 {
-    public interface ISpecialisedSoldier : IPivate
+    public interface ISpecialisedSoldier : IPrivate
     {
         Corps Corps { get; }
     }

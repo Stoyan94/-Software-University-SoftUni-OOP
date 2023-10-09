@@ -1,4 +1,6 @@
-﻿namespace MilitaryElite.Models.Interfaces
+﻿using System.Collections.Generic;
+
+namespace MilitaryElite.Models.Interfaces
 {
     public interface ICommando : ISpecialisedSoldier
     {
