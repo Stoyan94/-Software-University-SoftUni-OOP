@@ -4,11 +4,11 @@ namespace Border_Control.Models
 {
     public class Human : IIdentifiable
     {
-        public Human(string name, int age, string id)
+        public Human(string id, string name, int age)
         {
+            this.Id = id;
             this.Name = name;
             this.Age = age;
-            this.Id = id;
         }
 
         public string Id { get; private set; }

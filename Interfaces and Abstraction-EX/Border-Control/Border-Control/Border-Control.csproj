@@ -6,8 +6,4 @@
     <RootNamespace>Border_Control</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="IO\" />
-  </ItemGroup>
-
 </Project>
