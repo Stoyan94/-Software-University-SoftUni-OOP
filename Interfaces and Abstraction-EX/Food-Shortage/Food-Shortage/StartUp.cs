@@ -4,3 +4,5 @@ using Food_Shortage.IO;
 using System;
 
 IEngie engie = new Engine(new ConsoleReader(), new ConsoleWriter());
+
+engie.Run();

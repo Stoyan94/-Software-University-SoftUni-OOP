@@ -6,8 +6,4 @@
     <RootNamespace>Food_Shortage</RootNamespace>  
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Interfaces\" />
-  </ItemGroup>
-
 </Project>
