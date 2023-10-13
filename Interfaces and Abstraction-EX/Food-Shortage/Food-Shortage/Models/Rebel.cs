@@ -2,8 +2,9 @@
 
 namespace Food_Shortage.Models
 {
-    public class Rebel : INameble, IBuyer
+    public class Rebel : IBuyer
     {
+        private const int DefaultFoodIncrement = 5;
         public Rebel(string name, int age, string groupName)
         {
             Name = name;
@@ -16,5 +17,10 @@ namespace Food_Shortage.Models
         public int Age { get; private set; }
         public string GroupName { get; private set; }
         public int Food { get; private set; }
+
+        public void BuyFood()
+        {
+            Food += DefaultFoodIncrement;
+        }
     }
 }

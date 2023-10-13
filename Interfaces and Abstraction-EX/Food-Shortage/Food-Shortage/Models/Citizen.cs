@@ -4,7 +4,7 @@ namespace Food_Shortage.Models
 {
     public class Citizen : INameble, IBuyer
     {
-        private int BuyFood = 0;
+        private const int DefaultFoodIncrement = 10;
         public Citizen(string name, int age, string id,string birthDate)
         {
             this.Name = name;
@@ -19,5 +19,10 @@ namespace Food_Shortage.Models
         public string Id { get; private set; }
         public string BirthDate { get; private set; }
         public int Food { get; private set; }
+
+        public void BuyFood()
+        {
+            Food += DefaultFoodIncrement;
+        }
     }
 }

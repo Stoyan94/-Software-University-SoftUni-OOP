@@ -4,6 +4,7 @@ using Food_Shortage.IO.Interfaces;
 using Food_Shortage.Models;
 using Food_Shortage.Models.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Food_Shortage.Core
 {
@@ -12,13 +13,14 @@ namespace Food_Shortage.Core
         private IReader reader;
         private IWriter writer;
         
-        private HashSet<INameble> society;
+        private HashSet<IBuyer> buyers;
+        
 
         public Engine(IReader consoleReader, IWriter consoleWriter)
         {
             this.reader = consoleReader;
             this.writer = consoleWriter;
-            society = new HashSet<INameble>();
+            buyers = new HashSet<IBuyer>();            
         }
 
         public void Run()
@@ -33,28 +35,30 @@ namespace Food_Shortage.Core
                 string name = input[0];
                 int age = int.Parse(input[1]);
 
-                INameble person = null;
+                IBuyer person = null;
 
                 if (input.Length == 4)
                 {
                     person = new Citizen(name, age, input[2], input[3]);
-                    society.Add(person);
+                    buyers.Add(person);                   
                 }
                 else
                 {
                     person = new Rebel(name, age, input[2]);
-                    society.Add(person);
+                    buyers.Add(person);                    
                 }
 
 
             }
 
-            string command;
+            string namePerson;
 
-            while ((command = reader.ReadLine())!="End")
+            while ((namePerson = reader.ReadLine())!="End")
             {
-
+                buyers.FirstOrDefault(x=>x.Name ==  namePerson)?.BuyFood();
             }
+
+            writer.ParsLine(buyers.Sum(b => b.Food));
         }
     }
 }

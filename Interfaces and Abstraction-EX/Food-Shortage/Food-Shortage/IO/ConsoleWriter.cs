@@ -5,6 +5,8 @@ namespace Food_Shortage.IO
 {
     public class ConsoleWriter : IWriter
     {
-        public void WriteLine(string line) => Console.WriteLine(line);
+        public void WriteLine(string line) => Console.WriteLine(line);       
+
+        public void ParsLine(int line) => Console.WriteLine(line);
     }
 }
