@@ -10,21 +10,25 @@
 
             int vankRow = 0;
             int vankoCol = 0;
-            int holesCount = 0;
+            int holesCount = 1;
+            int rodesCount = 0;
 
             CreateField(field, ref vankRow, ref vankoCol);
-                      
 
-            bool isElectrocuted = true;
+            field[vankRow, vankoCol] = '*';                      
 
+            bool isElectrocuted = false;
+            bool isRoadHit = false;
            
             while (true)
             {
                 int nextRow = 0;
                 int nextCol = 0;
 
-                string direction = Console.ReadLine();
-                
+                int lastRow = vankRow;
+                int lastCol = vankoCol;
+               
+                string direction = Console.ReadLine();                
 
                 switch (direction)
                 {
@@ -35,31 +39,76 @@
                 }
 
                 if (!isInRenage(field, vankRow + nextRow, vankoCol + nextCol))
-                {                 
+                {
+                    continue;
+                }               
+                else if (direction == "End")
+                {
                     break;
                 }
 
                 vankRow += nextRow;
                 vankoCol += nextCol;
 
-                if (field[vankRow, vankoCol] == 'R')
+                if (field[vankRow, vankoCol] == 'C')
                 {
-                    isElectrocuted = false;
+                    isElectrocuted = true;
+                    field[vankRow, vankoCol] = 'E';
+                    holesCount++;
 
-                   
                     break;
                 }
-                else
-                {
-                    if (field[vankRow, vankoCol] == 'h')
+                else if (field[vankRow, vankoCol] == 'R')
+                {   
+                    isRoadHit = true;
+                    rodesCount++;
+
+                    vankRow = lastRow; 
+                    vankoCol = lastCol;
+                    Console.WriteLine($"Vanko hit a rod!");
+
+                    continue;
+                }
+                else 
+                {                    
+                    if (field[vankRow, vankoCol] == '*')
                     {
-                        
+                        Console.WriteLine($"The wall is already destroyed at position [{vankRow}, {vankoCol}]!");
+                        continue;
                     }
+
+                    field[vankRow, vankoCol] = '*';
+                    holesCount++;
+                   
                 }
             }
-           
+            
+            if (isElectrocuted)
+            {
+                Console.WriteLine($"Vanko got electrocuted, but he managed to make {holesCount} hole(s).");
+                PrintMatrix(field);
+            }
+            else
+            {
+                Console.WriteLine($"Vanko managed to make {holesCount} hole(s) and he hit only {rodesCount} rod(s).");
+                field[vankRow, vankoCol] = 'V';
+                PrintMatrix(field);
+            }
+
+                    
         }
-       
+
+        private static void PrintMatrix(char[,] field)
+        {
+            for (int row = 0; row < field.GetLength(0); row++)
+            {
+                for(int col = 0; col < field.GetLength(1); col++)
+                {
+                    Console.Write(field[row, col]);
+                }
+                Console.WriteLine();
+            }
+        }
 
         public static bool isInRenage(char[,] field, int row, int col)
         {
@@ -80,7 +129,8 @@
 
                     if (field[row, col] == 'V')
                     {
-                        vankRow = row; vankoCol = col;
+                        vankRow = row; 
+                        vankoCol = col;
                     }
                    
                 }
