@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Vehicles.Core.Interfaces;
 using Vehicles.Factories.Interfaces;
 using Vehicles.IO.Interfaces;
@@ -20,6 +21,7 @@ namespace Vehicles.Core
             this.reader = reader;
             this.writer = writer;
             this.vehicleFactory = vehicleFactory;
+
             vehicles = new List<IVehicel>();
         }
 
@@ -32,9 +34,21 @@ namespace Vehicles.Core
 
             for (int i = 0; i < commandsCount; i++)
             {
-                ProcessCommand();
+                try
+                {
+                    ProcessCommand();
+                }
+                catch (Exception ex)
+                {
+                    writer.WriteLine(ex.Message);
+                }
+                
             }
 
+            foreach (var vehicel in vehicles)
+            {
+                Console.WriteLine(vehicel);
+            }
         }
 
 
@@ -51,6 +65,27 @@ namespace Vehicles.Core
         {
             string[] commandTokes = reader.ReadLine()
                 .Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+            string command = commandTokes[0];
+            string vehicleType = commandTokes[1];
+
+            IVehicel vehicle = vehicles.FirstOrDefault(x=> x.GetType().Name == vehicleType);
+
+            if (vehicle is null)
+            {
+                throw new ArgumentException("Invalid vegicle type");
+            }
+
+            if (command == "Drive")
+            {
+                double distance = double.Parse(commandTokes[2]);
+                writer.WriteLine(vehicle.Drive(distance));
+            }
+            else if (command == "Refuel")
+            {
+                double amount = double.Parse(commandTokes[2]);
+                vehicle.Refuel(amount);
+            }
         }
     }
 

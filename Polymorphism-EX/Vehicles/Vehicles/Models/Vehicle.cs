@@ -33,6 +33,6 @@ namespace Vehicles.Models
 
         public virtual void Refuel(double amout) =>  FuelQuantity += amout;
 
-        public override string ToString() => $"{this.GetType().Name} {FuelQuantity:F2}";
+        public override string ToString() => $"{this.GetType().Name}: {FuelQuantity:F2}";
     }
 }
