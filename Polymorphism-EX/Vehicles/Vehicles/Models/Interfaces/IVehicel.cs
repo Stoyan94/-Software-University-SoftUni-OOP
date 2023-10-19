@@ -1,6 +1,6 @@
 ﻿namespace Vehicles.Models.Interfaces
 {
-    internal interface IVehicel
+    public interface IVehicel
     {
         public double FuelQuantity { get; }
         public double FuelConsumption  { get; }
