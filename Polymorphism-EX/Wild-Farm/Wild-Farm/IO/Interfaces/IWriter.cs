@@ -1,7 +1,9 @@
-﻿namespace Wild_Farm.IO.Interfaces
+﻿using Wild_Farm.Models.Interfaces;
+
+namespace Wild_Farm.IO.Interfaces
 {
     public interface IWriter
     {
-        void WriteLine(string line);
+        void WriteLine(object obj);
     }
 }

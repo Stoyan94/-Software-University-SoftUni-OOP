@@ -7,7 +7,7 @@ namespace Wild_Farm.Models.Animals
     public class Hen : Bird
     {
         private const double HenWeightMultiplier = 0.35;
-        public Hen(string name, double weight, int wingSize) 
+        public Hen(string name, double weight, double wingSize) 
             : base(name, weight, wingSize)
         {
         }

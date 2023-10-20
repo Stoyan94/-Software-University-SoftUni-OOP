@@ -4,7 +4,7 @@ namespace Wild_Farm.Models.Food
 {
     public class Food : IFood
     {
-        protected Food(int quantity)
+        public Food(int quantity)
         {
             Quantity = quantity;
         }

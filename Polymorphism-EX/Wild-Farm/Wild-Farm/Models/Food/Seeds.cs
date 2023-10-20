@@ -2,7 +2,7 @@
 {
     public class Seeds : Food
     {
-        protected Seeds(int quantity) 
+        public Seeds(int quantity) 
             : base(quantity)
         {
         }

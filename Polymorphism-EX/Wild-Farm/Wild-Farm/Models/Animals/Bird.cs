@@ -4,7 +4,7 @@ namespace Wild_Farm.Models.Animals
 {
     public abstract class Bird : Animal, IBird
     {
-        protected Bird(string name, double weight, int wingSize) 
+        protected Bird(string name, double weight, double wingSize) 
             : base(name, weight)
         {
             WingSize = wingSize;
@@ -14,7 +14,7 @@ namespace Wild_Farm.Models.Animals
 
         public override string ToString()
         {
-            return base.ToString() + $"{WingSize} {Weight} {FoodEaten}]";
+            return base.ToString() + $"{WingSize}, {Weight}, {FoodEaten}]";
         }
     }
 }

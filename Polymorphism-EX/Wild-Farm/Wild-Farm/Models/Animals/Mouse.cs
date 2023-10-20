@@ -17,7 +17,11 @@ namespace Wild_Farm.Models.Animals
         protected override IReadOnlyCollection<Type> PrefferedFoodTypes
             => new HashSet<Type>() {typeof(Vegetable), typeof(Fruit)};
 
-
         public override string ProduceSound() => "Squeak";
+
+        public override string ToString()
+        {
+            return base.ToString() + $"{Weight}, {LivingRegion}, {FoodEaten}]";
+        }
     }
 }

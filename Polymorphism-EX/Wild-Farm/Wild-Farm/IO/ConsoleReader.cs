@@ -5,6 +5,6 @@ namespace Wild_Farm.IO
 {
     public class ConsoleReader : IReader
     {
-        public string Readline() => Console.ReadLine();
+        public string ReadLine() => Console.ReadLine();
     }
 }

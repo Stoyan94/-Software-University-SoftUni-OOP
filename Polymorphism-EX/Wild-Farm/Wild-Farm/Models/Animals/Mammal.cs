@@ -7,7 +7,7 @@ namespace Wild_Farm.Models.Animals
         protected Mammal(string name, double weight, string livingRegion) 
             : base(name, weight)
         {
-            livingRegion = LivingRegion;
+            LivingRegion = livingRegion;
         }
 
         public string LivingRegion { get; private set; }
