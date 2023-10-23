@@ -43,7 +43,7 @@ namespace Vehicles_Extension.Models
 
             if (FuelQuantity < distance * consumption)
             {
-                throw new ArgumentException($"{this.GetType().Name} need refueling");
+                throw new ArgumentException($"{this.GetType().Name} needs refueling");
             }
 
             FuelQuantity -= distance * consumption;
@@ -64,6 +64,13 @@ namespace Vehicles_Extension.Models
             }
 
             FuelQuantity += amount;
+
         }
+
+        public override string ToString()
+        {
+            return $"{this.GetType().Name}: {FuelQuantity:F2}";
+        }
+
     }
 }

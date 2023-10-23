@@ -6,8 +6,4 @@
     <RootNamespace>Vehicles_Extension</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Factories\Interfaces\" />
-  </ItemGroup>
-
 </Project>
