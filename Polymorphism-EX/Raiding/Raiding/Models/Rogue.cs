@@ -7,6 +7,6 @@
         public Rogue(string name) : base(name, DefaultPower) {}
 
         public override string CastAbility()
-            => $"{this.GetType().Name} - {Name} healed for {Power}";
+            => $"{this.GetType().Name} - {Name} hit for {Power} damage";
     }
 }
