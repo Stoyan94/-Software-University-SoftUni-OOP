@@ -1,20 +1,16 @@
 ﻿namespace P01.Stream_Progress
 {
-    public class Music
-    {
-        private string artist;
-        private string album;
+    public class Music : File
+    {     
 
         public Music(string artist, string album, int length, int bytesSent)
+            : base(artist, length, bytesSent)
         {
-            this.artist = artist;
-            this.album = album;
-            this.Length = length;
-            this.BytesSent = bytesSent;
+            this.Artist = artist;
+            this.Album = album;           
         }
 
-        public int Length { get; set; }
-
-        public int BytesSent { get; set; }
+        public string Artist { get; }
+        public string Album { get; }
     }
 }

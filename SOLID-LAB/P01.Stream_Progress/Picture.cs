@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace P01.Stream_Progress
 {
-    internal class Picture
+    public class Picture : File
     {
+        public Picture(string name, int length, int bytesSent) : base(name, length, bytesSent) {}
     }
 }
