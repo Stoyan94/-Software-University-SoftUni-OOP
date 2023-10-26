@@ -8,6 +8,7 @@ namespace P02.Graphic_Editor
         {
 
             Console.WriteLine(shape.GetShape());
+
             //if (shape is Circle)
             //{
             //    Console.WriteLine("I'm Circle");
