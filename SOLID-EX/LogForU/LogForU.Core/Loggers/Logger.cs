@@ -1,6 +1,7 @@
 ﻿using LogForU.Core.Appenders.Interfaces;
 using LogForU.Core.Enums;
 using LogForU.Core.Loggers.Interfaces;
+using LogForU.Core.Models;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -30,11 +31,13 @@ namespace LogForU.Core.Loggers
         public void Fatal(string dateTime, string message) 
             => AppendAll(dateTime, message, ReportLevel.Fatal);
 
-        private void AppendAll(string dateTime, string message, ReportLevel report)
+        private void AppendAll(string dateTime, string text, ReportLevel report)
         {
+            Message message =  new(dateTime, text, report);
+
             foreach (var appender in appenders)
             {
-
+                appender.AppendMessage(message);
             }
         }
 
