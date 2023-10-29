@@ -1,5 +1,6 @@
 ﻿using LogForU.Core.Enums;
 using LogForU.Core.Exceptions;
+using LogForU.Core.Utils;
 using System;
 
 namespace LogForU.Core.Models
@@ -24,6 +25,13 @@ namespace LogForU.Core.Models
                 {
                     throw new EmptyCreatedTimeException();
                 }
+
+                if (!DateTimeValidator.ValidateDateime(value))
+                {
+                    throw new InvalidDateTimeException();
+                }
+
+                createdTime = value;
             } 
         }
         public string Text 
@@ -31,8 +39,13 @@ namespace LogForU.Core.Models
             get => text;
             private set 
             {
-
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new EmptyMessageTextException();
+                }
+                text = value;
             } 
+            
         }
         public ReportLevel ReportLeve { get; private set; }
     }
