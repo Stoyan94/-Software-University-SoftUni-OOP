@@ -1,10 +1,13 @@
 ﻿using LogForU.Core.Enums;
+using LogForU.Core.Exceptions;
+using System;
 
 namespace LogForU.Core.Models
 {
     public class Message
     {
-        //TODO add validations
+        private string createdTime;
+        private string text;
         public Message(string createdTime, string text, ReportLevel reportLeve)
         {
             this.CreatedTime = createdTime;
@@ -12,8 +15,25 @@ namespace LogForU.Core.Models
             this.ReportLeve = reportLeve;
         }
 
-        public string CreatedTime { get; private set; }
-        public string Text { get; private set; }
+        public string CreatedTime 
+        {
+            get => createdTime;
+            private set 
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new EmptyCreatedTimeException();
+                }
+            } 
+        }
+        public string Text 
+        {
+            get => text;
+            private set 
+            {
+
+            } 
+        }
         public ReportLevel ReportLeve { get; private set; }
     }
 }
