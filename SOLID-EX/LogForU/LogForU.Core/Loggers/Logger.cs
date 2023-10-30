@@ -37,7 +37,7 @@ namespace LogForU.Core.Loggers
 
             foreach (var appender in appenders)
             {
-                if (message.ReportLeve >= appender.ReportLevel)
+                if (message.ReportLevel >= appender.ReportLevel)
                 {                   
                     appender.AppendMessage(message);
                 }

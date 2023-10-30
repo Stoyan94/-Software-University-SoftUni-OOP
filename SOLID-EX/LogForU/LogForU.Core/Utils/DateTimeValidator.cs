@@ -7,8 +7,11 @@ namespace LogForU.Core.Utils
     public static class DateTimeValidator
     {
         private static readonly ISet<string> formats =
-            new HashSet<string> { "M/dd/yyyy h:mm:ss tt", "MM-dd-yyyy h:mm:ss tt" };
-        public static bool ValidateDateime(string dateTime)
+            new HashSet<string> { "M/dd/yyyy h:mm:ss tt"};
+
+        public static void AddFormat(string format)
+            => formats.Add(format);
+        internal static bool ValidateDateime(string dateTime)
         {
             foreach (var format in formats)
             {

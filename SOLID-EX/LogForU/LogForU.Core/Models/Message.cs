@@ -9,11 +9,11 @@ namespace LogForU.Core.Models
     {
         private string createdTime;
         private string text;
-        public Message(string createdTime, string text, ReportLevel reportLeve)
+        public Message(string createdTime, string text, ReportLevel reportLevel)
         {
             this.CreatedTime = createdTime;
             this.Text = text;
-            this.ReportLeve = reportLeve;
+            this.ReportLevel = reportLevel;
         }
 
         public string CreatedTime 
@@ -47,6 +47,6 @@ namespace LogForU.Core.Models
             } 
             
         }
-        public ReportLevel ReportLeve { get; private set; }
+        public ReportLevel ReportLevel { get; private set; }
     }
 }
