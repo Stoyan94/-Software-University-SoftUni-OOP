@@ -7,7 +7,7 @@
         string Path { get; }
         string FullPath { get; }
         string Content { get; }
-        string Size { get; }    
+        int Size { get; }    
 
         void WriteLine(string text);
     }

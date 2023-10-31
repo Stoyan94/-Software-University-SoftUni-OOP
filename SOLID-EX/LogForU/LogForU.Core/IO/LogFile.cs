@@ -1,5 +1,6 @@
 ﻿using LogForU.Core.Exceptions;
 using LogForU.Core.IO.Interfaces;
+using System;
 using System.IO;
 using System.Text;
 
@@ -7,17 +8,30 @@ namespace LogForU.Core.IO
 {
     public class LogFile : ILogFile
     {
+        private const string DefaultExtension = "txt";
+        private static readonly string DefaultName = $"Log {DateTime.Now:yyyy-MM-dd-hh-mm-ss}";
+        private static readonly string DefaulPath = $"{Directory.GetCurrentDirectory()}";
+
         private string name;
         private string extension;
         private string path;
 
         private readonly StringBuilder content;
 
-        public LogFile(string name, string extension, string path)
+        public LogFile()
+        {
+            Name = DefaultName;
+            Extension = DefaultExtension;
+            Path = DefaulPath;
+        }
+
+        public LogFile(string name, string extension, string path) 
+            : this()
         {
             Name = name;
             Extension = extension;
             Path = path;
+            content = new StringBuilder();
         }
 
         public string Name 
@@ -59,15 +73,13 @@ namespace LogForU.Core.IO
             }
         }
 
-        public string FullPath => throw new System.NotImplementedException();
+        public string FullPath => System.IO.Path.GetFullPath($"{Path}/{Name}.{Extension}");
 
-        public string Content => throw new System.NotImplementedException();
+        public string Content => content.ToString();
 
-        public string Size => throw new System.NotImplementedException();
+        public int Size => Content.Length;
 
         public void WriteLine(string text)
-        {
-            throw new System.NotImplementedException();
-        }
+            => content.AppendLine(text);
     }
 }

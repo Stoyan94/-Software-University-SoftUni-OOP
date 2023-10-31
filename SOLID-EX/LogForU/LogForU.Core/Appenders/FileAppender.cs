@@ -1,5 +1,6 @@
 ﻿using LogForU.Core.Appenders.Interfaces;
 using LogForU.Core.Enums;
+using LogForU.Core.IO.Interfaces;
 using LogForU.Core.Layouts.Interfaces;
 using LogForU.Core.Models;
 using System;
@@ -9,13 +10,16 @@ namespace LogForU.Core.Appenders
 {
     public class FileAppender : IAppender
     {
-        public FileAppender(ILayout layout, ReportLevel report = ReportLevel.Info)
+        public FileAppender(ILayout layout, ILogFile logFile, ReportLevel report = ReportLevel.Info)
         {
             Layout = layout;
+            LogFile = logFile;
             ReportLevel = report;
         }
 
         public ILayout Layout { get; private set; }
+
+        public ILogFile LogFile { get; private set; }
 
         public ReportLevel ReportLevel { get; set; }
 
@@ -25,7 +29,7 @@ namespace LogForU.Core.Appenders
         {
             string content = string.Format(Layout.Format, message.CreatedTime, message.ReportLevel, message.Text);
 
-            File.AppendAllText("test.txt", content + Environment.NewLine);
+            File.AppendAllText(LogFile.FullPath, content + Environment.NewLine);
 
             MessagesAppended++;
         }
