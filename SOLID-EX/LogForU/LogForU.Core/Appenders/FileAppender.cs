@@ -32,6 +32,7 @@ namespace LogForU.Core.Appenders
             LogFile.WriteLine(content);
 
             File.AppendAllText(LogFile.FullPath, LogFile.Content);
+            
 
             MessagesAppended++;
         }

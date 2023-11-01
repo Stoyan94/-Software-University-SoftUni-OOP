@@ -11,7 +11,7 @@ using LogForU.CustomLayots;
 var xmlLayout = new XmlLayout();
 var consoleAppender = new ConsoleAppender(xmlLayout);
 
-var file = new LogFile();
+var file = new LogFile("Test", "xml", $"{Directory.GetCurrentDirectory()}");
 var fileAppender = new FileAppender(xmlLayout, file);
 
 var logger = new Logger(fileAppender);
