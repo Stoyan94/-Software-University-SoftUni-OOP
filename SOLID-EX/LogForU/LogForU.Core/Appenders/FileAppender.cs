@@ -29,7 +29,9 @@ namespace LogForU.Core.Appenders
         {
             string content = string.Format(Layout.Format, message.CreatedTime, message.ReportLevel, message.Text);
 
-            File.AppendAllText(LogFile.FullPath, content + Environment.NewLine);
+            LogFile.WriteLine(content);
+
+            File.AppendAllText(LogFile.FullPath, LogFile.Content);
 
             MessagesAppended++;
         }

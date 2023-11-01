@@ -23,6 +23,8 @@ namespace LogForU.Core.IO
             Name = DefaultName;
             Extension = DefaultExtension;
             Path = DefaulPath;
+
+            content = new StringBuilder();
         }
 
         public LogFile(string name, string extension, string path) 
@@ -30,8 +32,7 @@ namespace LogForU.Core.IO
         {
             Name = name;
             Extension = extension;
-            Path = path;
-            content = new StringBuilder();
+            Path = path;           
         }
 
         public string Name 
@@ -75,7 +76,7 @@ namespace LogForU.Core.IO
 
         public string FullPath => System.IO.Path.GetFullPath($"{Path}/{Name}.{Extension}");
 
-        public string Content => content.ToString();
+        public string Content => content.ToString().TrimEnd();
 
         public int Size => Content.Length;
 
