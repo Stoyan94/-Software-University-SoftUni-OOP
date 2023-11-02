@@ -7,6 +7,16 @@ namespace Skeleton.Tests
     public class AxeTests
     {
         [Test]
+
+        public void AxeShouldInitlizeWithCorrectValues()
+        {
+            //Aarange and act
+            Axe axe = new Axe(100, 100);
+            Assert.AreEqual(100, axe.DurabilityPoints);
+            Assert.AreEqual(100, axe.AttackPoints);
+        }
+
+        [Test]
         public void AtackMethodShouldDecreaseDurabilityPoint()
         {
             //Arrange
@@ -24,7 +34,7 @@ namespace Skeleton.Tests
         public void AtackMethodShouldThrowExceptionIfDurabilityIsZero() 
         {
             //Arrange
-            Dummy target = new Dummy(10, 10);
+            Dummy target = new Dummy(100, 100);
             Axe axe = new Axe(10, 10);
 
             //Act
