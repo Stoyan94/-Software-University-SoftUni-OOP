@@ -48,5 +48,51 @@ namespace Database.Tests
 
             Assert.AreEqual("Array's capacity must be exactly 16 integers!", exception.Message);
         }
+
+        [Test]
+        public void DatabaseCountShouldWorkCorrectly()
+        {
+            int expectedResult = 2;
+            int actualResult = database.Count;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestCase(-10)]
+        [TestCase(3)]
+        public void DatabaseAddMethodShouldIncreaseCount(int number)
+        {
+            int expectedResult = 3;
+
+            database.Add(number);
+            Assert.AreEqual(expectedResult, database.Count);
+        }
+
+        [TestCase(new int[] {1, 2, 3 ,4 ,5})]
+        public void DatabaseAddMethodShouldAddElementCorrectly(int[] data)
+        {
+            database = new();
+
+            foreach (var number in data)
+            {
+                database.Add(number);
+            }
+
+            int[] actualResult = database.Fetch();
+
+            Assert.AreEqual(data, actualResult);
+        }
+
+        [Test]
+        public void DatabaseAddMethodShouldThrowExceptionWhenCountIsMoreThan16()
+        {
+            for (int i = 0; i < 14; i++)
+            {
+                database.Add(i);
+            }
+
+            Assert.Throws<InvalidOperationException>(() 
+                => database.Add(3), "Array's capacity must be exactly 16 integers!");
+        }
     }
 }
