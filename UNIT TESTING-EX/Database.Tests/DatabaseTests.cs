@@ -94,5 +94,50 @@ namespace Database.Tests
             Assert.Throws<InvalidOperationException>(() 
                 => database.Add(3), "Array's capacity must be exactly 16 integers!");
         }
+
+        [Test]
+
+        public void DatabaseRemoveMethodShouldDecreaseCount()
+        {
+            int exptectedResult = 1;
+
+            database.Remove();
+
+            Assert.AreEqual(exptectedResult, database.Count);
+        }
+
+        [Test]
+
+        public void DatabaseRemoveMethodShouldRemoveElementCrrectly()
+        {
+            int[] exptectedResult = Array.Empty<int>();
+
+            database.Remove();
+            database.Remove();
+
+            int[] actualResult = database.Fetch();
+
+            Assert.AreEqual(exptectedResult, actualResult);
+        }
+
+        [Test]
+        public void DatabaseAddMethodShouldThrowExceptionIfDatabaseIsEmpty()
+        {
+            database = new Database();
+
+            Assert.Throws<InvalidOperationException>(()
+                => database.Remove(), "\"The collection is empty!");
+        }
+
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5 })]
+        public void DatabaseAddMethodShouldReturnCorrectData(int[] data)
+        {
+            database = new Database(data);           
+
+            int[] actualResult = database.Fetch();
+
+            Assert.AreEqual(data, actualResult);
+        }
     }
 }
