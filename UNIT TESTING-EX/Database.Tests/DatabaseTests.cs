@@ -126,7 +126,7 @@ namespace Database.Tests
             database = new Database();
 
             Assert.Throws<InvalidOperationException>(()
-                => database.Remove(), "\"The collection is empty!");
+                => database.Remove(), "The collection is empty!");
         }
 
 
