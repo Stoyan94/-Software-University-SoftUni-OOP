@@ -1,6 +1,6 @@
-﻿namespace NeedForSpeed
+﻿namespace Resturant.Models.AbsClass
 {
-    public class Product
+    public abstract class Product
     {
         public Product(string name, decimal price)
         {
@@ -9,7 +9,6 @@
         }
 
         public string Name { get; private set; }
-
         public decimal Price { get; private set; }
     }
 }
