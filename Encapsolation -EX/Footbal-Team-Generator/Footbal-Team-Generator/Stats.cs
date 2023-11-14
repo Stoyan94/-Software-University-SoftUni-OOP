@@ -31,7 +31,7 @@ namespace Footbal_Team_Generator
 			{ 
 				if (this.IsStatInvalid(value))
 				{
-					throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidStats,GetType().Name));
+					throw new ArgumentException(string.Format(ExceptionMessages.InvalidStats,nameof(Endurance)));
 				}
 				endurance = value; 
 			}
@@ -43,7 +43,7 @@ namespace Footbal_Team_Generator
             {
                 if (this.IsStatInvalid(value))
                 {
-                    throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidStats, GetType().Name));
+                    throw new ArgumentException(string.Format(ExceptionMessages.InvalidStats, nameof(Sprint)));
                 }
                 sprint = value;
             }
@@ -56,7 +56,7 @@ namespace Footbal_Team_Generator
             {
                 if (this.IsStatInvalid(value))
                 {
-                    throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidStats, GetType().Name));
+                    throw new ArgumentException(string.Format(ExceptionMessages.InvalidStats, nameof(Dribble)));
                 }
                 dribble = value;
             }
@@ -69,7 +69,7 @@ namespace Footbal_Team_Generator
             {
                 if (this.IsStatInvalid(value))
                 {
-                    throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidStats, GetType().Name));
+                    throw new ArgumentException(string.Format(ExceptionMessages.InvalidStats, nameof(Passing)));
                 }
                 passing = value;
             }
@@ -82,7 +82,7 @@ namespace Footbal_Team_Generator
             {
                 if (this.IsStatInvalid(value))
                 {
-                    throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidStats, GetType().Name));
+                    throw new ArgumentException(string.Format(ExceptionMessages.InvalidStats, nameof(Shooting)));
                 }
                 shooting = value;
             }
@@ -92,5 +92,5 @@ namespace Footbal_Team_Generator
         private bool IsStatInvalid(int value)
 			=> value < 0 || value > 100;
     }
-	//   , , and shooting
+	
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Footbal_Team_Generator
 {
-    public class ExceptionMessages
+    public static class ExceptionMessages
     {
         public const string InvalidName = "A name should not be empty.";
 

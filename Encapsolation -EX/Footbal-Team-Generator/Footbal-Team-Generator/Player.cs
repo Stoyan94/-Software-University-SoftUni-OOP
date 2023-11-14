@@ -6,9 +6,10 @@ namespace Footbal_Team_Generator
     {
 		private string name;
 
-        public Player(string name)
+        public Player(string name, int endurance, int sprint, int dribble, int passing, int shooting)
         {
-            Name = name;
+            this.Name = name;
+            this.Stats = new Stats(endurance, sprint, dribble, passing, shooting);
         }
 
         public string Name
@@ -26,8 +27,8 @@ namespace Footbal_Team_Generator
 
         public Stats Stats { get; private set; }
 
-        public double AverageSkill => this.Stats.Endurance + this.Stats.Sprint +
-			this.Stats.Dribble + this.Stats.Passing + this.Stats.Shooting / 5.0;
+        public double AverageSkill => (this.Stats.Endurance + this.Stats.Sprint + this.Stats.Dribble +
+            this.Stats.Passing + this.Stats.Shooting) / 5.0;
 
     }
 }

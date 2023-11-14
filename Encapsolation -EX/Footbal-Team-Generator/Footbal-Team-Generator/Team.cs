@@ -33,18 +33,26 @@ namespace Footbal_Team_Generator
             }
 		}
 
+        public int Rating => this.playersList.Count > 0 ?
+            (int)Math.Round(this.playersList.Average(p => p.AverageSkill), 0) : 0;
+
         public void AddPlayer(Player player) => this.playersList.Add(player);
 
         public void RemovePlayer(string playerName)
         {
             Player playerToRemove = this.playersList.FirstOrDefault(p => p.Name == playerName);
 
-            if (playerToRemove != null)
+            if (playerToRemove == null)
             {
-                throw new InvalidOperationException(string.Format(ExceptionMessages.MissingPlayer, playerName, this.Name));
+                throw new ArgumentException(string.Format(ExceptionMessages.MissingPlayer, playerName, this.Name));
             }
             this.playersList.Remove(playerToRemove);
         }
-       
+
+
+        public override string ToString()
+        {
+            return $"{Name} - {Rating}";
+        }
     }
 }
