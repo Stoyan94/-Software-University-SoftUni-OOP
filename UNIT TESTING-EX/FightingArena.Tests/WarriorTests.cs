@@ -6,11 +6,11 @@ namespace FightingArena.Tests
     [TestFixture]
     public class WarriorTests
     {
-        [SetUp] public void SetUp() 
+        [SetUp] public void SetUp()
         {
         }
 
-        
+
         [Test]
         public void ConstructorShouldInitializeWarriorName()
         {
@@ -24,7 +24,7 @@ namespace FightingArena.Tests
             Assert.AreEqual(expectedName, actualName);
         }
 
-       
+
         [Test]
         public void ConstructorShouldInitializeWarriorDamage()
         {
@@ -36,7 +36,7 @@ namespace FightingArena.Tests
 
             Assert.AreEqual(exppectedDame, actualDamage);
         }
-      
+
         [Test]
         public void ConstructorShouldInitializeWarriorHP()
         {
@@ -75,7 +75,7 @@ namespace FightingArena.Tests
 
         [TestCase(100)]
         [TestCase(50)]
-        [TestCase(1)]        
+        [TestCase(1)]
         public void DamageSetterShouldSetValueWithValidDamage(int damage)
         {
             Warrior warrior = new Warrior("Pesho", damage, 100);
@@ -113,7 +113,7 @@ namespace FightingArena.Tests
 
         [TestCase(-100)]
         [TestCase(-50)]
-        [TestCase(-1)]       
+        [TestCase(-1)]
         public void HPSetterShouldThrowExceptionWithNegativeHP(int hp)
         {
             Assert.Throws<ArgumentException>(() =>
@@ -145,16 +145,16 @@ namespace FightingArena.Tests
             Assert.AreEqual(w1ExpectedHP, w1ActualHP);
             Assert.AreEqual(w2ExpectedHP, w2ActualHP);
         }
-        
-    
+
+
         [TestCase(35)]
-        [TestCase(50)]        
+        [TestCase(50)]
 
         public void SuccessAttackingWarriorWithKill(int w2HP)
         {
             int w1Damage = 50;
             int w1HP = 100;
-            int w2Damage = 30;           
+            int w2Damage = 30;
 
             Warrior w1 = new Warrior("stoqn", w1Damage, w1HP);
             Warrior w2 = new Warrior("pesho", w2Damage, w2HP);
@@ -170,5 +170,32 @@ namespace FightingArena.Tests
             Assert.AreEqual(w1ExpectedHP, w1ActualHP);
             Assert.AreEqual(w2ExpectedHP, w2ActualHP);
         }
+
+        [TestCase(29,30)]
+        [TestCase(10,31)]
+        [TestCase(10,50)]
+        public void WarriorExceptionMinimumHPWhenGetAttacked(int w1HP, int w2At)
+        {
+            Assert.Throws<InvalidOperationException>(() => 
+            {
+                Warrior w1 = new Warrior("stroqn", 30, w1HP);
+                Warrior w2 = new Warrior("stroqn", w2At, 50);
+                w2.Attack(w1);
+            }, "Enemy HP must be greater than 30 in order to attack him!");
+        }
+
+        [TestCase(28, 27)]
+        [TestCase(31, 10)]
+        [TestCase(50, 10)]
+        public void WarriorExceptionHpAtackGreaterThenHP(int w1At, int w2hp)
+        {
+            Assert.Throws<InvalidOperationException>(() =>
+            {
+                Warrior w1 = new Warrior("stroqn", w1At, 50);
+                Warrior w2 = new Warrior("stroqn", 30, w2hp);
+                w2.Attack(w1);
+            }, $"You are trying to attack too strong enemy");
+        }
+
     }
 }
