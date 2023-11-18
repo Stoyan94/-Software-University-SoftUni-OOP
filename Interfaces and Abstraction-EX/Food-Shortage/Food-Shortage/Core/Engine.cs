@@ -13,7 +13,7 @@ namespace Food_Shortage.Core
         private IReader reader;
         private IWriter writer;
         
-        private HashSet<IBuyer> buyers;
+        private ISet<IBuyer> buyers;
         
 
         public Engine(IReader consoleReader, IWriter consoleWriter)
