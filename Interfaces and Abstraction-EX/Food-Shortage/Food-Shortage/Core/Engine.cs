@@ -14,13 +14,16 @@ namespace Food_Shortage.Core
         private IWriter writer;
         
         private ISet<IBuyer> buyers;
-        
 
-        public Engine(IReader consoleReader, IWriter consoleWriter)
+        private Engine()
+        {
+            buyers = new HashSet<IBuyer>();
+        }
+
+        public Engine(IReader consoleReader, IWriter consoleWriter) : this() 
         {
             this.reader = consoleReader;
-            this.writer = consoleWriter;
-            buyers = new HashSet<IBuyer>();            
+            this.writer = consoleWriter;                       
         }
 
         public void Run()
@@ -47,18 +50,16 @@ namespace Food_Shortage.Core
                     person = new Rebel(name, age, input[2]);
                     buyers.Add(person);                    
                 }
-
-
             }
 
             string namePerson;
 
             while ((namePerson = reader.ReadLine())!="End")
             {
-                buyers.FirstOrDefault(x=>x.Name ==  namePerson)?.BuyFood();
+                buyers.FirstOrDefault(n=>n.Name ==  namePerson)?.BuyFood();
             }
 
-            writer.WriteLine(buyers.Sum(b => b.Food));
+            writer.WriteLine(buyers.Sum(s => s.Food));
         }
     }
 }
