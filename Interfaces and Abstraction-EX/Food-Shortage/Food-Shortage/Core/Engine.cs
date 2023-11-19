@@ -58,7 +58,7 @@ namespace Food_Shortage.Core
                 buyers.FirstOrDefault(x=>x.Name ==  namePerson)?.BuyFood();
             }
 
-            writer.ParsLine(buyers.Sum(b => b.Food));
+            writer.WriteLine(buyers.Sum(b => b.Food));
         }
     }
 }
