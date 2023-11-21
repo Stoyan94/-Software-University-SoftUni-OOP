@@ -41,7 +41,7 @@ public class Engine : IEngine
             IAnimal animal = null;
 
                 
-            animal = CreateAnimal(command);
+            animal = animalFactory.CreateAnimal(command);
                 
             IFood food = CreateFood();
                 
@@ -55,10 +55,7 @@ public class Engine : IEngine
             {
                 writer.WriteLine(ex.Message);
             }
-            catch (Exception)
-            {
-                throw;
-            }
+           
 
             animals.Add(animal);
         }
@@ -69,15 +66,7 @@ public class Engine : IEngine
         }
     }
 
-    private IAnimal CreateAnimal(string command)
-    {
-        string[] animalArgs = command
-            .Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-        IAnimal animal = animalFactory.CreateAnimal(animalArgs);
-
-        return animal;
-    }
+   
 
     private IFood CreateFood()
     {
