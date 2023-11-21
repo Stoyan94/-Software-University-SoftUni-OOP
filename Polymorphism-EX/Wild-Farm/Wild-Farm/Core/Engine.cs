@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Wild_Farm.Core.Interfaces;
+using Wild_Farm.Factories;
 using Wild_Farm.Factories.Interfaces;
 using Wild_Farm.IO.Interfaces;
 using Wild_Farm.Models.Interfaces;
@@ -35,49 +36,40 @@ public class Engine : IEngine
 
     public void Run()
     {
-        string command;
-        while ((command = reader.ReadLine()) != "End")
-        {
-            IAnimal animal = null;
+        string input;
 
-                
-            animal = animalFactory.CreateAnimal(command);
-                
-            IFood food = CreateFood();
-                
+        IAnimal animal = null;
+        IFood food = null;
+
+        while ((input = reader.ReadLine()) != "End")
+        {
+            string[] cmdArgs = input.Split(" ",
+                System.StringSplitOptions.RemoveEmptyEntries);
+
+            animal = animalFactory.CreateAnimal(cmdArgs);
+
+            string[] foodInfo = reader.ReadLine().Split(" ",
+                StringSplitOptions.RemoveEmptyEntries);
+
+            food = foodFactory.CreateFood(foodInfo[0], int.Parse(foodInfo[1]));
+
             writer.WriteLine(animal.ProduceSound());
+            animals.Add(animal);
 
             try
             {
                 animal.Eat(food);
+
             }
             catch (ArgumentException ex)
             {
                 writer.WriteLine(ex.Message);
             }
-           
-
-            animals.Add(animal);
         }
 
-        foreach (IAnimal animal in animals)
+        foreach (var currAnimal in animals)
         {
-            writer.WriteLine(animal);
+            writer.WriteLine(currAnimal);
         }
-    }
-
-   
-
-    private IFood CreateFood()
-    {
-        string[] foodTokens = reader.ReadLine()
-            .Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-        string foodType = foodTokens[0];
-        int foodQuantity = int.Parse(foodTokens[1]);
-
-        IFood food = foodFactory.CreateFood(foodType, foodQuantity);
-
-        return food;
     }
 }
