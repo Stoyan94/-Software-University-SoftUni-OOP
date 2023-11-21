@@ -40,16 +40,16 @@ public class Engine : IEngine
         {
             IAnimal animal = null;
 
+                
+            animal = CreateAnimal(command);
+                
+            IFood food = CreateFood();
+                
+            writer.WriteLine(animal.ProduceSound());
+
             try
             {
-                animal = CreateAnimal(command);
-
-                IFood food = CreateFood();
-
-                writer.WriteLine(animal.ProduceSound());
-
                 animal.Eat(food);
-
             }
             catch (ArgumentException ex)
             {
