@@ -101,7 +101,7 @@ namespace EDriveRent.Models
 
         public override string ToString()
         {
-            return $"{FirstName} {LastName} Driving license: {drivingLicenseNumber} Rating: {rating}";
+            return $"{FirstName} {LastName} Driving license: {drivingLicenseNumber} Rating: {Rating}";
         }
     }
 }
