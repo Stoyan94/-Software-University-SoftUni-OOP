@@ -1,4 +1,5 @@
 ﻿using EDriveRent.Models.Contracts;
+using EDriveRent.Utilities.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,14 @@ namespace EDriveRent.Models
         private string lastName;
         private double rating;
         private string drivingLicenseNumber;
+        private bool isBlocked;
+
+        public User(string firstName, string lastName, double rating)
+        {
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Rating = rating;
+        }
 
         public string FirstName
         {
@@ -20,6 +29,10 @@ namespace EDriveRent.Models
 
             private set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException(ExceptionMessages.FirstNameNull);
+                }
                 firstName = value;
             }
         }
@@ -29,6 +42,11 @@ namespace EDriveRent.Models
             get => lastName;
             private set
             {
+
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException(ExceptionMessages.LastNameNull);
+                }
                 lastName = value;
             }
         }
@@ -42,21 +60,52 @@ namespace EDriveRent.Models
             }
         }
 
-        public string DrivingLicenseNumber 
-        { 
+        public string DrivingLicenseNumber
+        {
             get => drivingLicenseNumber; 
-            private set => drivingLicenseNumber = value; }
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException(ExceptionMessages.DrivingLicenseRequired);
+                }
+                drivingLicenseNumber = value;
+            }
+        }
 
-        public bool IsBlocked { get; private set; }
+        public bool IsBlocked
+        {
+            get => isBlocked; 
+            private set
+            {
+                isBlocked = value;
+            }
+        }
 
         public void DecreaseRating()
         {
-            throw new NotImplementedException();
+            this.Rating -= 2;
+
+            if (this.rating < 0)
+            {
+                this.rating = 0;
+                this.isBlocked = true;
+            }          
         }
 
         public void IncreaseRating()
         {
-            throw new NotImplementedException();
+            this.Rating += 0.5;
+
+            if (this.Rating > 10)
+            {
+                this.Rating = 10;
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName} Driving license: {drivingLicenseNumber} Rating: {rating}";
         }
     }
 }
