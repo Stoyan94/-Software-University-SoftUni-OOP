@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EDriveRent.Models
+﻿namespace EDriveRent.Models
 {
-    internal class CargoVan
+    public class CargoVan
     {
     }
 }
