@@ -1,27 +1,27 @@
 ﻿using EDriveRent.Models;
+using EDriveRent.Models.Contracts;
 using EDriveRent.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace EDriveRent.Repositories
 {
-    public class VehicleRepository : IRepository<Vehicle>
+    public class VehicleRepository : IRepository<IVehicle>
     {
-        private readonly ICollection<Vehicle> vehicleRepository;
+        private readonly ICollection<IVehicle> vehicleRepository;
 
         private VehicleRepository()
         {
-            vehicleRepository = new List<Vehicle>();
+            vehicleRepository = new List<IVehicle>();
         }
-        public void AddModel(Vehicle model)
+        public void AddModel(IVehicle model)
         {
             vehicleRepository.Add(model);
         }
 
-        public Vehicle FindById(string identifier)
+        public IVehicle FindById(string identifier)
         {
             var curVehicle = vehicleRepository.FirstOrDefault(v => v.LicensePlateNumber == identifier);
 
@@ -33,8 +33,8 @@ namespace EDriveRent.Repositories
             return curVehicle;
         }
 
-        public IReadOnlyCollection<Vehicle> GetAll()
-             => (IReadOnlyCollection<Vehicle>) vehicleRepository;
+        public IReadOnlyCollection<IVehicle> GetAll()
+             => (IReadOnlyCollection<IVehicle>) vehicleRepository;
 
         public bool RemoveById(string identifier)
         {

@@ -1,4 +1,5 @@
 ﻿using EDriveRent.Models;
+using EDriveRent.Models.Contracts;
 using EDriveRent.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
@@ -8,39 +9,42 @@ using System.Threading.Tasks;
 
 namespace EDriveRent.Repositories
 {
-    public class RouteRepository : IRepository<Route>
+    public class RouteRepository : IRepository<IRoute>
     {
-        private readonly ICollection<Route> routeRepository;
+        private readonly ICollection<IRoute> routeRepository;
 
         private RouteRepository()
         {
-            routeRepository = new List<Route>();
+            routeRepository = new List<IRoute>();
         }
-        public void AddModel(Route model)
+        public void AddModel(IRoute model)
         {
             routeRepository.Add(model);
         }
 
-        public Route FindById(string identifier)
+        public IRoute FindById(string identifier)
         {
-            var currUser = routeRepository.FirstOrDefault(u => u == identifier);
+            var curRoute = routeRepository.FirstOrDefault(r => r.RouteId == int.Parse(identifier));
 
-            if (currUser is null)
+            if (curRoute is null)
             {
                 return null;
             }
 
-            return currUser;
+            return curRoute;
         }
 
-        public IReadOnlyCollection<Route> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
+        public IReadOnlyCollection<IRoute> GetAll()
+          => (IReadOnlyCollection<IRoute>) routeRepository;
         public bool RemoveById(string identifier)
         {
-            throw new NotImplementedException();
+            var curRoute = routeRepository.FirstOrDefault(u => u.RouteId == int.Parse(identifier));
+
+            if (curRoute is null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -7,20 +7,20 @@ using System.Linq;
 
 namespace EDriveRent.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : IRepository<IUser>
     {
-        private readonly ICollection<User> userRepository;
+        private readonly ICollection<IUser> userRepository;
 
         private UserRepository()
         {
-            userRepository = new List<User>();
+            userRepository = new List<IUser>();
         }
-        public void AddModel(User model)
+        public void AddModel(IUser model)
         {
             userRepository.Add(model);
         }
 
-        public User FindById(string identifier)
+        public IUser FindById(string identifier)
         {
             var currUser = userRepository.FirstOrDefault(u => u.DrivingLicenseNumber == identifier);
 
@@ -32,8 +32,8 @@ namespace EDriveRent.Repositories
             return currUser;
         }
 
-        public IReadOnlyCollection<User> GetAll() 
-            => (IReadOnlyCollection<User>) userRepository;
+        public IReadOnlyCollection<IUser> GetAll() 
+            => (IReadOnlyCollection<IUser>) userRepository;
         
 
         public bool RemoveById(string identifier)
