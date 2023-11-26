@@ -23,14 +23,14 @@ namespace EDriveRent.Repositories
 
         public Vehicle FindById(string identifier)
         {
-            var currUser = vehicleRepository.FirstOrDefault(u => u.LicensePlateNumber == identifier);
+            var curVehicle = vehicleRepository.FirstOrDefault(v => v.LicensePlateNumber == identifier);
 
-            if (currUser is null)
+            if (curVehicle is null)
             {
                 return null;
             }
 
-            return currUser;
+            return curVehicle;
         }
 
         public IReadOnlyCollection<Vehicle> GetAll()
@@ -38,9 +38,9 @@ namespace EDriveRent.Repositories
 
         public bool RemoveById(string identifier)
         {
-            var currUser = vehicleRepository.FirstOrDefault(u => u.LicensePlateNumber == identifier);
+            var curVehicle = vehicleRepository.FirstOrDefault(v => v.LicensePlateNumber == identifier);
 
-            if (currUser is null)
+            if (curVehicle is null)
             {
                 return false;
             }
