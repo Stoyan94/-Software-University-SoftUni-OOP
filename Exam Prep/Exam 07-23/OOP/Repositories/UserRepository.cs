@@ -9,7 +9,7 @@ namespace EDriveRent.Repositories
 {
     public class UserRepository : IRepository<User>
     {
-        private ICollection<User> userRepository;
+        private readonly ICollection<User> userRepository;
 
         private UserRepository()
         {
