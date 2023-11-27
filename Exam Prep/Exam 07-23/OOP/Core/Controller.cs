@@ -37,12 +37,22 @@ namespace EDriveRent.Core
                 return $"{startPoint}/{endPoint} - {length} km is already added in our platform.";
             }
 
-            if (route.Length < length)
+            route = this.routesRepo.GetAll().FirstOrDefault(r =>
+            r.StartPoint == startPoint &&
+            r.EndPoint == endPoint &&
+            r.Length < length);
+
+            if (route is not null)
             {
                 return $"{startPoint}/{endPoint} shorter route is already added in our platform.";
-            }         
+            }
 
-            if (route.Length > length)
+            route = this.routesRepo.GetAll().FirstOrDefault(r =>
+            r.StartPoint == startPoint &&
+            r.EndPoint == endPoint &&
+            r.Length > length);
+
+            if (route is not null)
             {
                 route.LockRoute();
             }
