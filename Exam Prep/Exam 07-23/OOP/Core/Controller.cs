@@ -3,25 +3,22 @@ using EDriveRent.Models;
 using EDriveRent.Models.Contracts;
 using EDriveRent.Repositories;
 using EDriveRent.Repositories.Contracts;
-using EDriveRent.Utilities.Messages;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace EDriveRent.Core
 {
     public class Controller : IController
     {
-        private readonly IRepository<IUser> usersRepo;
-        private readonly IRepository<IVehicle> vehiclesRepo;
+        private readonly IRepository<IUser> users;
+        private readonly IRepository<IVehicle> vehicles;
         private readonly IRepository<IRoute> routesRepo;
 
         public Controller()
         {
-            this.usersRepo = new UserRepository();
-            this.vehiclesRepo = new VehicleRepository();
+            this.users = new UserRepository();
+            this.vehicles = new VehicleRepository();
             this.routesRepo = new RouteRepository();
         }
 
@@ -57,9 +54,9 @@ namespace EDriveRent.Core
                 route.LockRoute();
             }
 
-            var countRoutes = routesRepo.GetAll().Count + 1;
+            var countRoutes = routesRepo.GetAll().Count;
 
-            var newRoute = new Route(startPoint, endPoint, length, countRoutes);
+            var newRoute = new Route(startPoint, endPoint, length, countRoutes +1);
 
             this.routesRepo.AddModel(newRoute);
 
@@ -68,9 +65,9 @@ namespace EDriveRent.Core
 
         public string MakeTrip(string drivingLicenseNumber, string licensePlateNumber, string routeId, bool isAccidentHappened)
         {
-            var user = usersRepo.FindById(drivingLicenseNumber);
-            var vehicle = vehiclesRepo.FindById(licensePlateNumber);
+            var user = users.FindById(drivingLicenseNumber);
             var route = routesRepo.FindById(routeId);
+            var vehicle = vehicles.FindById(licensePlateNumber);
 
             if (user.IsBlocked)
             {
@@ -85,7 +82,7 @@ namespace EDriveRent.Core
                 return $"Route {routeId} is locked! Trip is not allowed.";
             }
 
-            vehicle.Drive(routeId.Length);
+            vehicle.Drive(route.Length);
 
             if (isAccidentHappened)
             {
@@ -103,19 +100,34 @@ namespace EDriveRent.Core
 
         public string RegisterUser(string firstName, string lastName, string drivingLicenseNumber)
         {
-            if (this.usersRepo.FindById(drivingLicenseNumber) != null)
+            var user = this.users.FindById(drivingLicenseNumber);
+
+            if (user != null)
             {
                 return $"{drivingLicenseNumber} is already registered in our platform.";
             }    
 
-            this.usersRepo.AddModel(new User(firstName, lastName , drivingLicenseNumber));
+            this.users.AddModel(new User(firstName, lastName , drivingLicenseNumber));
 
             return $"{firstName} {lastName} is registered successfully with DLN-{drivingLicenseNumber}";
         }
 
         public string RepairVehicles(int count)
         {
-            throw new NotImplementedException();
+            var damageVehicle = this.vehicles.GetAll()
+                .Where(v => v.IsDamaged)
+                .OrderBy(b => b.Brand)
+                .ThenBy(m => m.Model)
+                .Take(count)
+                .ToList();
+
+            foreach (var vehicle in damageVehicle)
+            {
+                vehicle.Recharge();
+                vehicle.ChangeStatus();
+            }
+
+            return $"{damageVehicle.Count} vehicles are successfully repaired!";
         }
 
         public string UploadVehicle(string vehicleType, string brand, string model, string licensePlateNumber)
@@ -125,12 +137,14 @@ namespace EDriveRent.Core
                 return $"{vehicleType} is not accessible in our platform.";
             }
 
-            if (vehiclesRepo.FindById(licensePlateNumber) != null)
+            var vehicle = vehicles.FindById(licensePlateNumber);
+
+            if (vehicle != null)
             {
                 return $"{licensePlateNumber} belongs to another vehicle.";
             }
 
-            IVehicle vehicle = null;
+            vehicle = null;
 
             if (vehicleType == "CargoVan")
             {
@@ -141,13 +155,28 @@ namespace EDriveRent.Core
                 vehicle = new PassengerCar(brand, model, licensePlateNumber);
             }
            
+            vehicles.AddModel(vehicle);
 
             return $"{brand} {model} is uploaded successfully with LPN-{licensePlateNumber}";
         }
 
         public string UsersReport()
         {
-            throw new NotImplementedException();
+            StringBuilder output = new StringBuilder();
+
+            var usersReport = users.GetAll().
+                OrderByDescending(r => r.Rating).
+                ThenBy(l => l.LastName).
+                ThenBy(f => f.FirstName).ToList();
+
+            output.AppendLine("*** E-Drive-Rent ***");
+
+            foreach (var user in usersReport)
+            {
+                output.AppendLine(user.ToString());
+            }
+
+            return output.ToString().TrimEnd();
         }
     }
 }

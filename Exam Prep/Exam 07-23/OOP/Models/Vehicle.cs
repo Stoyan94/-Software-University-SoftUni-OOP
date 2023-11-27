@@ -54,7 +54,6 @@ namespace EDriveRent.Models
             get => maxMileage;
             private set
             {
-
                 maxMileage = value;
             }
         }
