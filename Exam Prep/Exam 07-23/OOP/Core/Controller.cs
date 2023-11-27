@@ -58,7 +58,37 @@ namespace EDriveRent.Core
 
         public string MakeTrip(string drivingLicenseNumber, string licensePlateNumber, string routeId, bool isAccidentHappened)
         {
-            throw new NotImplementedException();
+            var user = usersRepo.FindById(drivingLicenseNumber);
+            var vehicle = vehiclesRepo.FindById(licensePlateNumber);
+            var route = routesRepo.FindById(routeId);
+
+            if (user.IsBlocked)
+            {
+                return $"User {drivingLicenseNumber} is blocked in the platform! Trip is not allowed.";
+            }
+            else if (vehicle.IsDamaged)
+            {
+                return $"Vehicle {licensePlateNumber} is damaged! Trip is not allowed.";
+            }
+            else if (route.IsLocked)
+            {
+                return $"Route {routeId} is locked! Trip is not allowed.";
+            }
+
+            vehicle.Drive(routeId.Length);
+
+            if (isAccidentHappened)
+            {
+                vehicle.ChangeStatus();
+                user.DecreaseRating();
+
+            }
+            else
+            {
+                user.IncreaseRating();
+            }
+
+            return vehicle.ToString();
         }
 
         public string RegisterUser(string firstName, string lastName, string drivingLicenseNumber)
