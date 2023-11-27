@@ -12,7 +12,7 @@ namespace EDriveRent.Repositories
     {
         private readonly ICollection<IVehicle> vehicleRepository;
 
-        private VehicleRepository()
+        public VehicleRepository()
         {
             vehicleRepository = new List<IVehicle>();
         }

@@ -11,7 +11,7 @@ namespace EDriveRent.Repositories
     {
         private readonly ICollection<IUser> userRepository;
 
-        private UserRepository()
+        public UserRepository()
         {
             userRepository = new List<IUser>();
         }

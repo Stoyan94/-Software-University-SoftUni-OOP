@@ -12,11 +12,11 @@ namespace EDriveRent.Models
         private string drivingLicenseNumber;
         private bool isBlocked;
 
-        public User(string firstName, string lastName, double rating)
+        public User(string firstName, string lastName, string drivingLicenseNumber)
         {
             this.FirstName = firstName;
             this.LastName = lastName;
-            this.Rating = rating;
+            this.DrivingLicenseNumber = drivingLicenseNumber;
         }
 
         public string FirstName

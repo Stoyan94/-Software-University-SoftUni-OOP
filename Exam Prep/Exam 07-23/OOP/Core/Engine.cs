@@ -10,11 +10,11 @@ namespace EDriveRent.Core
         private IReader reader;
         private IWriter writer;
         private IController controller;
-        public Engine()
+        private Engine()
         {
             this.reader = new Reader();
             this.writer = new Writer();
-            //this.controller = new Controller();
+            this.controller = new Controller();
         }
         public void Run()
         {

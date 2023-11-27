@@ -13,7 +13,7 @@ namespace EDriveRent.Repositories
     {
         private readonly ICollection<IRoute> routeRepository;
 
-        private RouteRepository()
+        public RouteRepository()
         {
             routeRepository = new List<IRoute>();
         }
