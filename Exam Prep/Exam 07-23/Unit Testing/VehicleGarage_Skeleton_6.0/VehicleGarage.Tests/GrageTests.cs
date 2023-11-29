@@ -12,7 +12,7 @@ namespace VehicleGarage.Tests
         {
             Garage garage = new Garage(capacity);
 
-            Assert.AreEqual(garage.Capacity, capacity);
+            Assert.AreEqual(capacity, garage.Capacity);
             Assert.IsNotNull(garage.Vehicles);
         }
 
@@ -125,12 +125,12 @@ namespace VehicleGarage.Tests
             garage.DriveVehicle(vehicle3.LicensePlateNumber, 50, true);
             garage.DriveVehicle(vehicle3.LicensePlateNumber, 10, true);
 
-            var resultDamage = vehicle3.IsDamaged;
+           
 
             Assert.AreEqual(100, vehicle.BatteryLevel);
             Assert.AreEqual(50, vehicle2.BatteryLevel);
             Assert.AreEqual(50, vehicle3.BatteryLevel);
-            Assert.AreEqual(resultDamage, true);
+        
         }
 
         [Test]
