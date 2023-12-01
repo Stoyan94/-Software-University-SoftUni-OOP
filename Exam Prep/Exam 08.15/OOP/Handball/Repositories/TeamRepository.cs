@@ -44,12 +44,21 @@ namespace Handball.Repositories
             {
                 return null;
             }
-            return true;
+
+            return returnTeam;
         }
 
         public bool RemoveModel(string name)
         {
-            throw new NotImplementedException();
+            var removePlayer = team.FirstOrDefault(p => p.Name == name);
+
+            if (removePlayer is null)
+            {
+                return false;
+            }
+
+            team.Remove(removePlayer);
+            return true;
         }
     }
 }

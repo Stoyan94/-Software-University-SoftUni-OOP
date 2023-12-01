@@ -43,7 +43,7 @@ namespace Handball.Repositories
             {
                 return null;
             }
-            return true;
+            return returnPlayer;
         }
     
 
