@@ -15,6 +15,12 @@ namespace Handball.Core
     {
         private readonly IRepository<IPlayer> players;
         private readonly IRepository<ITeam> teams;
+
+        public Controller()
+        {
+            this.players = new PlayerRepository();
+            this.teams = new TeamRepository();
+        }
         public string LeagueStandings()
         {
             StringBuilder sb = new StringBuilder();
@@ -92,26 +98,43 @@ namespace Handball.Core
 
             if (addPlayer != null)
             {
-                return $"{name} is already added to the {GetType().Name} as {typeName}.";
+                return $"{name} is already added to the {nameof(PlayerRepository)} as {typeName}.";
             }
 
-            players.AddModel(addPlayer);
+            IPlayer newPlayer = null;
+
+            if (typeName == "Goalkeeper")
+            {
+                newPlayer = new Goalkeeper(name);
+            }
+            else if (typeName != "CenterBack")
+            {
+                newPlayer = new CenterBack(name);
+            }
+            else if (typeName == "ForwardWing")
+            {
+                newPlayer = new ForwardWing(name);
+            }
+
+            players.AddModel(newPlayer);
 
             return $"{name} is filed for the handball league.";
         }
 
         public string NewTeam(string name)
         {
-            var addTeam = teams.GetModel(name);
+            bool searchForTeam = teams.ExistsModel(name);
 
-            if (addTeam is not null)
+            if (searchForTeam)
             {
-                return $"{name} is already added to the {GetType().Name}.";
+                return $"{name} is already added to the {nameof(TeamRepository)}.";
             }
 
-            teams.AddModel(addTeam);
+            var newTeam = new Team(name);
+            
+            teams.AddModel(newTeam);
 
-            return $"{name} is successfully added to the {GetType().Name}.";
+            return $"{name} is successfully added to the {nameof(TeamRepository)}.";
         }
 
         public string PlayerStatistics(string teamName)
