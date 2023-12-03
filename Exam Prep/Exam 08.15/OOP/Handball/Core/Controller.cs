@@ -29,7 +29,7 @@ namespace Handball.Core
 
             foreach (var team in teams.Models.OrderByDescending(p => p.PointsEarned).OrderByDescending(o => o.OverallRating).ThenBy(t =>t.Name))
             {
-                sb.AppendLine(team.ToString());
+                sb.Append(team.ToString());
             }
 
             return sb.ToString().TrimEnd();
@@ -58,7 +58,11 @@ namespace Handball.Core
                 return $"Player {playerName} has already signed with {addPlayerInTeam.Team}.";
             }
 
-            players.AddModel(addPlayerInTeam);
+            addPlayerInTeam.JoinTeam(teamName);
+
+            var teamToAdd = teams.GetModel(teamName);
+
+            teamToAdd.SignContract(addPlayerInTeam);
 
             return $"Player {playerName} signed a contract with {teamName}.";
         }
@@ -75,12 +79,12 @@ namespace Handball.Core
 
                 return $"Team {firstTeamName} wins the game over {secondTeamName}!";
             }
-            else if (teamTwo.OverallRating > teamOne.OverallRating)
+            else if (teamOne.OverallRating < teamTwo.OverallRating)
             {
                 teamTwo.Win();
                 teamOne.Lose();
 
-                return $"Team {firstTeamName} wins the game over {secondTeamName}!";
+                return $"Team {secondTeamName} wins the game over {firstTeamName}!";
             }
             
               teamOne.Draw();

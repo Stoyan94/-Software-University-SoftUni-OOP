@@ -36,17 +36,27 @@ namespace Handball.Models
 
         public int PointsEarned { get; private set; }
 
-        public double OverallRating => Math.Round(players.Average(x=>x.Rating), 2);
+        public double OverallRating
+        {
+            get
+            {
+                if (players.Count == 0)
+                {
+                    return 0;
+                }
+                return Math.Round(players.Average(x => x.Rating), 2);
+            }
+        }
 
         public IReadOnlyCollection<IPlayer> Players => (IReadOnlyCollection<IPlayer>)players;
 
         public void Draw()
         {
-            PointsEarned -= 1;
+            PointsEarned += 1;
 
             var goalKeeper = players.FirstOrDefault(x => x.GetType().Name == "Goalkeeper");
 
-            goalKeeper.DecreaseRating();
+            goalKeeper.IncreaseRating();
         }
 
         public void Lose()
