@@ -29,7 +29,7 @@ namespace Handball.Core
 
             foreach (var team in teams.Models.OrderByDescending(p => p.PointsEarned).OrderByDescending(o => o.OverallRating).ThenBy(t =>t.Name))
             {
-                sb.Append(team.ToString());
+                sb.AppendLine(team.ToString());
             }
 
             return sb.ToString().TrimEnd();
@@ -147,11 +147,11 @@ namespace Handball.Core
         {
             StringBuilder sb = new StringBuilder();
 
-            var teamInfo = teams.GetModel(teamName);
+            var teamInfo = teams.GetModel(teamName).Players.OrderByDescending(r => r.Rating).ThenBy(n =>n.Name);
 
             sb.AppendLine($"***{teamName}***");
 
-            foreach (var player in teamInfo.Players.OrderByDescending(r => r.Rating).OrderBy(n => n.Name))
+            foreach (var player in teamInfo)
             {
                 sb.AppendLine(player.ToString());
             }

@@ -56,6 +56,8 @@ namespace Handball.Models
 
             var goalKeeper = players.FirstOrDefault(x => x.GetType().Name == "Goalkeeper");
 
+
+
             goalKeeper.IncreaseRating();
         }
 
@@ -84,20 +86,18 @@ namespace Handball.Models
 
         public override string ToString()
         {
+            string playerTostring = "none";
+
+
+            if (players.Count > 0)
+            {
+                playerTostring = String.Join(", ", players.Select(p => p.Name));
+            }
             StringBuilder output = new StringBuilder();
 
             output.AppendLine($"Team: {Name} Points: {PointsEarned}");
-            output.AppendLine($"--Overall rating: {OverallRating}:F2");
-
-            if (players.Count == 0)
-            {
-                return "--Players: none";
-            }
-
-            foreach (var player in players)
-            {          
-                output.Append($"Players: {player.Name}, {player}");
-            }
+            output.AppendLine($"--Overall rating: {OverallRating}");
+            output.AppendLine($"--Players: {playerTostring}");      
 
 
             return output.ToString().TrimEnd();
