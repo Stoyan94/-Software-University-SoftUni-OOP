@@ -17,7 +17,16 @@ namespace Handball.Core
         private readonly IRepository<ITeam> teams;
         public string LeagueStandings()
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("***League Standings***");
+
+            foreach (var team in teams.Models.OrderByDescending(p => p.PointsEarned).OrderByDescending(o => o.OverallRating).ThenBy(t =>t.Name))
+            {
+                sb.AppendLine(team.ToString());
+            }
+
+            return sb.ToString().TrimEnd();
         }
 
         public string NewContract(string playerName, string teamName)
