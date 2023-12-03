@@ -27,13 +27,13 @@ namespace Handball.Repositories
 
         public bool ExistsModel(string name)
         {
-            var existingTeam = team.FirstOrDefault(p => p.Name == name);
+            var existingTeam = team.Any(p => p.Name == name);
 
-            if (existingTeam is null)
+            if (existingTeam)
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         public ITeam GetModel(string name)

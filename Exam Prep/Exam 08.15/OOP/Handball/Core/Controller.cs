@@ -37,26 +37,28 @@ namespace Handball.Core
 
         public string NewContract(string playerName, string teamName)
         {
-            var searchPlayer = players.GetModel(playerName);
+            var searchPlayer = players.ExistsModel(playerName);
 
-            if (searchPlayer == null)
+            if (!searchPlayer)
             {
                 return $"Player with the name {playerName} does not exist in the {nameof(PlayerRepository)}.";
             }
 
-            var searchTeam = teams.GetModel(teamName);
+            var searchTeam = teams.ExistsModel(teamName);
 
-            if (searchTeam == null)
+            if (!searchTeam)
             {
-                return $"Team with the name {teamName} does not exist in the {GetType().Name}.";
+                return $"Team with the name {teamName} does not exist in the {nameof(TeamRepository)}.";
             }
 
-            if (searchPlayer.Team != null)
+            var addPlayerInTeam = players.GetModel(playerName);
+
+            if (addPlayerInTeam.Team != null)
             {
-                return $"Player {playerName} has already signed with {searchPlayer.Team}.";
+                return $"Player {playerName} has already signed with {addPlayerInTeam.Team}.";
             }
 
-            players.AddModel(searchPlayer);
+            players.AddModel(addPlayerInTeam);
 
             return $"Player {playerName} signed a contract with {teamName}.";
         }
@@ -89,7 +91,7 @@ namespace Handball.Core
 
         public string NewPlayer(string typeName, string name)
         {
-            if (typeName != "Goalkeeper" || typeName != "CenterBack" || typeName != "ForwardWing")
+            if (typeName != "Goalkeeper" && typeName != "CenterBack" && typeName != "ForwardWing")
             {
                 return $"{typeName} is invalid position for the application.";
             }
@@ -98,7 +100,7 @@ namespace Handball.Core
 
             if (addPlayer != null)
             {
-                return $"{name} is already added to the {nameof(PlayerRepository)} as {typeName}.";
+                return $"{name} is already added to the {nameof(PlayerRepository)} as {addPlayer.GetType().Name}.";
             }
 
             IPlayer newPlayer = null;
@@ -107,7 +109,7 @@ namespace Handball.Core
             {
                 newPlayer = new Goalkeeper(name);
             }
-            else if (typeName != "CenterBack")
+            else if (typeName == "CenterBack")
             {
                 newPlayer = new CenterBack(name);
             }

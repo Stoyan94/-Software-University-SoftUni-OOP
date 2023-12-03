@@ -10,7 +10,7 @@ namespace Handball.Repositories
 {
     public class PlayerRepository : IRepository<IPlayer>
     {
-        private readonly ICollection<IPlayer> players;
+        private ICollection<IPlayer> players;
 
         public PlayerRepository()
         {
@@ -26,24 +26,18 @@ namespace Handball.Repositories
 
         public bool ExistsModel(string name)
         {
-            var ExistingPlayer = players.FirstOrDefault(p => p.Name == name);
+            var existingPlayer = players.Any(p => p?.Name == name);
 
-            if (ExistingPlayer is null)
+            if (existingPlayer)
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         public IPlayer GetModel(string name)
-        {
-            var returnPlayer = players.FirstOrDefault(p => p.Name == name);
-
-            if (returnPlayer is null)
-            {
-                return null;
-            }
-            return returnPlayer;
+        {                      
+            return players?.FirstOrDefault(p => p?.Name == name); 
         }
     
 
