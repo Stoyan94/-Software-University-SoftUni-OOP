@@ -11,13 +11,14 @@ namespace Handball.Models
 {
     public class Team : ITeam
     {
+        private int pointsEarned;
         private string name;
         private readonly ICollection<IPlayer> players;
 
         public Team(string name)
         {
             this.Name = name;
-            PointsEarned = 0;
+            this.pointsEarned = 0;
             players = new List<IPlayer>();
         }
 
@@ -34,7 +35,7 @@ namespace Handball.Models
             }
         }
 
-        public int PointsEarned { get; private set; }
+        public int PointsEarned => pointsEarned;
 
         public double OverallRating
         {
@@ -52,7 +53,7 @@ namespace Handball.Models
 
         public void Draw()
         {
-            PointsEarned += 1;
+            this.pointsEarned += 1;
 
             var goalKeeper = players.FirstOrDefault(x => x.GetType().Name == "Goalkeeper");
 
@@ -76,7 +77,7 @@ namespace Handball.Models
 
         public void Win()
         {
-            PointsEarned += 3;
+            this.pointsEarned += 3;
 
             foreach (var player in players)
             {
@@ -86,21 +87,23 @@ namespace Handball.Models
 
         public override string ToString()
         {
-            string playerTostring = "none";
+            StringBuilder sb = new StringBuilder();
 
+            sb.AppendLine($"Team: {this.Name} Points: {this.PointsEarned}");
+            sb.AppendLine($"--Overall rating: {OverallRating}");
+            sb.Append($"--Players: ");
 
-            if (players.Count > 0)
+            if (this.Players.Any())
             {
-                playerTostring = String.Join(", ", players.Select(p => p.Name));
+                var names = this.Players.Select(p => p.Name);
+                sb.Append(string.Join(", ", names));
             }
-            StringBuilder output = new StringBuilder();
+            else
+            {
+                sb.Append("none");
+            }
 
-            output.AppendLine($"Team: {Name} Points: {PointsEarned}");
-            output.AppendLine($"--Overall rating: {OverallRating}");
-            output.AppendLine($"--Players: {playerTostring}");      
-
-
-            return output.ToString().TrimEnd();
+            return sb.ToString().TrimEnd();
         }
     }
 }

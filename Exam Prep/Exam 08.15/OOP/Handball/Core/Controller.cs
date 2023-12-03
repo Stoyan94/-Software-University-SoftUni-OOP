@@ -3,6 +3,7 @@ using Handball.Models;
 using Handball.Models.Contracts;
 using Handball.Repositories;
 using Handball.Repositories.Contracts;
+using Handball.Utilities.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,9 @@ namespace Handball.Core
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("***League Standings***");
+            sb.AppendLine($"***League Standings***");
 
-            foreach (var team in teams.Models.OrderByDescending(p => p.PointsEarned).OrderByDescending(o => o.OverallRating).ThenBy(t =>t.Name))
+            foreach (var team in this.teams.Models.OrderByDescending(t => t.PointsEarned).ThenByDescending(t => t.OverallRating).ThenBy(t => t.Name))
             {
                 sb.AppendLine(team.ToString());
             }
@@ -37,60 +38,62 @@ namespace Handball.Core
 
         public string NewContract(string playerName, string teamName)
         {
-            var searchPlayer = players.ExistsModel(playerName);
-
-            if (!searchPlayer)
+            if (!this.players.ExistsModel(playerName))
             {
-                return $"Player with the name {playerName} does not exist in the {nameof(PlayerRepository)}.";
+                return string.Format(OutputMessages.PlayerNotExisting, playerName, nameof(PlayerRepository));
             }
 
-            var searchTeam = teams.ExistsModel(teamName);
-
-            if (!searchTeam)
+            if (!this.teams.ExistsModel(teamName))
             {
-                return $"Team with the name {teamName} does not exist in the {nameof(TeamRepository)}.";
+                return string.Format(OutputMessages.TeamNotExisting, teamName, nameof(TeamRepository));
             }
 
-            var addPlayerInTeam = players.GetModel(playerName);
+            IPlayer player = players.GetModel(playerName);
+            ITeam team = teams.GetModel(teamName);
 
-            if (addPlayerInTeam.Team != null)
+            if (player.Team != default)
             {
-                return $"Player {playerName} has already signed with {addPlayerInTeam.Team}.";
+                return string.Format(OutputMessages.PlayerAlreadySignedContract, playerName, player.Team);
             }
 
-            addPlayerInTeam.JoinTeam(teamName);
+            player.JoinTeam(teamName);
+            team.SignContract(player);
 
-            var teamToAdd = teams.GetModel(teamName);
-
-            teamToAdd.SignContract(addPlayerInTeam);
-
-            return $"Player {playerName} signed a contract with {teamName}.";
+            return string.Format(OutputMessages.SignContract, playerName, teamName);
         }
 
         public string NewGame(string firstTeamName, string secondTeamName)
         {
-            var teamOne = teams.GetModel(firstTeamName);
-            var teamTwo = teams.GetModel(secondTeamName);
+            ITeam firstTeam = this.teams.GetModel(firstTeamName);
+            ITeam secondTeam = this.teams.GetModel(secondTeamName);
 
-            if (teamOne.OverallRating > teamTwo.OverallRating)
+            if (firstTeam.OverallRating != secondTeam.OverallRating)
             {
-                teamOne.Win();
-                teamTwo.Lose();
+                ITeam winner;
+                ITeam loser;
+                if (firstTeam.OverallRating > secondTeam.OverallRating)
+                {
+                    winner = firstTeam;
+                    loser = secondTeam;
+                }
+                else
+                {
+                    winner = secondTeam;
+                    loser = firstTeam;
+                }
 
-                return $"Team {firstTeamName} wins the game over {secondTeamName}!";
+                winner.Win();
+                loser.Lose();
+
+                return string.Format(OutputMessages.GameHasWinner, winner.Name, loser.Name);
             }
-            else if (teamOne.OverallRating < teamTwo.OverallRating)
+            else
             {
-                teamTwo.Win();
-                teamOne.Lose();
+                firstTeam.Draw();
+                secondTeam.Draw();
 
-                return $"Team {secondTeamName} wins the game over {firstTeamName}!";
+                return string.Format(OutputMessages.GameIsDraw, firstTeamName, secondTeamName);
             }
-            
-              teamOne.Draw();
-              teamTwo.Draw();            
-
-            return $"The game between {firstTeamName} and {secondTeamName} ends in a draw!";
         }
 
         public string NewPlayer(string typeName, string name)
@@ -129,29 +132,24 @@ namespace Handball.Core
 
         public string NewTeam(string name)
         {
-            bool searchForTeam = teams.ExistsModel(name);
-
-            if (searchForTeam)
+            if (this.teams.ExistsModel(name))
             {
-                return $"{name} is already added to the {nameof(TeamRepository)}.";
+                return string.Format(OutputMessages.TeamAlreadyExists, name, nameof(TeamRepository));
             }
 
-            var newTeam = new Team(name);
-            
-            teams.AddModel(newTeam);
-
-            return $"{name} is successfully added to the {nameof(TeamRepository)}.";
+            this.teams.AddModel(new Team(name));
+            return string.Format(OutputMessages.TeamSuccessfullyAdded, name, nameof(TeamRepository));
         }
 
         public string PlayerStatistics(string teamName)
         {
             StringBuilder sb = new StringBuilder();
 
-            var teamInfo = teams.GetModel(teamName).Players.OrderByDescending(r => r.Rating).ThenBy(n =>n.Name);
-
             sb.AppendLine($"***{teamName}***");
 
-            foreach (var player in teamInfo)
+            ITeam team = this.teams.GetModel(teamName);
+
+            foreach (var player in team.Players.OrderByDescending(p => p.Rating).ThenBy(p => p.Name))
             {
                 sb.AppendLine(player.ToString());
             }

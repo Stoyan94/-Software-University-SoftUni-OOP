@@ -21,37 +21,12 @@ namespace Handball.Repositories
 
         public void AddModel(IPlayer model)
         {
-            players.Add(model);
+            this.players.Add(model);
         }
+        public bool ExistsModel(string name) => this.players.Any(p => p.Name == name);
 
-        public bool ExistsModel(string name)
-        {
-            var existingPlayer = players.Any(p => p?.Name == name);
+        public IPlayer GetModel(string name) => this.players.FirstOrDefault(p => p.Name == name);
 
-            if (existingPlayer)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public IPlayer GetModel(string name)
-        {                      
-            return players?.FirstOrDefault(p => p?.Name == name); 
-        }
-    
-
-        public bool RemoveModel(string name)
-        {
-            var removePlayer = players.FirstOrDefault(p => p.Name == name);
-
-            if (removePlayer is null)
-            {
-                return false;
-            }
-
-            players.Remove(removePlayer);
-            return true;
-        }
+        public bool RemoveModel(string name) => this.players.Remove(this.players.FirstOrDefault(p => p.Name == name));
     }
 }

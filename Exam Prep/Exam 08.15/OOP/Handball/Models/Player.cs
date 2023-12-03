@@ -11,14 +11,13 @@ namespace Handball.Models
     public abstract class Player : IPlayer
     {
         private string name;
-        private double rating;
         private string team;
+        private double rating;
 
         protected Player(string name, double rating)
         {
             this.Name = name;
-            this.Rating = rating;
-            this.Team = team;
+            this.Rating = rating;         
         }
 
         public string Name
@@ -34,31 +33,9 @@ namespace Handball.Models
             }
         }
 
-        public double Rating
-        {
-            get => rating; 
-            protected set
-            {
-                if (value > 10)
-                {
-                    rating = 10;
-                }
-                else if (value < 1)
-                {
-                    rating = 1;
-                }
-                rating = value;
-            }
-        }
+        public double Rating { get => rating; protected set => rating = value; }
 
-        public string Team
-        {
-            get => team; 
-            private set
-            {
-                team = value;
-            }
-        }
+        public string Team { get => team; private set => team = value; }
 
         public abstract void DecreaseRating();
 
@@ -71,7 +48,12 @@ namespace Handball.Models
 
         public override string ToString()
         {
-            return $"{this.GetType().Name}: {Name} {Environment.NewLine}--Rating: {Rating}";
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"{this.GetType().Name}: {this.Name}");
+            sb.AppendLine($"--Rating: {this.Rating}");
+
+            return sb.ToString().TrimEnd();
 
         }
     }

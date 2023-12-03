@@ -11,54 +11,25 @@ namespace Handball.Repositories
 {
     public class TeamRepository : IRepository<ITeam>
     {
-        private readonly ICollection<ITeam> team;
+        private  List<ITeam> teams;
 
         public TeamRepository()
         {
-            this.team = new List<ITeam>();
+            this.teams = new List<ITeam>();
         }
 
-        public IReadOnlyCollection<ITeam> Models => (IReadOnlyCollection<ITeam>) team;
+        public IReadOnlyCollection<ITeam> Models => this.teams.AsReadOnly();
 
         public void AddModel(ITeam model)
         {
-            team.Add(model);
+            teams.Add(model);
         }
 
-        public bool ExistsModel(string name)
-        {
-            var existingTeam = team.Any(p => p.Name == name);
+        public bool ExistsModel(string name) => this.teams.Any(t => t.Name == name);
 
-            if (existingTeam)
-            {
-                return true;
-            }
-            return false;
-        }
+        public ITeam GetModel(string name) => this.teams.FirstOrDefault(t => t.Name == name);
 
-        public ITeam GetModel(string name)
-        {
-            var returnTeam = team.FirstOrDefault(p => p.Name == name);
-
-            if (returnTeam is null)
-            {
-                return null;
-            }
-
-            return returnTeam;
-        }
-
-        public bool RemoveModel(string name)
-        {
-            var removePlayer = team.FirstOrDefault(p => p.Name == name);
-
-            if (removePlayer is null)
-            {
-                return false;
-            }
-
-            team.Remove(removePlayer);
-            return true;
-        }
+        public bool RemoveModel(string name) => this.teams.Remove(this.teams.FirstOrDefault(t => t.Name == name));
     }
+
 }
