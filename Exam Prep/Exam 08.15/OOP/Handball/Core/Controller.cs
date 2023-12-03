@@ -48,7 +48,28 @@ namespace Handball.Core
 
         public string NewGame(string firstTeamName, string secondTeamName)
         {
-            throw new NotImplementedException();
+            var teamOne = teams.GetModel(firstTeamName);
+            var teamTwo = teams.GetModel(secondTeamName);
+
+            if (teamOne.OverallRating > teamTwo.OverallRating)
+            {
+                teamOne.Win();
+                teamTwo.Lose();
+
+                return $"Team {firstTeamName} wins the game over {secondTeamName}!";
+            }
+            else if (teamTwo.OverallRating > teamOne.OverallRating)
+            {
+                teamTwo.Win();
+                teamOne.Lose();
+
+                return $"Team {firstTeamName} wins the game over {secondTeamName}!";
+            }
+            
+              teamOne.Draw();
+              teamTwo.Draw();            
+
+            return $"The game between {firstTeamName} and {secondTeamName} ends in a draw!";
         }
 
         public string NewPlayer(string typeName, string name)
@@ -86,7 +107,18 @@ namespace Handball.Core
 
         public string PlayerStatistics(string teamName)
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+
+            var teamInfo = teams.GetModel(teamName);
+
+            sb.AppendLine($"***{teamName}***");
+
+            foreach (var player in teamInfo.Players.OrderByDescending(r => r.Rating).OrderBy(n => n.Name))
+            {
+                sb.AppendLine(player.ToString());
+            }
+
+            return sb.ToString().TrimEnd();
         }
     }
 }
