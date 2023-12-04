@@ -72,5 +72,20 @@ namespace SmartDevice.Tests
             Assert.IsTrue(device.AvailableMemory == device.MemoryCapacity);
           
         }
+
+        [Test]
+
+        public void GetStatusMethodShouldWorkCorrectly()
+        {
+            Device device = new Device(50);
+
+            device.TakePhoto(20);
+            device.InstallApp("test", 10);
+
+            string result = device.GetDeviceStatus();
+
+            Assert.That(device.GetDeviceStatus(), Is.EqualTo(result));
+
+        }
     }
 }
