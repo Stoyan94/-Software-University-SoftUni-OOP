@@ -1,6 +1,8 @@
 ﻿using ChristmasPastryShop.Core.Contracts;
 using ChristmasPastryShop.Models.Booths;
 using ChristmasPastryShop.Models.Booths.Contracts;
+using ChristmasPastryShop.Models.Cocktails;
+using ChristmasPastryShop.Models.Cocktails.Contracts;
 using ChristmasPastryShop.Models.Delicacies;
 using ChristmasPastryShop.Models.Delicacies.Contracts;
 using ChristmasPastryShop.Repositories;
@@ -17,11 +19,13 @@ namespace ChristmasPastryShop.Core
     {
         private readonly IRepository<IBooth> boothRepository;
         private readonly IRepository<IDelicacy> delicacyRepository;
+        private readonly IRepository<ICocktail> cocktailRepository;
 
         public Controller()
         {
             boothRepository = new BoothRepository();
             delicacyRepository = new DelicacyRepository();
+            cocktailRepository = new CocktailRepository();
         }
         public string AddBooth(int capacity)
         {
@@ -33,7 +37,37 @@ namespace ChristmasPastryShop.Core
 
         public string AddCocktail(int boothId, string cocktailTypeName, string cocktailName, string size)
         {
-            throw new NotImplementedException();
+            if (cocktailTypeName != "Hibernation" && cocktailTypeName != "MulledWine")
+            {
+                return $"Cocktail type {cocktailTypeName} is not supported in our application!";
+            }
+            else if (size != "Small" && size != "Middle" && size != "Large")
+            {
+                return $"{size} is not recognized as valid cocktail size!";
+            }
+
+            var isCocktailExist = cocktailRepository.Models.Any(c => c.Name == cocktailName && c.Size == size);
+
+            if (isCocktailExist)
+            {
+                return $"{size} {cocktailName} is already added in the pastry shop!";
+            }
+
+            ICocktail addCocktail = null;
+
+            if (cocktailTypeName == "Hibernation")
+            {
+                addCocktail = new Hibernation(cocktailName, size);
+            }
+            else if(cocktailTypeName == "MulledWine")
+            {
+                addCocktail = new MulledWine(cocktailName, size);
+
+            }
+
+            cocktailRepository.AddModel(addCocktail);
+
+            return $"{size} {cocktailName} {cocktailTypeName} added to the pastry shop!";
         }
 
         public string AddDelicacy(int boothId, string delicacyTypeName, string delicacyName)
