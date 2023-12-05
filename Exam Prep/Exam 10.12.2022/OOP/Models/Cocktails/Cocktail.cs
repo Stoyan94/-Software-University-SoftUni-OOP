@@ -40,13 +40,13 @@ namespace ChristmasPastryShop.Models.Cocktails
             get => price; 
             private set
             {
-                if (Size == "Middle")
+                if (this.Size == "Small")
                 {
-                    price = 1 / 3 * value;
+                    value /= 3;
                 }
-                else if (Size == "Middle")
+                else if (this.Size == "Middle")
                 {
-                    price = 2 / 3 * value;
+                    value = (value / 3) * 2;
                 }
                 else
                 {               
@@ -58,7 +58,7 @@ namespace ChristmasPastryShop.Models.Cocktails
 
         public override string ToString()
         {
-            return $"{Name} ({size}) - {price:f2} lv";
+            return $"{Name} ({Size}) - {Price:f2} lv";
         }
     }
 }

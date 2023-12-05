@@ -1,123 +1,205 @@
 ﻿using ChristmasPastryShop.Core.Contracts;
-using ChristmasPastryShop.Models.Booths;
 using ChristmasPastryShop.Models.Booths.Contracts;
-using ChristmasPastryShop.Models.Cocktails;
-using ChristmasPastryShop.Models.Cocktails.Contracts;
-using ChristmasPastryShop.Models.Delicacies;
 using ChristmasPastryShop.Models.Delicacies.Contracts;
-using ChristmasPastryShop.Repositories;
 using ChristmasPastryShop.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using ChristmasPastryShop.Utilities.Messages;
 using System.Linq;
 using System.Text;
+using ChristmasPastryShop.Models.Cocktails.Contracts;
+using System.Drawing;
+using ChristmasPastryShop.Models.Booths;
+using ChristmasPastryShop.Models.Cocktails;
+using ChristmasPastryShop.Models.Delicacies;
+using ChristmasPastryShop.Repositories;
 
 namespace ChristmasPastryShop.Core
 {
     public class Controller : IController
     {
-        private readonly IRepository<IBooth> boothRepository;
-        private readonly IRepository<IDelicacy> delicacyRepository;
-        private readonly IRepository<ICocktail> cocktailRepository;
+        private IRepository<IBooth> booths;
 
         public Controller()
         {
-            boothRepository = new BoothRepository();
-            delicacyRepository = new DelicacyRepository();
-            cocktailRepository = new CocktailRepository();
+            this.booths = new BoothRepository();
         }
         public string AddBooth(int capacity)
         {
-            var boothId = boothRepository.Models.Count + 1;           
-            var booth = new Booth(boothId,capacity);
+            int boothId = this.booths.Models.Count + 1;
 
-            return $"Added booth number {boothId} with capacity {capacity} in the pastry shop!";
+            Booth booth = new Booth(boothId, capacity);
+            this.booths.AddModel(booth);
+
+            return string
+                .Format(OutputMessages.NewBoothAdded, boothId, capacity);
         }
 
         public string AddCocktail(int boothId, string cocktailTypeName, string cocktailName, string size)
         {
-            if (cocktailTypeName != "Hibernation" && cocktailTypeName != "MulledWine")
+            if (cocktailTypeName != nameof(MulledWine) && cocktailTypeName != nameof(Hibernation))
             {
-                return $"Cocktail type {cocktailTypeName} is not supported in our application!";
-            }
-            else if (size != "Small" && size != "Middle" && size != "Large")
-            {
-                return $"{size} is not recognized as valid cocktail size!";
+                return string
+                    .Format(OutputMessages.InvalidCocktailType, cocktailTypeName);
             }
 
-            var isCocktailExist = cocktailRepository.Models.Any(c => c.Name == cocktailName && c.Size == size);
-
-            if (isCocktailExist)
+            if (size != "Small" && size != "Middle" && size != "Large")
             {
-                return $"{size} {cocktailName} is already added in the pastry shop!";
+                return string.Format(OutputMessages.InvalidCocktailSize, size);
             }
 
-            ICocktail addCocktail = null;
-
-            if (cocktailTypeName == "Hibernation")
+            if (this.booths.Models.Any(b => b.CocktailMenu.Models.Any(cm => cm.Name == cocktailName && cm.Size == size)))
             {
-                addCocktail = new Hibernation(cocktailName, size);
-            }
-            else if(cocktailTypeName == "MulledWine")
-            {
-                addCocktail = new MulledWine(cocktailName, size);
-
+                return string
+                    .Format(OutputMessages.CocktailAlreadyAdded, size, cocktailName);
             }
 
-            cocktailRepository.AddModel(addCocktail);
+            ICocktail cocktail;
+            if (cocktailTypeName == nameof(MulledWine))
+            {
+                cocktail = new MulledWine(cocktailName, size);
+            }
+            else
+            {
+                cocktail = new Hibernation(cocktailName, size);
+            }
 
-            return $"{size} {cocktailName} {cocktailTypeName} added to the pastry shop!";
+            IBooth booth = this.booths.Models.FirstOrDefault(b => b.BoothId == boothId);
+            booth.CocktailMenu.AddModel(cocktail);
+
+            return string.Format(OutputMessages.NewCocktailAdded, size, cocktailName, cocktailTypeName);
         }
 
         public string AddDelicacy(int boothId, string delicacyTypeName, string delicacyName)
         {
-            if (delicacyTypeName != "Gingerbread" && delicacyTypeName != "Stolen")
+            if (delicacyTypeName != nameof(Gingerbread) && delicacyTypeName != nameof(Stolen))
             {
-                return $"Delicacy type {delicacyTypeName} is not supported in our application!";
+                return string
+                    .Format(ExceptionMessages.InvalidDelicacyType, delicacyTypeName);
             }
 
-            var isDelicacyExist = delicacyRepository.Models.Any(x => x.Name == delicacyName);
-
-            if (isDelicacyExist)
+            if (this.booths.Models.Any(b => b.DelicacyMenu.Models.Any(dm => dm.Name == delicacyName)))
             {
-                return $"{delicacyName} is already added in the pastry shop!";
+                return string
+                    .Format(OutputMessages.DelicacyAlreadyAdded, delicacyName);
             }
 
-            IDelicacy addDelicacy = null;
-
-            if (delicacyTypeName == "Gingerbread")
+            IDelicacy delicacy;
+            if (delicacyTypeName == nameof(Gingerbread))
             {
-                addDelicacy = new Gingerbread(delicacyName);                
+                delicacy = new Gingerbread(delicacyName);
             }
-            else if (delicacyTypeName != "Stolen")
+            else
             {
-                addDelicacy = new Stolen(delicacyName);
+                delicacy = new Stolen(delicacyName);
             }
 
-            delicacyRepository.AddModel(addDelicacy);
+            IBooth booth = this.booths.Models.FirstOrDefault(b => b.BoothId == boothId);
+            booth.DelicacyMenu.AddModel(delicacy);
 
-            return $"{delicacyTypeName} {delicacyName} added to the pastry shop!";
+            return string.Format(OutputMessages.NewDelicacyAdded, delicacyTypeName, delicacyName);
         }
 
         public string BoothReport(int boothId)
         {
-            throw new NotImplementedException();
+            return this.booths.Models.FirstOrDefault(b => b.BoothId == boothId).ToString().TrimEnd();
         }
 
         public string LeaveBooth(int boothId)
         {
-            throw new NotImplementedException();
+            IBooth booth = this.booths.Models.FirstOrDefault(b => b.BoothId == boothId);
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"Bill {booth.CurrentBill:f2} lv");
+
+            booth.Charge();
+            booth.ChangeStatus();
+
+            sb.AppendLine($"Booth {boothId} is now available!");
+
+            return sb.ToString().TrimEnd();
         }
 
         public string ReserveBooth(int countOfPeople)
         {
-            throw new NotImplementedException();
+            var booth = this.booths.Models
+                .Where(b => b.IsReserved == false && b.Capacity >= countOfPeople)
+                .OrderBy(b => b.Capacity)
+                .ThenByDescending(b => b.BoothId)
+                .FirstOrDefault();
+
+            if (booth == null)
+            {
+                return string.Format(OutputMessages.NoAvailableBooth, countOfPeople);
+            }
+
+            booth.ChangeStatus();
+            return string.Format(OutputMessages.BoothReservedSuccessfully, booth.BoothId, countOfPeople);
         }
 
         public string TryOrder(int boothId, string order)
         {
-            throw new NotImplementedException();
+            IBooth booth = this.booths.Models.FirstOrDefault(b => b.BoothId == boothId);
+
+            string[] orderArray = order.Split('/');
+
+            bool isCocktail = false;
+
+            string itemTypeName = orderArray[0];
+
+            if (itemTypeName != nameof(MulledWine) &&
+                itemTypeName != nameof(Hibernation) &&
+                itemTypeName != nameof(Gingerbread) &&
+                itemTypeName != nameof(Stolen))
+            {
+                return string.Format(OutputMessages.NotRecognizedType, itemTypeName);
+            }
+
+            string itemName = orderArray[1];
+
+            if (!booth.CocktailMenu.Models.Any(m => m.Name == itemName) &&
+                !booth.DelicacyMenu.Models.Any(m => m.Name == itemName))
+            {
+                return string.Format(OutputMessages.NotRecognizedItemName, itemTypeName, itemName);
+            }
+
+            int pieces = int.Parse(orderArray[2]);
+
+
+
+            if (itemTypeName == nameof(MulledWine) || itemTypeName == nameof(Hibernation))
+            {
+                isCocktail = true;
+            }
+
+            if (isCocktail)
+            {
+                string size = orderArray[3];
+
+                ICocktail desiredCocktail = booth
+                    .CocktailMenu.Models
+                    .FirstOrDefault(m => m.GetType().Name == itemTypeName && m.Name == itemName && m.Size == size);
+
+                if (desiredCocktail == null)
+                {
+                    return string.Format(OutputMessages.CocktailStillNotAdded, size, itemName);
+                }
+
+                booth.UpdateCurrentBill(desiredCocktail.Price * pieces);
+                return string.Format(OutputMessages.SuccessfullyOrdered, boothId, pieces, itemName);
+            }
+            else
+            {
+                IDelicacy desiredDelicacy = booth
+                .DelicacyMenu.Models
+                    .FirstOrDefault(m => m.GetType().Name == itemTypeName && m.Name == itemName);
+
+                if (desiredDelicacy == null)
+                {
+                    return string.Format(OutputMessages.DelicacyStillNotAdded, itemName);
+                }
+
+                booth.UpdateCurrentBill(desiredDelicacy.Price * pieces);
+                return string.Format(OutputMessages.SuccessfullyOrdered, boothId, pieces, itemName);
+            }
         }
     }
 }

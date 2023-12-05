@@ -15,15 +15,20 @@ namespace ChristmasPastryShop.Models.Booths
     { 
         private int boothId;
         private int capacity;
-        private DelicacyRepository delicacies;
-        private CocktailRepository cocktails;
+        private double currentBill;
+        private double turnover;
+
+        private IRepository<IDelicacy> delicacies;
+        private IRepository<ICocktail> cocktails;
 
         public Booth(int boothId, int capacity)
         {
             this.BoothId = boothId;
             this.Capacity = capacity;
-            CurrentBill = 0;
-            Turnover = 0;
+
+            this.currentBill = 0;
+            this.turnover = 0;
+
             delicacies = new DelicacyRepository();
             cocktails = new CocktailRepository();
         }
@@ -33,7 +38,7 @@ namespace ChristmasPastryShop.Models.Booths
             get => capacity; 
             private set
             {
-                if (value <= 0)
+                if (value < 1)
                 {
                     throw new ArgumentException(ExceptionMessages.CapacityLessThanOne);
                 }
@@ -44,26 +49,32 @@ namespace ChristmasPastryShop.Models.Booths
 
         public IRepository<ICocktail> CocktailMenu => cocktails;
 
-        public double CurrentBill { get; private set; }
+        public double CurrentBill => this.currentBill;
 
-        public double Turnover { get; private set; }
+        public double Turnover => this.turnover;
 
-        public bool IsReserved => false;
+        public bool IsReserved { get; private set; }
 
         public void ChangeStatus()
         {
-           bool isStatusChange = IsReserved ? false : true;
+            if (IsReserved)
+            {
+                IsReserved = false;
+                return;
+            }
+
+            IsReserved = true;
         }
 
         public void Charge()
         {
-            Turnover += CurrentBill;
-            CurrentBill = 0;
+            this.turnover += currentBill;
+            this.currentBill = 0;
         }
 
         public void UpdateCurrentBill(double amount)
         {
-            CurrentBill += amount;
+            this.currentBill += amount;
         }
 
         //TODO: FINISH TOSTRING
@@ -76,12 +87,14 @@ namespace ChristmasPastryShop.Models.Booths
                 AppendLine($"Turnover: {Turnover:F2} lv").
                 AppendLine("-Cocktail menu:");
 
-            foreach (var cocktail in cocktails.Models)
+            foreach (var cocktail in this.CocktailMenu.Models)
             {
                 output.AppendLine($"--{cocktail}");
             }
 
-            foreach (var delicacy in delicacies.Models)
+            output.AppendLine($"-Delicacy menu:");
+
+            foreach (var delicacy in this.DelicacyMenu.Models)
             {
                 output.AppendLine($"--{delicacy}");
             }
