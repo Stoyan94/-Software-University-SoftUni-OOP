@@ -12,13 +12,14 @@ namespace ChristmasPastryShop.Models.Booths
     public class Booth : IBooth
     { 
         private int boothId;
-        private int capacity;
-         
+        private int capacity;         
 
         public Booth(int boothId, int capacity)
         {
             this.BoothId = boothId;
             this.Capacity = capacity;
+            CurrentBill = 0;
+            Turnover = 0;
         }
         public int BoothId { get => boothId; private set => boothId = value; }
         public int Capacity
@@ -39,25 +40,39 @@ namespace ChristmasPastryShop.Models.Booths
 
         public IRepository<ICocktail> CocktailMenu => throw new NotImplementedException();
 
-        public double CurrentBill => throw new NotImplementedException();
+        public double CurrentBill { get; private set; }
 
-        public double Turnover => throw new NotImplementedException();
+        public double Turnover { get; private set; }
 
-        public bool IsReserved => throw new NotImplementedException();
+        public bool IsReserved => false;
 
         public void ChangeStatus()
         {
-            throw new NotImplementedException();
+           bool isStatusChange = IsReserved ? false : true;
         }
 
         public void Charge()
         {
-            throw new NotImplementedException();
+            Turnover += CurrentBill;
+            CurrentBill = 0;
         }
 
         public void UpdateCurrentBill(double amount)
         {
-            throw new NotImplementedException();
+            CurrentBill += amount;
+        }
+
+        //TODO: FINISH TOSTRING
+        public override string ToString()
+        {
+            StringBuilder output = new StringBuilder();
+
+            output.AppendLine($"Booth: {boothId}").
+                AppendLine($"Capacity: {Capacity}").
+                AppendLine($"Turnover: {Turnover:F2} lv").
+                AppendLine("-Cocktail menu:");
+
+            return null;
         }
     }
 }
