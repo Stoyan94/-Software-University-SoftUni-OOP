@@ -1,6 +1,8 @@
 ﻿using ChristmasPastryShop.Models.Booths.Contracts;
+using ChristmasPastryShop.Models.Cocktails;
 using ChristmasPastryShop.Models.Cocktails.Contracts;
 using ChristmasPastryShop.Models.Delicacies.Contracts;
+using ChristmasPastryShop.Repositories;
 using ChristmasPastryShop.Repositories.Contracts;
 using ChristmasPastryShop.Utilities.Messages;
 using System;
@@ -12,7 +14,9 @@ namespace ChristmasPastryShop.Models.Booths
     public class Booth : IBooth
     { 
         private int boothId;
-        private int capacity;         
+        private int capacity;
+        private DelicacyRepository delicacies;
+        private CocktailRepository cocktails;
 
         public Booth(int boothId, int capacity)
         {
@@ -20,6 +24,8 @@ namespace ChristmasPastryShop.Models.Booths
             this.Capacity = capacity;
             CurrentBill = 0;
             Turnover = 0;
+            delicacies = new DelicacyRepository();
+            cocktails = new CocktailRepository();
         }
         public int BoothId { get => boothId; private set => boothId = value; }
         public int Capacity
@@ -34,11 +40,9 @@ namespace ChristmasPastryShop.Models.Booths
                 capacity = value;
             }
         }
+        public IRepository<IDelicacy> DelicacyMenu => delicacies;
 
-        //TODO : REPORS
-        public IRepository<IDelicacy> DelicacyMenu => throw new NotImplementedException();
-
-        public IRepository<ICocktail> CocktailMenu => throw new NotImplementedException();
+        public IRepository<ICocktail> CocktailMenu => cocktails;
 
         public double CurrentBill { get; private set; }
 
@@ -72,7 +76,17 @@ namespace ChristmasPastryShop.Models.Booths
                 AppendLine($"Turnover: {Turnover:F2} lv").
                 AppendLine("-Cocktail menu:");
 
-            return null;
+            foreach (var cocktail in cocktails.Models)
+            {
+                output.AppendLine($"--{cocktail}");
+            }
+
+            foreach (var delicacy in delicacies.Models)
+            {
+                output.AppendLine($"--{delicacy}");
+            }
+
+            return output.ToString().TrimEnd();
         }
     }
 }
