@@ -60,5 +60,40 @@ namespace FootballTeam.Tests
                 FootballTeam team = new FootballTeam(expectedTeamName1, expectedTeamCap);
             }, "Name cannot be null or empty!");
         }
+
+
+        [Test]
+
+        public void AddNewPlayerMethodShouldWorkCorrectly()
+        {
+            FootballTeam team = new FootballTeam("Manqci", 15);
+
+            List<FootballPlayer> players = new List<FootballPlayer>();
+
+            FootballPlayer player = new FootballPlayer("stqon", 5, "Midfielder");
+            FootballPlayer player2 = new FootballPlayer("pesho", 10, "Forward");
+
+           team.AddNewPlayer(player);
+
+            Assert.AreEqual(team.AddNewPlayer(player), "Added player stqon in position Midfielder with number 5");
+        }
+
+        [Test]
+
+        public void AddNewPlayerMethodShouldThrowExceptionWhenCapacityIsMax()
+        {
+            FootballTeam team = new FootballTeam("Manqci", 15);
+
+            List<FootballPlayer> players = new List<FootballPlayer>();
+
+            FootballPlayer player = new FootballPlayer("stqon", 5, "Midfielder");
+
+            for (int i = 0; i < 15; i++)
+            {
+                team.AddNewPlayer(player);
+            }      
+
+            Assert.AreEqual(team.AddNewPlayer(player), "No more positions available!");
+        }
     }
 }
