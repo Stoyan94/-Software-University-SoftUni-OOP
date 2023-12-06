@@ -19,13 +19,14 @@ namespace FootballTeam.Tests
             FootballPlayer player = new FootballPlayer("stqon",5, "Midfielder");
             FootballPlayer player2 = new FootballPlayer("pesho",10, "Forward");
 
-            players.Add(player);
-            players.Add(player2);
+            team.AddNewPlayer(player);
+            team.AddNewPlayer(player2);
 
             Assert.AreEqual(expectedTeamName, team.Name);
             Assert.AreEqual(22, team.Capacity);
-            Assert.True(players.Contains(player));
-            Assert.True(players.Contains(player2));
+            Assert.True(team.Players.Contains(player));
+            Assert.True(team.Players.Contains(player2));
+            Assert.AreEqual(team.Players.Count, 2);
            
         }
 
@@ -108,6 +109,26 @@ namespace FootballTeam.Tests
             team.AddNewPlayer(playe3);
 
             Assert.AreEqual(team.PickPlayer("Stoqn"), player);
+            Assert.AreEqual(team.PickPlayer("Gosho"), null);
+        }
+
+
+        [Test]
+
+        public void PlayerScoreMethodShouldReturPlayerScoreCorrectly()
+        {
+            FootballTeam team = new FootballTeam("Manqci", 15);
+
+            FootballPlayer player = new FootballPlayer("Stoqn", 5, "Midfielder");
+            FootballPlayer player2 = new FootballPlayer("gosho", 5, "Midfielder");
+            FootballPlayer playe3 = new FootballPlayer("joro", 5, "Midfielder");
+
+            team.AddNewPlayer(player);
+            team.AddNewPlayer(player2);
+            team.AddNewPlayer(playe3);
+      
+
+            Assert.AreEqual(team.PlayerScore(5), "Stoqn scored and now has 1 for this season!");
         }
     }
 }
