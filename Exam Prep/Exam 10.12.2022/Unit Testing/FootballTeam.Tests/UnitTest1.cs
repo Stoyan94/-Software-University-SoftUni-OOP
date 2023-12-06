@@ -67,11 +67,9 @@ namespace FootballTeam.Tests
         public void AddNewPlayerMethodShouldWorkCorrectly()
         {
             FootballTeam team = new FootballTeam("Manqci", 15);
+           
 
-            List<FootballPlayer> players = new List<FootballPlayer>();
-
-            FootballPlayer player = new FootballPlayer("stqon", 5, "Midfielder");
-            FootballPlayer player2 = new FootballPlayer("pesho", 10, "Forward");
+            FootballPlayer player = new FootballPlayer("stqon", 5, "Midfielder");          
 
            team.AddNewPlayer(player);
 
@@ -82,9 +80,7 @@ namespace FootballTeam.Tests
 
         public void AddNewPlayerMethodShouldThrowExceptionWhenCapacityIsMax()
         {
-            FootballTeam team = new FootballTeam("Manqci", 15);
-
-            List<FootballPlayer> players = new List<FootballPlayer>();
+            FootballTeam team = new FootballTeam("Manqci", 15);           
 
             FootballPlayer player = new FootballPlayer("stqon", 5, "Midfielder");
 
@@ -94,6 +90,24 @@ namespace FootballTeam.Tests
             }      
 
             Assert.AreEqual(team.AddNewPlayer(player), "No more positions available!");
+        }
+
+
+        [Test]
+
+        public void PickPlayerMethodShouldReturPlayer()
+        {
+            FootballTeam team = new FootballTeam("Manqci", 15);            
+
+            FootballPlayer player = new FootballPlayer("Stoqn", 5, "Midfielder");
+            FootballPlayer player2 = new FootballPlayer("gosho", 5, "Midfielder");
+            FootballPlayer playe3 = new FootballPlayer("joro", 5, "Midfielder");
+
+            team.AddNewPlayer(player);
+            team.AddNewPlayer(player2);
+            team.AddNewPlayer(playe3);
+
+            Assert.AreEqual(team.PickPlayer("Stoqn"), player);
         }
     }
 }
