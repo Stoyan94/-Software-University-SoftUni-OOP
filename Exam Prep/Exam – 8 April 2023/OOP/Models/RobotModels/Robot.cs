@@ -14,10 +14,10 @@ namespace RobotService.Models.RobotModels
         private int batteryCapacity;       
 
         private readonly List<int> interfaceStandards;       
-        protected Robot(string model, int batteryCapacity , int convertionCapacityIndex)
+        public Robot(string model, int batteryCapacity , int convertionCapacityIndex)
         {
-            this.Model = model;
-            this.BatteryCapacity = batteryCapacity;
+            Model = model;
+            BatteryCapacity = batteryCapacity;
             BatteryLevel = batteryCapacity;
             ConvertionCapacityIndex = convertionCapacityIndex;
 
