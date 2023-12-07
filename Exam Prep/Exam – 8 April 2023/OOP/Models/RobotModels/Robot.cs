@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace RobotService.Models.RobotModels
 {
-    public class Robot : IRobot
+    public abstract class Robot : IRobot
     {
         private string model;
         private int batteryCapacity;       
 
         private readonly List<int> interfaceStandards;       
-        public Robot(string model, int batteryCapacity , int convertionCapacityIndex)
+        protected Robot(string model, int batteryCapacity , int convertionCapacityIndex)
         {
             this.Model = model;
             this.BatteryCapacity = batteryCapacity;
@@ -94,14 +94,16 @@ namespace RobotService.Models.RobotModels
             sb.AppendLine($"{GetType().Name} {Model}");
             sb.AppendLine($"--Maximum battery capacity: {BatteryCapacity}");
             sb.AppendLine($"--Current battery level: {BatteryLevel}");
-            sb.AppendLine($" --Current battery level: {BatteryLevel}");
-            sb.AppendLine($"--Supplements installed: ");
+
+
+            string supplementInstaled = interfaceStandards.Any()
+                ? $"{string.Join(" ", interfaceStandards)}"
+                : "none";
+
+            sb.AppendLine($"--Supplements installed: {supplementInstaled}");
+
+
           
-            foreach ( var interfaceStandard in interfaceStandards )
-            {
-                sb.Append(interfaceStandard.ToString());
-            }
-           
             return sb.ToString().TrimEnd();
         }
     }
