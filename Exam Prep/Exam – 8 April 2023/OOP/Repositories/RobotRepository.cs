@@ -21,7 +21,7 @@ namespace RobotService.Repositories
         public void AddNew(IRobot model) => robots.Add(model);
 
         public bool RemoveByName(string typeName) 
-            => robots.Remove(robots.FirstOrDefault(r => r.Model == typeName));
+            => robots.Remove(robots.FirstOrDefault(r => r.GetType().Name == typeName));
         public IRobot FindByStandard(int interfaceStandard) 
             => robots.FirstOrDefault(r => r.InterfaceStandards.Contains(interfaceStandard));
 
