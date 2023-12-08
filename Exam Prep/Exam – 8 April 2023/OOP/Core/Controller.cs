@@ -89,20 +89,56 @@ namespace RobotService.Core
 
             int batteryLevelSum = currRobots.Sum(b => b.BatteryLevel);
 
+            if (batteryLevelSum < totalPowerNeeded)
+            {
+                return $"{serviceName} cannot be executed! {totalPowerNeeded - batteryLevelSum} more power needed.";
+            }
 
+            int robotsCount = 0;
 
-            return null;
-        }
+            foreach (var robot in currRobots)
+            {
+                if (robot.BatteryLevel >= totalPowerNeeded)
+                {
+                    robot.ExecuteService(totalPowerNeeded);
+                    break;
+                }
 
-        public string Report()
-        {
-            throw new NotImplementedException();
+                robot.ExecuteService(robot.BatteryLevel);
+                robotsCount++;
+            }
+
+            return $"{serviceName} is performed successfully with {robotsCount} robots.";
         }
 
         public string RobotRecovery(string model, int minutes)
         {
-            throw new NotImplementedException();
+            var feedRobots = robots.Models().Where(m => m.Model == model && m.BatteryLevel / 2 > m.BatteryLevel);
+
+            int feedetRobotsCount = 0;
+
+            foreach (var robot in feedRobots)
+            {
+                robot.Eating(minutes);
+                feedetRobotsCount++;
+            }
+
+            return $"Robots fed: {feedetRobotsCount}";
         }
+        public string Report()
+        {
+           var orderedRoboRepo = robots.Models().OrderByDescending(b => b.BatteryLevel).ThenBy(b => b.BatteryCapacity);
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var robot in orderedRoboRepo)
+            {
+                sb.AppendLine(robot.ToString());
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
 
     }
 }
