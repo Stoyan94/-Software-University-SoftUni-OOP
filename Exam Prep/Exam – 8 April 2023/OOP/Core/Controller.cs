@@ -5,11 +5,9 @@ using RobotService.Models.SupplementModels;
 using RobotService.Repositories;
 using RobotService.Repositories.Contracts;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RobotService.Core
 {
@@ -61,10 +59,13 @@ namespace RobotService.Core
 
         public string UpgradeRobot(string model, string supplementTypeName)
         {
-            var currSupplement = supplemets.Models().
-                FirstOrDefault(t => t.GetType().Name == supplementTypeName);
+            var currSupplement = supplemets
+                .Models()
+                .FirstOrDefault(t => t.GetType().Name == supplementTypeName);
 
-            var currRobot = robots.Models().FirstOrDefault(m => m.Model == model && 
+            var currRobot = robots
+                .Models()
+                .FirstOrDefault(m => m.Model == model && 
             !m.InterfaceStandards.Contains(currSupplement.InterfaceStandard));
 
             if (currRobot is null)
@@ -79,10 +80,12 @@ namespace RobotService.Core
         }
         public string PerformService(string serviceName, int intefaceStandard, int totalPowerNeeded)
         {
-            var currRobots = robots.Models().Where(i => i.InterfaceStandards.Contains(intefaceStandard)).
-                OrderByDescending(b => b.BatteryLevel);
+            var currRobots = robots
+                .Models()
+                .Where(i => i.InterfaceStandards.Contains(intefaceStandard))
+                .OrderByDescending(b => b.BatteryLevel);
 
-            if (currRobots is null)
+            if (!currRobots.Any())
             {
                 return $"Unable to perform service, {intefaceStandard} not supported!";
             }
@@ -97,15 +100,19 @@ namespace RobotService.Core
             int robotsCount = 0;
 
             foreach (var robot in currRobots)
-            {
+            {                    
+                robotsCount++;
+
                 if (robot.BatteryLevel >= totalPowerNeeded)
                 {
                     robot.ExecuteService(totalPowerNeeded);
                     break;
                 }
 
+                totalPowerNeeded -= robot.BatteryLevel;
+
                 robot.ExecuteService(robot.BatteryLevel);
-                robotsCount++;
+                
             }
 
             return $"{serviceName} is performed successfully with {robotsCount} robots.";
@@ -113,21 +120,24 @@ namespace RobotService.Core
 
         public string RobotRecovery(string model, int minutes)
         {
-            var feedRobots = robots.Models().Where(m => m.Model == model && m.BatteryLevel / 2 > m.BatteryLevel);
+            var feedRobots = robots.Models()
+                .Where(m => m.Model == model && m.BatteryCapacity / 2 > m.BatteryLevel);
 
             int feedetRobotsCount = 0;
 
             foreach (var robot in feedRobots)
             {
-                robot.Eating(minutes);
                 feedetRobotsCount++;
+                robot.Eating(minutes);
             }
 
             return $"Robots fed: {feedetRobotsCount}";
         }
         public string Report()
         {
-           var orderedRoboRepo = robots.Models().OrderByDescending(b => b.BatteryLevel).ThenBy(b => b.BatteryCapacity);
+           var orderedRoboRepo = robots.Models()
+                .OrderByDescending(b => b.BatteryLevel)
+                .ThenBy(b => b.BatteryCapacity);
 
             StringBuilder sb = new StringBuilder();
 

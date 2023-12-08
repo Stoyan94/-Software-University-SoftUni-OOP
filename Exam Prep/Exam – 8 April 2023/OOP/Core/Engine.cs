@@ -55,7 +55,7 @@
                         int minutes = int.Parse(input[2]);
 
                         result = controller.RobotRecovery(model, minutes);
-                    }
+                     }
                     else if (input[0] == "PerformService")
                     {
                         string serviceName = input[1];

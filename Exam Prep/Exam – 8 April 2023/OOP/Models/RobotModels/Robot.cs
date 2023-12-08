@@ -59,14 +59,17 @@ namespace RobotService.Models.RobotModels
 
         public void Eating(int minutes)
         {
-           int totalCapacity = ConvertionCapacityIndex + minutes;
+           int totalCapacity = ConvertionCapacityIndex * minutes;
 
-            if (totalCapacity < BatteryCapacity - BatteryLevel)
+            if (totalCapacity > BatteryCapacity - BatteryLevel)
             {
-                BatteryLevel = BatteryCapacity;
+                BatteryLevel = batteryCapacity;
+            }
+            else
+            {            
+                BatteryLevel += totalCapacity;
             }
 
-            this.BatteryLevel += totalCapacity;
         }
 
         public bool ExecuteService(int consumedEnergy)
@@ -91,7 +94,7 @@ namespace RobotService.Models.RobotModels
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine($"{GetType().Name} {Model}");
+            sb.AppendLine($"{GetType().Name} {Model}:");
             sb.AppendLine($"--Maximum battery capacity: {BatteryCapacity}");
             sb.AppendLine($"--Current battery level: {BatteryLevel}");
 

@@ -1,10 +1,8 @@
 ﻿using RobotService.Models.Contracts;
-using RobotService.Repositories.Contracts;
-using System;
+using RobotService.Repositories.Contracts; 
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RobotService.Repositories
 {
