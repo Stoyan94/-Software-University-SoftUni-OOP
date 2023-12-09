@@ -45,6 +45,7 @@ namespace NauticalCatchChallenge.Models.DiverModels
             {
                 if (value < 0)
                 {
+                    HasHealthIssues = true;
                     value = 0;
                 }
                 oxygenLevel = value;

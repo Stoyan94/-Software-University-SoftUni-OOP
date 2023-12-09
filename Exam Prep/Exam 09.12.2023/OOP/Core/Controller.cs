@@ -122,11 +122,7 @@ namespace NauticalCatchChallenge.Core
             {
                 diverCheck.Hit(cuurFishCatch);                
             }
-
-            if (diverCheck.OxygenLevel <= 0)
-            {
-                diverCheck.UpdateHealthStatus();
-            }
+          
 
             return $"{diverName} hits a {cuurFishCatch.Points}pt. {fishName}.";
         }
