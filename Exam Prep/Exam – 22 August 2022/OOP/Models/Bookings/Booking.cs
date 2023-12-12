@@ -13,8 +13,7 @@ namespace BookingApp.Models.Bookings
         private  IRoom room;
         private int residenceDuration;
         private int adultsCount;
-        private int childrenCount;
-        private int bookingNumber;
+        private int childrenCount;    
 
         public Booking(IRoom room, int residenceDuration, int adultsCount, int childrenCount, int bookingNumber)
         {
