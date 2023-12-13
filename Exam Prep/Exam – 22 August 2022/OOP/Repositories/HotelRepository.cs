@@ -19,13 +19,13 @@ namespace BookingApp.Repositories
 
         public IHotel Select(string criteria)
         {
-            var room = hotel.FirstOrDefault(r => r.GetType().Name == criteria);
+            var currHotel = hotel.FirstOrDefault(r => r.GetType().Name == criteria);
 
-            if (room == null)
+            if (currHotel == null)
             {
                 return null;
             }
-            return room;
+            return currHotel;
         }
 
         public IReadOnlyCollection<IHotel> All() => hotel.ToList().AsReadOnly();
