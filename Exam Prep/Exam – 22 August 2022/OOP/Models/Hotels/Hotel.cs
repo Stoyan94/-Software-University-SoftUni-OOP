@@ -1,14 +1,20 @@
 ﻿using BookingApp.Models.Bookings.Contracts;
 using BookingApp.Models.Hotels.Contacts;
 using BookingApp.Models.Rooms.Contracts;
+using BookingApp.Repositories;
 using BookingApp.Repositories.Contracts;
 using System;
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BookingApp.Models.Hotels
 {
+    
     public class Hotel : IHotel
     {
+        private  IRepository<IRoom> roomslRepository;
+        private  IRepository<IBooking> bookingRepository;
+
         private string fullName;
         private int category;
 
@@ -16,6 +22,9 @@ namespace BookingApp.Models.Hotels
         {
             FullName = fullName;
             Category = category;
+
+            roomslRepository = new RoomRepository();
+            bookingRepository = new BookingRepository();
         }
 
         public string FullName
@@ -46,10 +55,10 @@ namespace BookingApp.Models.Hotels
             }
         }
 
-        public double Turnover => throw new NotImplementedException();
+        public double Turnover => bookingRepository.All().Sum(r=> r.ResidenceDuration) * roomslRepository.All().Sum(p => p.PricePerNight);
 
-        public IRepository<IRoom> Rooms => throw new NotImplementedException();
+        public IRepository<IRoom> Rooms => roomslRepository;
 
-        public IRepository<IBooking> Bookings => throw new NotImplementedException();
+        public IRepository<IBooking> Bookings => bookingRepository;
     }
 }

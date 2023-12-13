@@ -30,6 +30,6 @@ namespace BookingApp.Repositories
             return currBooking;
         }
 
-        public IReadOnlyCollection<IRoom> All() => booking.ToList().AsReadOnly();
+        public IReadOnlyCollection<IBooking> All() => booking.ToList().AsReadOnly();
     }
 }

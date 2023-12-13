@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-
 namespace BookingApp.Repositories
 {
     public class RoomRepository : IRepository<IRoom>
