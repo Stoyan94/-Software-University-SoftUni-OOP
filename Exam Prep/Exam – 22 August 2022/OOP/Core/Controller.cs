@@ -9,6 +9,7 @@ using BookingApp.Repositories;
 using BookingApp.Repositories.Contracts;
 using System;
 using System.Linq;
+using System.Text;
 
 namespace BookingApp.Core
 {
@@ -136,7 +137,36 @@ namespace BookingApp.Core
 
         public string HotelReport(string hotelName)
         {
-            throw new NotImplementedException();
+            var currHotel = hotelRepository.Select(hotelName);
+
+            if (currHotel == null)
+            {
+                return $"Profile {hotelName} doesn’t exist!";
+            }
+
+            StringBuilder output = new StringBuilder();
+
+            output.AppendLine($"Hotel name: {currHotel.FullName}");
+            output.AppendLine($"--{currHotel.Category} star hotel");
+            output.AppendLine($"--Turnover: {currHotel.Turnover:F2} $");
+            output.AppendLine($"--Bookings:");     
+            output.AppendLine();
+
+            if (currHotel.Bookings.All().Count == 0)
+            {
+                return "none";
+            }
+            else
+            {
+                foreach (var booking in currHotel.Bookings.All())
+                {
+                    output.AppendLine(booking.BookingSummary());
+                    output.AppendLine();
+                }
+            }
+            
+
+            return output.ToString().TrimEnd();
         }
 
     }
