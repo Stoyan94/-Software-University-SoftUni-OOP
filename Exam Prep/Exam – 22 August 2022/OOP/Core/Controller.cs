@@ -103,7 +103,28 @@ namespace BookingApp.Core
 
         public string BookAvailableRoom(int adults, int children, int duration, int category)
         {
-            throw new NotImplementedException();
+            if (hotelRepository.All().FirstOrDefault(c => c.Category == category) == null)
+            {
+                return $"{category} star hotel is not available in our platform.";
+            }
+
+            var bookHotel = hotelRepository.All().Where(c => c.Category == category).OrderBy(h => h.FullName);
+
+            foreach (var hotel in bookHotel)
+            {
+                var room = hotel.Rooms.All()
+                    .Where(p => p.PricePerNight > 0)
+                    .OrderBy(b => b.BedCapacity)
+                    .FirstOrDefault(r => r.BedCapacity > adults + children);
+
+                if (room == null)
+                {
+
+                }
+            }
+                
+
+            return null;
         }
 
         public string HotelReport(string hotelName)
