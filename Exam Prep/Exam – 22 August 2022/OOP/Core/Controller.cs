@@ -1,4 +1,6 @@
 ﻿using BookingApp.Core.Contracts;
+using BookingApp.Models.Bookings;
+using BookingApp.Models.Bookings.Contracts;
 using BookingApp.Models.Hotels;
 using BookingApp.Models.Hotels.Contacts;
 using BookingApp.Models.Rooms;
@@ -115,16 +117,21 @@ namespace BookingApp.Core
                 var room = hotel.Rooms.All()
                     .Where(p => p.PricePerNight > 0)
                     .OrderBy(b => b.BedCapacity)
-                    .FirstOrDefault(r => r.BedCapacity > adults + children);
+                    .FirstOrDefault(r => r.BedCapacity >= adults + children);
 
-                if (room == null)
+                if (room != null)
                 {
+                    int bookingNumber = hotel.Bookings.All().Count + 1;
 
+                    IBooking booking = new Booking(room, duration, adults, children, bookingNumber);
+
+                    hotel.Bookings.AddNew(booking);
+
+                    return $"Booking number {bookingNumber} for {hotel.FullName} hotel is successful!";
                 }
-            }
-                
+            }        
 
-            return null;
+            return "We cannot offer appropriate room for your request.";
         }
 
         public string HotelReport(string hotelName)
