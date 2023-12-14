@@ -23,7 +23,9 @@ namespace BookingApp.Core
         }
         public string AddHotel(string hotelName, int category)
         {
-            if (hotelRepository.All().Any(h => h.FullName == hotelName))
+            var cuurHotel = hotelRepository.Select(hotelName);
+
+            if (cuurHotel != null)
             {
                 return $"Hotel {hotelName} is already registered in our platform.";
             }
@@ -94,7 +96,7 @@ namespace BookingApp.Core
             {
                 return $"Room type is not created yet!";
             }
-            else if (room.PricePerNight != 0)
+            else if (room.PricePerNight > 0)
             {
                 throw new InvalidOperationException("Price is already set!");
             }
