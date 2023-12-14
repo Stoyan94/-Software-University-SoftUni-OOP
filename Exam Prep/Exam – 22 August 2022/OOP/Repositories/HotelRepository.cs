@@ -19,7 +19,7 @@ namespace BookingApp.Repositories
 
         public IHotel Select(string criteria)
         {
-            var currHotel = hotel.FirstOrDefault(r => r.GetType().Name == criteria);
+            var currHotel = hotel.FirstOrDefault(r => r.FullName == criteria);
 
             if (currHotel == null)
             {
