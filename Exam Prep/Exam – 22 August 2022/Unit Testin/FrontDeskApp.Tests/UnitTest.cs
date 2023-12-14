@@ -22,6 +22,28 @@ namespace BookigApp.Tests
 
         }
 
+        [Test]
+
+        public void HotelNameShouldThrowException()
+        {          
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                Hotel hotel = new Hotel("  ", 3);
+                Hotel hotel2 = new Hotel(null, 3);
+            });
+        }
+
+        [Test]
+
+        public void HotelCategoryShouldThrowExceptionWhenValueLesThen1AndMoreThan5()
+        {
+            Assert.Throws<ArgumentException>(() => 
+            {
+                Hotel hotel = new Hotel("Gro", 1);
+                Hotel hotel2 = new Hotel("mro", 6);
+            });
+        }
    
     }
 }
