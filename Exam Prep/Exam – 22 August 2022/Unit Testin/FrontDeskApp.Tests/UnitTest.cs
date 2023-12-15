@@ -1,6 +1,7 @@
 using FrontDeskApp;
 using NUnit.Framework;
 using System;
+using System.Linq;
 
 namespace BookigApp.Tests
 {
@@ -44,6 +45,42 @@ namespace BookigApp.Tests
                 Hotel hotel2 = new Hotel("mro", 6);
             });
         }
-   
+
+        [Test]
+
+        public void AddRoomMethodShouldWorkCorrectly()
+        {
+            Hotel hotel = new Hotel("Gro", 5);
+
+            Room room = new Room(2,55.5);
+            hotel.AddRoom(room);
+
+            Assert.That(hotel.Rooms.Contains(room));
+            Assert.AreEqual(room.PricePerNight, 55.5);
+            Assert.AreEqual(room.BedCapacity, 2);          
+
+        }
+
+        [Test]
+
+        public void BookRoomMethodShouldThrowExceptions()
+        {
+            Hotel hotel = new Hotel("Gro", 5);
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                hotel.BookRoom(0, 2, 2, 100);
+            });
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                hotel.BookRoom(1, -1, 2, 100);
+            });
+            
+            Assert.Throws<ArgumentException>(() =>
+            {
+                hotel.BookRoom(1, 1, 0, 100);
+            });
+        }
     }
 }
