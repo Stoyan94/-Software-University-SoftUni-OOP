@@ -82,5 +82,21 @@ namespace BookigApp.Tests
                 hotel.BookRoom(1, 1, 0, 100);
             });
         }
+
+        [Test]
+        
+        public void BookRoomMethodShouldAddBooking()
+        {
+            Hotel hotel = new Hotel("Gro", 5);
+            Room room = new Room(3,33);         
+
+            hotel.AddRoom(room);
+            hotel.BookRoom(2, 1, 2, 120);
+
+            Assert.That(hotel.Bookings.Any(x=>x.BookingNumber == 1));
+            Assert.That(hotel.Bookings.Any(x=>x.Room.BedCapacity == 3));
+            Assert.That(hotel.Turnover == 66);        
+            
+        }
     }
 }
