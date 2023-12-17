@@ -10,19 +10,15 @@ namespace UniversityCompetition.Models
     public class Student : IStudent
     {
         private string firstName;
-        private string lastName;
-
-        private List<IUniversity> universityList;
+        private string lastName;       
 
         private List<int> coveredExamsID;
-
         public Student(int id, string firstName, string lastName)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
-
-           universityList = new List<IUniversity>();
+                      
             coveredExamsID = new List<int>();
         }
         public int Id { get; private set; }
@@ -53,9 +49,8 @@ namespace UniversityCompetition.Models
         }
 
         public IReadOnlyCollection<int> CoveredExams => coveredExamsID.AsReadOnly();
-
-        //TODO: FINISH UNIVERSITY
-        public IUniversity University => throw new NotImplementedException();
+        
+        public IUniversity University {get; private set;}
 
         public void CoverExam(ISubject subject)
         {
@@ -64,7 +59,7 @@ namespace UniversityCompetition.Models
 
         public void JoinUniversity(IUniversity university)
         {
-            university
+            University = university;
         }
     }
 }
