@@ -12,6 +12,8 @@ namespace UniversityCompetition.Models
         private string firstName;
         private string lastName;
 
+        private List<IUniversity> universityList;
+
         private List<int> coveredExamsID;
 
         public Student(int id, string firstName, string lastName)
@@ -20,6 +22,7 @@ namespace UniversityCompetition.Models
             FirstName = firstName;
             LastName = lastName;
 
+           universityList = new List<IUniversity>();
             coveredExamsID = new List<int>();
         }
         public int Id { get; private set; }
@@ -61,7 +64,7 @@ namespace UniversityCompetition.Models
 
         public void JoinUniversity(IUniversity university)
         {
-            throw new NotImplementedException();
+            university
         }
     }
 }
