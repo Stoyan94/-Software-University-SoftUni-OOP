@@ -88,7 +88,18 @@ namespace UniversityCompetition.Core
         }
         public string AddStudent(string firstName, string lastName)
         {
-            throw new NotImplementedException();
+            if (studentRepository.Models.Any(s => s.FirstName == firstName && s.LastName == lastName))
+            {
+                return $"{firstName} {lastName} is already added in the repository.";
+            }
+
+            int studentID = studentRepository.Models.Count + 1;
+
+            IStudent student = new Student(studentID, firstName, lastName);
+
+            studentRepository.AddModel(student);
+
+            return $"Student {firstName} {lastName} is added to the {nameof(StudentRepository)}!";
         }
 
         public string TakeExam(int studentId, int subjectId)
