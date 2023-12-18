@@ -10,8 +10,8 @@ namespace UniversityCompetition.Models.Subjects
     {
         private const double HumanitySubjectRate = 1.15;
 
-        public HumanitySubject(int id, string name, double rate) 
-            : base(id, name, rate)
+        public HumanitySubject(int id, string name) 
+            : base(id, name, HumanitySubjectRate)
         {
         }
     }
