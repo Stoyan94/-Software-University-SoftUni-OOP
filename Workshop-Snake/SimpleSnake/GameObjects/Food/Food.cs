@@ -2,16 +2,13 @@
 {
     internal class Food : GameObject
     {
-        public Food(char drawSymbol)
+        public Food(char drawSymbol, int points)
             : base(drawSymbol)
         {
+            Points = points;
         }
+            
 
-        public Food(char drawSymbol, int x, int y)
-            : base(drawSymbol, x, y)
-        {
-        }
-
-        public int Points { get; set; }
+        public int Points { get; private set; }
     }
 }

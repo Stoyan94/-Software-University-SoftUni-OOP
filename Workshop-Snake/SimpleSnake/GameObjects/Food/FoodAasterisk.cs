@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleSnake.GameObjects
+﻿namespace SimpleSnake.GameObjects.Food
 {
-    internal class FoodAasterisk
+    internal class FoodAasterisk : Food
     {
+        private const char Symbol = '*';
+        private const int Points = 1;
+        public FoodAasterisk()
+            : base(Symbol, Points)
+        {
+        }
+
+        
     }
 }
