@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SimpleSnake.Core.Interfaces;
+using SimpleSnake.Utilities;
 
 namespace SimpleSnake.GameObjects
 {
@@ -19,14 +17,12 @@ namespace SimpleSnake.GameObjects
         {       
             DrawSymbol = drawSymbol;
         }
-        char DrawSymbol { get; }
+        public  char DrawSymbol { get; }
 
 
-        public void Draw()
+        public virtual void Draw()
         {
-            // TODO : Draw in platform specific 
-
-            throw new NotImplementedException();
+           UserInteraction.Draw(this);
         }
         
     }

@@ -2,6 +2,8 @@
 {
     internal interface IDrawable
     {
+        char DrawSymbol { get; }
 
+        void Draw();
     }
 }
