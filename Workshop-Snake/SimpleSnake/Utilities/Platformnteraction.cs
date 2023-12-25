@@ -1,4 +1,5 @@
-﻿using SimpleSnake.GameObjects;
+﻿using SimpleSnake.Enums;
+using SimpleSnake.GameObjects;
 using System;
 
 namespace SimpleSnake.Utilities
@@ -9,6 +10,30 @@ namespace SimpleSnake.Utilities
         {
             Console.SetCursorPosition(gameObject.X,gameObject.Y);
             Console.WriteLine(gameObject.DrawSymbol);
+        }
+
+        internal static Direction GetInput(Direction currentDirection)
+        {
+            ConsoleKeyInfo userInput = Console.ReadKey();   
+
+            if (userInput.Key == ConsoleKey.LeftArrow && currentDirection != Direction.Right)
+            {
+                currentDirection = Direction.Left;                    
+            }
+            else if (userInput.Key == ConsoleKey.RightArrow && currentDirection != Direction.Left)
+            {
+                currentDirection = Direction.Right;
+            }           
+            else if (userInput.Key == ConsoleKey.UpArrow && currentDirection != Direction.Down)
+            {
+                currentDirection = Direction.Up;
+            }
+            else if (userInput.Key == ConsoleKey.DownArrow && currentDirection != Direction.Up)
+            {
+                currentDirection = Direction.Down;
+            }
+
+            return currentDirection;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SimpleSnake.GameObjects
 {
@@ -15,6 +16,8 @@ namespace SimpleSnake.GameObjects
             snakeElements = new Queue<GameObject>();
             GenerateSnakeElements();
         }
+
+        public GameObject Head => snakeElements.Last();
 
         private void GenerateSnakeElements()
         {
