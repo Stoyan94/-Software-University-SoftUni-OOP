@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SimpleSnake.GameObjects
 {
-    internal class Snake
+    public class Snake
     {
         private const char SnakeSymbol = '\u25CF';
         private const char EmptySymbol = ' ';
@@ -18,10 +18,17 @@ namespace SimpleSnake.GameObjects
 
         private void GenerateSnakeElements()
         {
-           for (int y = 0; y <= 6; y++)
+           for (int y = 1; y <= 6; y++)
            {
-                snakeElements.Enqueue(new GameObject(SnakeSymbol, 2, y));         
+                var obj = new GameObject(SnakeSymbol, 2, y);
+                snakeElements.Enqueue(obj);   
+                obj.Draw();
            }
+        }
+
+        internal void Move(GameObject snakeHead)
+        {
+            
         }
     }
 }

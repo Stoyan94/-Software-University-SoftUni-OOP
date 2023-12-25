@@ -4,7 +4,7 @@ using SimpleSnake.Utilities;
 
 namespace SimpleSnake.GameObjects
 {
-    internal class GameObject : Point, IDrawable 
+    public class GameObject : Point, IDrawable 
     {
         public GameObject(char drawSymbol) 
             : base(0,0)

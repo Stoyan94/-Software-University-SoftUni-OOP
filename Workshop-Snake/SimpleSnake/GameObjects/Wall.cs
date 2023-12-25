@@ -1,9 +1,6 @@
-﻿using System;
-using System.Drawing;
-
-namespace SimpleSnake.GameObjects
+﻿namespace SimpleSnake.GameObjects
 {
-    internal class Wall : GameObject
+    public class Wall : GameObject
     {
         private const char WallSymbol = '\u25A0';     
 
