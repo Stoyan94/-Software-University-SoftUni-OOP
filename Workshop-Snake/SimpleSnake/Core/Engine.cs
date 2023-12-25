@@ -1,5 +1,6 @@
 ﻿using SimpleSnake.GameObjects;
 using SimpleSnake.GameObjects.Food;
+using System;
 
 namespace SimpleSnake.Core
 {
@@ -23,7 +24,18 @@ namespace SimpleSnake.Core
 
         public void Start()
         {
+            CreateDirections();
+            PlaceFoodOnField();
+        }
 
+        private void PlaceFoodOnField()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CreateDirections()
+        {
+            throw new NotImplementedException();
         }
     }
 }
