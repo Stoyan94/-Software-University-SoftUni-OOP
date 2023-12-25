@@ -15,7 +15,7 @@
             Snake snake = new Snake();
             Engine engine = new Engine(borders, snake);
 
-            //engine.Run();
+            engine.Start();
             Console.WriteLine();
             Console.WriteLine();
         }

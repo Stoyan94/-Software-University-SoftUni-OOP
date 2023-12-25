@@ -3,11 +3,14 @@ using SimpleSnake.GameObjects;
 using SimpleSnake.GameObjects.Food;
 using SimpleSnake.Utilities;
 using System;
+using System.Threading;
 
 namespace SimpleSnake.Core
 {
     public class Engine
     {
+        private const int SleepTime = 100;
+
         private Food[] foods;
         private Wall wall;
         private Snake snake;
@@ -15,7 +18,9 @@ namespace SimpleSnake.Core
         private Point[] pointsDirection;
 
         public Engine(Wall wall, Snake snake)
-        {
+        {            
+            CreateDirections();
+
             foods = new Food[3]
             {
                 new FoodAasterisk(),
@@ -29,15 +34,18 @@ namespace SimpleSnake.Core
 
         private void CreateDirections()
         {
-            pointsDirection[0] = new Point(1, 0);
-            pointsDirection[1] = new Point(-1, 0);
-            pointsDirection[2] = new Point(0, 1);
-            pointsDirection[3] = new Point(0, -1);
+            pointsDirection = new Point[]
+            {
+                new Point(1, 0),             
+                new Point(-1, 0),            
+                new Point(0, 1),             
+                new Point(0, -1),
+            };
+           
         }
         public void Start()
-        {
-            CreateDirections();
-            PlaceFoodOnField();
+        {           
+            //PlaceFoodOnField();
 
             while (true)
             {
@@ -47,6 +55,8 @@ namespace SimpleSnake.Core
                 }
 
                 UpdateSnake(pointsDirection[(int)currentDirection]);
+
+                Thread.Sleep(SleepTime);
             }
         }
 
@@ -55,6 +65,10 @@ namespace SimpleSnake.Core
             GameObject currentSnakeHead = snake.Head;
 
             Point nextHeadPoint = GetNextPosition(directon, currentSnakeHead);
+
+            GameObject snakeNewHead = new GameObject(currentSnakeHead.DrawSymbol, nextHeadPoint.X, nextHeadPoint.Y);
+
+            snake.Move(snakeNewHead);
         }
 
         private Point GetNextPosition(Point directon, GameObject snakeHead)

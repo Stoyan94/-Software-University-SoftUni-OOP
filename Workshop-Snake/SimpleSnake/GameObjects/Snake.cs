@@ -31,7 +31,13 @@ namespace SimpleSnake.GameObjects
 
         internal void Move(GameObject newSnakeHead)
         {
-            snakeElements.Enqueue(sn);
+            snakeElements.Enqueue(newSnakeHead);
+            newSnakeHead.Draw();    
+
+            GameObject tail = snakeElements.Dequeue();
+
+            tail = new GameObject(EmptySymbol, tail.X, tail.Y);
+            tail.Draw();
         }
     }
 }
