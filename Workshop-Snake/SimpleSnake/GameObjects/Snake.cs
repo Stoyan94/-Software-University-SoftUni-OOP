@@ -29,9 +29,9 @@ namespace SimpleSnake.GameObjects
            }
         }
 
-        internal void Move(GameObject snakeHead)
+        internal void Move(GameObject newSnakeHead)
         {
-            
+            snakeElements.Enqueue(sn);
         }
     }
 }
