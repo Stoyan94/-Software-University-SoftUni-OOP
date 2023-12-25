@@ -3,7 +3,7 @@ using System;
 
 namespace SimpleSnake.Utilities
 {
-    internal class UserInteraction
+    internal class Platformnteraction
     {
         public static void Draw(GameObject gameObject)
         {

@@ -22,7 +22,7 @@ namespace SimpleSnake.GameObjects
 
         public virtual void Draw()
         {
-           UserInteraction.Draw(this);
+           Platformnteraction.Draw(this);
         }
         
     }
