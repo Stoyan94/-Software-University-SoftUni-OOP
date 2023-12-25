@@ -21,6 +21,9 @@ namespace SimpleSnake.Core
             this.snake = snake;
         }
 
-        
+        public void Start()
+        {
+
+        }
     }
 }
