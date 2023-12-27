@@ -40,9 +40,9 @@ namespace SimpleSnake.GameObjects
             tail.Draw();
         }
 
-        internal bool IsCollidesWith(Point nextHeadPoint)
+        public bool IsCollidesWith(Point point)
         {
-            throw new NotImplementedException();
+            return snakeElements.Any(se => se.X == point.X && se.Y == point.Y);
         }
     }
 }

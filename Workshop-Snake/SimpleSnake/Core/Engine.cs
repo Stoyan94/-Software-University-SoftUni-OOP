@@ -17,10 +17,13 @@ namespace SimpleSnake.Core
         private Direction currentDirection;
         private Point[] pointsDirection;
         private GameState state;
-
+        private Random random;
+        private Food foodReference;
         public Engine(Wall wall, Snake snake)
         {            
             CreateDirections();
+
+            random = new Random();
 
             foods = new Food[3]
             {
@@ -72,9 +75,9 @@ namespace SimpleSnake.Core
                 return GameState.Over;
             }
 
-            if (snake.IsCol)
+            if (snake.IsCollidesWith(nextHeadPoint))
             {
-
+                return GameState.Over;
             }
 
 
@@ -97,8 +100,12 @@ namespace SimpleSnake.Core
         }
 
         private void PlaceFoodOnField()
-        {
-            throw new NotImplementedException();
+        {         
+            int randomFoodIndex = random.Next(0, foods.Length - 1);
+            foodReference = foods[randomFoodIndex];
+
+            foodReference.X = random.Next(2, fieldBounderis.X -2);
+            foodReference.Y = random.Next(2, fieldBounderis.Y -2);
         }
 
         
