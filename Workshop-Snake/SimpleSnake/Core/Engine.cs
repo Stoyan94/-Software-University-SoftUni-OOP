@@ -12,10 +12,11 @@ namespace SimpleSnake.Core
         private const int SleepTime = 100;
 
         private Food[] foods;
-        private Wall wall;
+        private Wall fieldBounderis;
         private Snake snake;
         private Direction currentDirection;
         private Point[] pointsDirection;
+        private GameState state;
 
         public Engine(Wall wall, Snake snake)
         {            
@@ -28,7 +29,7 @@ namespace SimpleSnake.Core
                 new FoodHash(),
             };
 
-            this.wall = wall;
+            this.fieldBounderis = wall;
             this.snake = snake;
         }
 
@@ -47,28 +48,35 @@ namespace SimpleSnake.Core
         {           
             //PlaceFoodOnField();
 
-            while (true)
+            while (state != GameState.Over)
             {
                 if (Console.KeyAvailable)
                 {
                     currentDirection = GetDirection();
                 }
 
-                UpdateSnake(pointsDirection[(int)currentDirection]);
+               state = UpdateSnakeReturntState(pointsDirection[(int)currentDirection]);
 
                 Thread.Sleep(SleepTime);
             }
         }
 
-        private void UpdateSnake(Point directon)
+        private GameState UpdateSnakeReturntState(Point directon)
         {
             GameObject currentSnakeHead = snake.Head;
 
             Point nextHeadPoint = GetNextPosition(directon, currentSnakeHead);
 
+            if (fieldBounderis.IsColideWith(nextHeadPoint))
+            {
+                return GameState.Over;
+            }
+
             GameObject snakeNewHead = new GameObject(currentSnakeHead.DrawSymbol, nextHeadPoint.X, nextHeadPoint.Y);
 
             snake.Move(snakeNewHead);
+
+            return GameState.Running;
         }
 
         private Point GetNextPosition(Point directon, GameObject snakeHead)
@@ -88,5 +96,13 @@ namespace SimpleSnake.Core
         }
 
         
+    }
+
+    internal enum GameState
+    {
+        Idle,
+        Start,
+        Running,
+        Over
     }
 }
