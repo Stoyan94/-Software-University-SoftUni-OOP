@@ -11,7 +11,7 @@
 
         public int Y { get; set; }
 
-        public bool IsColideWith(Point point)
+        public bool IsCollideWith(Point point)
         {
             return point.X == 0 ||
                    point.Y == 0 ||

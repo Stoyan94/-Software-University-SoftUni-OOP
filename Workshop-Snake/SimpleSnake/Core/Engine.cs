@@ -67,10 +67,16 @@ namespace SimpleSnake.Core
 
             Point nextHeadPoint = GetNextPosition(directon, currentSnakeHead);
 
-            if (fieldBounderis.IsColideWith(nextHeadPoint))
+            if (fieldBounderis.IsCollideWith(nextHeadPoint))
             {
                 return GameState.Over;
             }
+
+            if (snake.IsCol)
+            {
+
+            }
+
 
             GameObject snakeNewHead = new GameObject(currentSnakeHead.DrawSymbol, nextHeadPoint.X, nextHeadPoint.Y);
 

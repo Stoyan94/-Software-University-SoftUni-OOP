@@ -39,5 +39,10 @@ namespace SimpleSnake.GameObjects
             tail = new GameObject(EmptySymbol, tail.X, tail.Y);
             tail.Draw();
         }
+
+        internal bool IsCollidesWith(Point nextHeadPoint)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
