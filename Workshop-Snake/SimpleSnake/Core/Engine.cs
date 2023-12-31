@@ -49,7 +49,7 @@ namespace SimpleSnake.Core
         }
         public void Start()
         {           
-            //PlaceFoodOnField();
+            PlaceFoodOnField();
 
             while (state != GameState.Over)
             {
@@ -81,6 +81,12 @@ namespace SimpleSnake.Core
             }
 
 
+            if (foodReference.IsCollideWith(nextHeadPoint))
+            {
+                snake.Grow(directon, currentSnakeHead, foodReference.Points);
+                PlaceFoodOnField();
+            }
+
             GameObject snakeNewHead = new GameObject(currentSnakeHead.DrawSymbol, nextHeadPoint.X, nextHeadPoint.Y);
 
             snake.Move(snakeNewHead);
@@ -103,9 +109,15 @@ namespace SimpleSnake.Core
         {         
             int randomFoodIndex = random.Next(0, foods.Length - 1);
             foodReference = foods[randomFoodIndex];
+       
+            do
+            {
+                foodReference.X = random.Next(2, fieldBounderis.X - 2);
+                foodReference.Y = random.Next(2, fieldBounderis.Y - 2);
+            } while (snake.IsCollidesWith(foodReference));
+            
 
-            foodReference.X = random.Next(2, fieldBounderis.X -2);
-            foodReference.Y = random.Next(2, fieldBounderis.Y -2);
+            foodReference.Draw();
         }
 
         
