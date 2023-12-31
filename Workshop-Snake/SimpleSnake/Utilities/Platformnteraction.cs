@@ -47,12 +47,25 @@ namespace SimpleSnake.Utilities
 
             if (userInput.Key == ConsoleKey.Y)
             {
-
+                Restart();
             }
-            else
+            else if (userInput.Key == ConsoleKey.N)
             {
-
+                Exit();
             }
+        }
+
+        private static void Exit()
+        {
+            Console.SetCursorPosition(20, 10);
+            Console.WriteLine("Game Over!");
+            Environment.Exit(1);
+        }
+
+        private static void Restart()
+        {
+            Console.Clear();
+            StartUp.Main();
         }
     }
 }

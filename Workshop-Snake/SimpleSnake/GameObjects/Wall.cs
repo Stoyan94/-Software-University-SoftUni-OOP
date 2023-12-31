@@ -38,7 +38,8 @@
 
         public override bool IsCollideWith(Point point)
         {
-            return base.IsCollideWith(point) || 
+            return point.X == -1 || 
+                point.Y == Y ||
                 point.X == 0 ||
                 point.Y == 0;
         }
