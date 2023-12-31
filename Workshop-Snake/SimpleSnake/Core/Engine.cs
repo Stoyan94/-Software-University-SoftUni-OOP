@@ -60,7 +60,13 @@ namespace SimpleSnake.Core
 
                state = UpdateSnakeReturntState(pointsDirection[(int)currentDirection]);
 
-                Thread.Sleep(SleepTime);
+               if (state == GameState.FoodEaten)
+               {
+                    PlaceFoodOnField();
+                    state = GameState.Running;
+               }
+
+               Thread.Sleep(SleepTime);
             }
         }
 
@@ -68,7 +74,7 @@ namespace SimpleSnake.Core
         {
             GameObject currentSnakeHead = snake.Head;
 
-            Point nextHeadPoint = GetNextPosition(directon, currentSnakeHead);
+            Point nextHeadPoint = Point.GetNextPoint(directon, currentSnakeHead);
 
             if (fieldBounderis.IsCollideWith(nextHeadPoint))
             {
@@ -83,8 +89,8 @@ namespace SimpleSnake.Core
 
             if (foodReference.IsCollideWith(nextHeadPoint))
             {
-                snake.Grow(directon, currentSnakeHead, foodReference.Points);
-                PlaceFoodOnField();
+                snake.Grow(directon, foodReference.Points);
+                return GameState.FoodEaten;
             }
 
             GameObject snakeNewHead = new GameObject(currentSnakeHead.DrawSymbol, nextHeadPoint.X, nextHeadPoint.Y);
@@ -92,13 +98,7 @@ namespace SimpleSnake.Core
             snake.Move(snakeNewHead);
 
             return GameState.Running;
-        }
-
-        private Point GetNextPosition(Point directon, GameObject snakeHead)
-        {
-            return new Point(snakeHead.X + directon.X,
-                             snakeHead.Y + directon.Y);
-        }
+        }    
 
         private Direction GetDirection()
         {
@@ -127,6 +127,7 @@ namespace SimpleSnake.Core
     {
         Idle,
         Start,
+        FoodEaten,
         Running,
         Over
     }

@@ -47,11 +47,13 @@ namespace SimpleSnake.GameObjects
 
         public void Grow(Point directon, int growPoints)
         {
-            GameObject nextPoint = Head;
+            Point nextPoint = Head;
 
             for (int i = 0; i < growPoints; i++)
             {
-                snakeElements.Enqueue(nextPoint);
+                GameObject newElement = new GameObject(SnakeSymbol, nextPoint.X, nextPoint.Y);
+                snakeElements.Enqueue(newElement);
+                nextPoint = Point.GetNextPoint(directon, Head);
             }
         }
     }
