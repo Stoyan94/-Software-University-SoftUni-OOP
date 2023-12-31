@@ -35,5 +35,12 @@
                 drawPoint.Draw();
             }
         }
+
+        public override bool IsCollideWith(Point point)
+        {
+            return base.IsCollideWith(point) || 
+                point.X == 0 ||
+                point.Y == 0;
+        }
     }
 }

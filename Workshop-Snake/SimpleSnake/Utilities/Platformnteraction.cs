@@ -35,5 +35,24 @@ namespace SimpleSnake.Utilities
 
             return currentDirection;
         }
+        public static void GameOver(Wall fieldBounderis)
+        {
+            int x = fieldBounderis.X + 1;
+            int y = 3;
+
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine("Wold you lie to continue? y/n");
+
+            ConsoleKeyInfo userInput = Console.ReadKey();
+
+            if (userInput.Key == ConsoleKey.Y)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
     }
 }

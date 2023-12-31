@@ -15,14 +15,12 @@ namespace SimpleSnake.GameObjects
         public int Y { get; set; }
 
 
-        public bool IsCollideWith(Point point)
+        public virtual bool IsCollideWith(Point point)
         {
-            return point.X == 0 ||
-                   point.Y == 0 ||
-                   point.X == X - 1 ||
+            return point.X == X &&                
                    point.Y == Y;
         }
-        public static Point GetNextPoint(Point directon, GameObject point)
+        public static Point GetNextPoint(Point directon, Point point)
         {
             return new Point(
                    point.X + directon.X,

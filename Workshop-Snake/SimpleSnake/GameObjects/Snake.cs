@@ -45,15 +45,15 @@ namespace SimpleSnake.GameObjects
             return snakeElements.Any(se => se.X == point.X && se.Y == point.Y);
         }
 
-        public void Grow(Point directon, int growPoints)
+        public void Grow(Point directon, Point currentSneakHead,int growPoints)
         {
-            Point nextPoint = Head;
+            Point nextPoint = currentSneakHead;
 
             for (int i = 0; i < growPoints; i++)
             {
                 GameObject newElement = new GameObject(SnakeSymbol, nextPoint.X, nextPoint.Y);
                 snakeElements.Enqueue(newElement);
-                nextPoint = Point.GetNextPoint(directon, Head);
+                nextPoint = Point.GetNextPoint(directon, currentSneakHead);
             }
         }
     }
