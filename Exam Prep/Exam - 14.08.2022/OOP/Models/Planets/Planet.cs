@@ -58,7 +58,13 @@ namespace PlanetWars.Models.Planets
 
         public void AddWeapon(IWeapon weapon) => weapons.AddItem(weapon);
 
-        public void TrainArmy() => Army.Select(e=>e.EnduranceLevel + 1);
+        public void TrainArmy()
+        {
+            foreach (var unit in this.Army)
+            {
+                unit.IncreaseEndurance();
+            }
+        }
 
         public void Spend(double amount)
         {
@@ -73,34 +79,47 @@ namespace PlanetWars.Models.Planets
 
         public string PlanetInfo()
         {
-            StringBuilder output = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"Planet: {this.Name}");
+            sb.AppendLine($"--Budget: {this.Budget} billion QUID");
+            sb.Append($"--Forces: ");
 
-            output.AppendLine($"Planet: {this.Name}");
-            output.AppendLine($"--Budget: {this.budget} billion QUID");
-
-            foreach (var currUnit in Army)
+            if (this.Army.Count == 0)
             {
-                if (Army.Count == 0)
+                sb.AppendLine("No units");
+            }
+            else
+            {
+                var units = new Queue<string>();
+
+                foreach (var item in this.Army)
                 {
-                    output.Append($"--Forces: No units");
-                    break;
+                    units.Enqueue(item.GetType().Name);
                 }
-                output.Append($"--Forces: {currUnit.GetType().Name}");
+
+                sb.AppendLine(string.Join(", ", units));
             }
 
-            foreach (var currWeapon in Weapons)
+            sb.Append($"--Combat equipment: ");
+
+            if (this.Weapons.Count == 0)
             {
-                if (Weapons.Count == 0)
-                {
-                    output.Append($"--Combat equipment: No weapons");
-                    break;
-                }
-                output.Append($"--Combat equipment: {currWeapon.GetType().Name}");
+                sb.AppendLine("No weapons");
             }
+            else
+            {
+                var equipment = new Queue<string>();
 
-            output.AppendLine($"--Military Power: {Army.Sum(e=>e.EnduranceLevel)}");
+                foreach (var item in this.Weapons)
+                {
+                    equipment.Enqueue(item.GetType().Name);
+                }
 
-            return output.ToString().TrimEnd();
+                sb.AppendLine(string.Join(", ", equipment));
+            }
+            sb.AppendLine($"--Military Power: {this.MilitaryPower}");
+
+            return sb.ToString().Trim();
         }
 
 

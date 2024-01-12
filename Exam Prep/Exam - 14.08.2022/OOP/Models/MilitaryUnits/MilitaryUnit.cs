@@ -1,4 +1,6 @@
 ﻿using PlanetWars.Models.MilitaryUnits.Contracts;
+using PlanetWars.Utilities.Messages;
+using System;
 
 namespace PlanetWars.Models.MilitaryUnits
 {
@@ -14,12 +16,13 @@ namespace PlanetWars.Models.MilitaryUnits
 
         public void IncreaseEndurance()
         {
-            EnduranceLevel++;
 
             if (EnduranceLevel > 20)
             {
-                EnduranceLevel = 20;
+                throw new ArgumentException(string.Format(ExceptionMessages.EnduranceLevelExceeded));
+
             }
+            EnduranceLevel++;
         }
     }
 }

@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using System.Numerics;
 using System.Reflection.PortableExecutable;
+using System.Text;
 using System.Xml.Linq;
 
 namespace PlanetWars.Core
@@ -222,7 +223,15 @@ namespace PlanetWars.Core
         }
         public string ForcesReport()
         {
-            throw new System.NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("***UNIVERSE PLANET MILITARY REPORT***");
+
+            foreach (var planet in this.planetsRepo.Models.OrderByDescending(x => x.MilitaryPower).ThenBy(x => x.Name))
+            {
+                sb.AppendLine(planet.PlanetInfo());
+            }
+
+            return sb.ToString().TrimEnd();
         }
 
 
