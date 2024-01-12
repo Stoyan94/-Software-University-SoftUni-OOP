@@ -7,6 +7,7 @@ using PlanetWars.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace PlanetWars.Models.Planets
 {
@@ -53,35 +54,55 @@ namespace PlanetWars.Models.Planets
 
         public IReadOnlyCollection<IWeapon> Weapons => this.weapons.Models;
 
-        public void AddUnit(IMilitaryUnit unit)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void AddUnit(IMilitaryUnit unit) => units.AddItem(unit);    
 
-        public void AddWeapon(IWeapon weapon)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void AddWeapon(IWeapon weapon) => weapons.AddItem(weapon);
 
-        public string PlanetInfo()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Profit(double amount)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void TrainArmy() => Army.Select(e=>e.EnduranceLevel + 1);
 
         public void Spend(double amount)
         {
-            throw new System.NotImplementedException();
+            if (amount > Budget)
+            {
+                throw new ArgumentException("Budget too low!");
+            }
+            Budget -= amount;
         }
 
-        public void TrainArmy()
+        public void Profit(double amount) => Budget += amount;
+
+        public string PlanetInfo()
         {
-            throw new System.NotImplementedException();
+            StringBuilder output = new StringBuilder();
+
+            output.AppendLine($"Planet: {this.Name}");
+            output.AppendLine($"--Budget: {this.budget} billion QUID");
+
+            foreach (var currUnit in Army)
+            {
+                if (Army.Count == 0)
+                {
+                    output.Append($"--Forces: No units");
+                    break;
+                }
+                output.Append($"--Forces: {currUnit.GetType().Name}");
+            }
+
+            foreach (var currWeapon in Weapons)
+            {
+                if (Weapons.Count == 0)
+                {
+                    output.Append($"--Combat equipment: No weapons");
+                    break;
+                }
+                output.Append($"--Combat equipment: {currWeapon.GetType().Name}");
+            }
+
+            output.AppendLine($"--Military Power: {Army.Sum(e=>e.EnduranceLevel)}");
+
+            return output.ToString().TrimEnd();
         }
+
 
         private double CalculateMilitaryPower()
         {
