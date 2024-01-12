@@ -3,9 +3,13 @@ using PlanetWars.Models.MilitaryUnits;
 using PlanetWars.Models.MilitaryUnits.Contracts;
 using PlanetWars.Models.Planets;
 using PlanetWars.Models.Planets.Contracts;
+using PlanetWars.Models.Weapons;
+using PlanetWars.Models.Weapons.Contracts;
 using PlanetWars.Repositories;
+using PlanetWars.Utilities.Messages;
 using System;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.PortableExecutable;
 using System.Xml.Linq;
 
@@ -75,7 +79,44 @@ namespace PlanetWars.Core
 
         public string AddWeapon(string planetName, string weaponTypeName, int destructionLevel)
         {
-            throw new System.NotImplementedException();
+            IPlanet planet = planetsRepo.FindByName(planetName);
+
+            if (planet == default)
+            {
+                throw new InvalidOperationException($"Planet {planetName} does not exist!");
+            }
+
+            if (weaponTypeName != nameof(BioChemicalWeapon) &&
+                weaponTypeName != nameof(NuclearWeapon) &&
+                weaponTypeName != nameof(SpaceMissiles))
+            {
+                throw new InvalidOperationException($"{weaponTypeName} still not available!");
+            }
+
+            if (planet.Weapons.Any(w => w.GetType().Name == weaponTypeName))
+            {
+                throw new InvalidOperationException($"{weaponTypeName} already added to the Weapons of {planetName}!");
+            }
+
+            IWeapon weapon;
+
+            if (weaponTypeName == nameof(NuclearWeapon))
+            {
+                weapon = new NuclearWeapon(destructionLevel);
+            }
+            else if (weaponTypeName == nameof(SpaceMissiles))
+            {
+                weapon = new SpaceMissiles(destructionLevel);
+            }
+            else
+            {
+                weapon = new BioChemicalWeapon(destructionLevel);
+            }
+
+            planet.Spend(weapon.Price);
+            planet.AddWeapon(weapon);
+
+            return $"{planetName} purchased {weaponTypeName}!";
         }
 
         public string ForcesReport()
