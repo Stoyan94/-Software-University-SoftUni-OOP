@@ -20,6 +20,8 @@ namespace PlanetWars.Models.Planets
         {
             Name = name;
             Budget = budget;
+            units = new UnitRepository();
+            weapons = new WeaponRepository();
         }
         public string Name
         {
@@ -47,9 +49,9 @@ namespace PlanetWars.Models.Planets
         }
 
         public double MilitaryPower => Math.Round(this.CalculateMilitaryPower(), 3);
-        public IReadOnlyCollection<IMilitaryUnit> Army => throw new System.NotImplementedException();
+        public IReadOnlyCollection<IMilitaryUnit> Army => this.units.Models;
 
-        public IReadOnlyCollection<IWeapon> Weapons => throw new System.NotImplementedException();
+        public IReadOnlyCollection<IWeapon> Weapons => this.weapons.Models;
 
         public void AddUnit(IMilitaryUnit unit)
         {
