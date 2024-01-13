@@ -169,5 +169,51 @@ namespace PlanetWars.Tests
                     $"NotAddedWeapon does not exist in the weapon repository of {planet.Name}");
             }
         }
+
+        [Test]
+        public void DestructOpponent_Throws_IfOpponentIsTooStrong()
+        {
+            var planetOne = new Planet("PlanetOne", 1500);
+            var planetTwo = new Planet("PlanetTwo", 2000);
+
+            var weaponOne = new Weapon("WeaponOne", 20, 2);
+            var weaponTwo = new Weapon("WeaponTwo", 30, 5);
+            var weaponThree = new Weapon("WeaponThree", 20, 2);
+
+
+            planetOne.AddWeapon(weaponOne);
+            planetOne.AddWeapon(weaponThree);
+            planetTwo.AddWeapon(weaponTwo);
+
+            Assert.Throws<InvalidOperationException>(() => planetOne.DestructOpponent(planetTwo),
+                $"{planetTwo.Name} is too strong to declare war to!");
+        }
+
+        [Test]
+        public void DestructOpponent_WorksProperly()
+        {
+            var planetOne = new Planet("PlanetOne", 1500);
+            var planetTwo = new Planet("PlanetTwo", 2000);
+
+            var weaponOne = new Weapon("WeaponOne", 20, 2);
+            var weaponTwo = new Weapon("WeaponTwo", 30, 5);
+            var weaponThree = new Weapon("WeaponThree", 20, 4);
+
+
+            planetOne.AddWeapon(weaponOne);
+            planetOne.AddWeapon(weaponThree);
+            planetTwo.AddWeapon(weaponTwo);
+
+            var expectedResult = "PlanetTwo is destructed!";
+
+            Assert.That(planetOne.DestructOpponent(planetTwo), Is.EqualTo(expectedResult));
+        }
+        [Test]
+        public void Weapon_PriceCannotBeNagative()
+        {
+
+
+            Assert.Throws<ArgumentException>(() => new Weapon("Weapon", -5, 8), "Price can not be negative.");
+        }
     }
 }
