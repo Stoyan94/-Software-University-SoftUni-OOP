@@ -91,6 +91,44 @@ namespace PlanetWars.Tests
 
                 Assert.That(planet.Budget, Is.EqualTo(113));
             }
+
+            [Test]
+            public void SpendFunds_BudgetDecreasesWithGivenAmount()
+            {
+                var planet = new Planet("Venus", 80);
+                planet.SpendFunds(33);
+
+                Assert.That(planet.Budget, Is.EqualTo(47));
+            }
+
+            [Test]
+            public void SpendFunds_BudgetCannotDropBelowZero()
+            {
+                var planet = new Planet("Venus", 30);
+
+                Assert.Throws<InvalidOperationException>(
+                 () => planet.SpendFunds(33),
+                 $"Not enough funds to finalize the deal.");
+            }
+
+            [Test]
+            public void Weapon_IncreaseDestructionLevel_WorksProperly()
+            {
+                var weapon = new Weapon("Gun", 15, 2);
+                weapon.IncreaseDestructionLevel();
+
+                Assert.That(weapon.DestructionLevel, Is.EqualTo(3));
+            }
+
+            [Test]
+            public void Weapon_IsNuclear_WorksProperly()
+            {
+                var weaponNuclear = new Weapon("Nuclear", 1500, 11);
+                var weaponGun = new Weapon("Gun", 20, 2);
+
+                Assert.That(weaponNuclear.IsNuclear, Is.EqualTo(true));
+                Assert.That(weaponGun.IsNuclear, Is.EqualTo(false));
+            }
         }
     }
 }
