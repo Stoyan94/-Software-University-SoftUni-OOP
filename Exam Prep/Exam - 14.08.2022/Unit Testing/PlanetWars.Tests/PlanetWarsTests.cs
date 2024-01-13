@@ -129,6 +129,45 @@ namespace PlanetWars.Tests
                 Assert.That(weaponNuclear.IsNuclear, Is.EqualTo(true));
                 Assert.That(weaponGun.IsNuclear, Is.EqualTo(false));
             }
+
+            [Test]
+            public void SellWeapon_WorksProperly()
+            {
+                var planet = new Planet("NewPlanet", 1500);
+                var weaponOne = new Weapon("WeaponOne", 20, 2);
+                var weaponTwo = new Weapon("WeaponTwo", 20, 3);
+
+                planet.AddWeapon(weaponOne);
+                planet.AddWeapon(weaponTwo);
+
+                Assert.That(planet.MilitaryPowerRatio, Is.EqualTo(5));
+
+                planet.RemoveWeapon("WeaponOne");
+
+                Assert.That(planet.MilitaryPowerRatio, Is.EqualTo(3));
+                Assert.That(planet.Weapons.Count, Is.EqualTo(1));
+
+            }
+            [Test]
+            public void UpgradeWeapon_WorksProperly()
+            {
+                var planet = new Planet("NewPlanet", 1500);
+                var weaponOne = new Weapon("WeaponOne", 20, 2);
+
+                planet.AddWeapon(weaponOne);
+                planet.UpgradeWeapon("WeaponOne");
+
+                Assert.That(planet.MilitaryPowerRatio, Is.EqualTo(3));
+            }
+
+            [Test]
+            public void UpgradeWeapon_WeaponDoesNotExist()
+            {
+                var planet = new Planet("NewPlanet", 1500);
+
+                Assert.Throws<InvalidOperationException>(() => planet.UpgradeWeapon("NotAddedWeapon"),
+                    $"NotAddedWeapon does not exist in the weapon repository of {planet.Name}");
+            }
         }
     }
 }
