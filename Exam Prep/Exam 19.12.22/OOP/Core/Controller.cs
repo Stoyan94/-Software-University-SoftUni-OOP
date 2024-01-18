@@ -9,6 +9,7 @@ using UniversityCompetition.Models.Contracts;
 using UniversityCompetition.Models.Subjects;
 using UniversityCompetition.Repositories;
 using UniversityCompetition.Repositories.Contracts;
+using UniversityCompetition.Utilities.Messages;
 
 namespace UniversityCompetition.Core
 {
@@ -128,14 +129,50 @@ namespace UniversityCompetition.Core
             return $"{student.FirstName} {student.LastName} covered {subject.Name} exam!";
         }
         public string ApplyToUniversity(string studentName, string universityName)
-        {
-            throw new NotImplementedException();
+        {           
+            string[] splitName = studentName.Split();
+
+            string firstName = splitName[0];          
+            string lasttName = splitName[1];
+
+            var student = studentRepository.FindByName(studentName);
+            var university = universityRepository.FindByName(universityName);
+
+            if (student == null)
+            {
+                return $"{firstName} {lasttName} is not registered in the application!";
+            }
+            else if (university == null)
+            {
+                return $"{universityName} is not registered in the application!";
+            }
+            else if (!university.RequiredSubjects.All(r => student.CoveredExams.Any(e => e == r)))
+            {
+                return $"{studentName} has not covered all the required exams for {universityName} university!";
+            }
+            else if (student.University != null && student.University.Name == universityName)
+            {
+                return $"{firstName} {lasttName} has already joined {universityName}.";
+            }            
+               
+            student.JoinUniversity(university);
+               
+            return $"{firstName} {lasttName} joined {universityName} university!";
         }
 
 
         public string UniversityReport(int universityId)
         {
-            throw new NotImplementedException();
+            var university = this.universityRepository.FindById(universityId);
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"*** {university.Name} ***");
+            sb.AppendLine($"Profile: {university.Category}");
+            sb.AppendLine($"Students admitted: {studentRepository.Models.Where(s => s.University == university).Count()}");
+            sb.AppendLine($"University vacancy: {university.Capacity - studentRepository.Models.Where(s => s.University == university).Count()}");
+
+            return sb.ToString().TrimEnd();
         }
     }
 }

@@ -35,6 +35,7 @@ namespace UniversityCompetition.Repositories
         public IStudent FindByName(string name)
         {
             string[] fullName = name.Split();
+
             string firstName = fullName[0];
             string lasttName = fullName[1];
 
