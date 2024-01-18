@@ -104,7 +104,28 @@ namespace UniversityCompetition.Core
 
         public string TakeExam(int studentId, int subjectId)
         {
-            throw new NotImplementedException();
+            if (!studentRepository.Models.Any(sId=> sId.Id == studentId))
+            {
+                return $"Invalid student ID!";
+            }
+
+            if (!studentRepository.Models.Any(subId=> subId.Id == subjectId))
+            {
+                return $"Invalid subject ID!";
+            }
+                
+            IStudent student = studentRepository.FindById(studentId);
+
+            if (studentRepository.FindById(studentId).CoveredExams.Any(s=>s == subjectId))
+            {
+
+                return $"{student.FirstName} {student.LastName} has already covered exam of {subjectRepository.FindById(subjectId).Name}.";
+            }
+            
+            ISubject subject = subjectRepository.FindById(subjectId);
+            student.CoverExam(subject);
+
+            return $"{student.FirstName} {student.LastName} covered {subject.Name} exam!";
         }
         public string ApplyToUniversity(string studentName, string universityName)
         {
