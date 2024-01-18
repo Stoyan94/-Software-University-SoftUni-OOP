@@ -12,7 +12,11 @@
 
         public void WriteLine(string message)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+
             Console.WriteLine(message);
+
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }

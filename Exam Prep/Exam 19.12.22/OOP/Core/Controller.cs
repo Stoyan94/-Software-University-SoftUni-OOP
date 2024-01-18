@@ -104,12 +104,12 @@ namespace UniversityCompetition.Core
 
         public string TakeExam(int studentId, int subjectId)
         {
-            if (!studentRepository.Models.Any(sId=> sId.Id == studentId))
+            if (studentRepository.FindById(studentId) == null)
             {
                 return $"Invalid student ID!";
             }
 
-            if (!studentRepository.Models.Any(subId=> subId.Id == subjectId))
+            if (subjectRepository.FindById(subjectId) == null)
             {
                 return $"Invalid subject ID!";
             }
